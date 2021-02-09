@@ -137,8 +137,8 @@ def train():
           format_str = ('%s: step %d, loss = %.8f (%.1f examples/sec; %.3f '
                         'sec/batch)')
           '''
-          format_str = ('*'*3*(int(sys.argv[1])-1)+': %s: step %d loss=%0.8f')
-          print(format_str % (datetime.now(), self._step, run_values.results))
+          format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.8f')
+          print(format_str % ( self._step, run_values.results))
          
     class _LoggerHook2(tf.train.SessionRunHook):
       """Logs signals."""
