@@ -81,7 +81,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 				#receive the size of content
 				header = self.request.recv(4)
 				size = struct.unpack('i', header)
-				print(str(size))
 
 				#receive the id of client
 				u_id = self.request.recv(4)
@@ -130,8 +129,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 					W_avg_size = sys.getsizeof(W_avg_data)
 					W_avg_header = struct.pack("i",W_avg_size)
 					#print("The Omega matrix is like: \n",Omega)
-					self.request.sendall(W_avg_header)
-					self.request.sendall(W_avg_data)
+					##self.request.sendall(W_avg_header)
+					##self.request.sendall(W_avg_data)
 					# print("send Omega to client {} with the size of {}".format(user_id[0],size))
 
 
