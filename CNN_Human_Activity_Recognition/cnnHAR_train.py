@@ -137,7 +137,7 @@ def train():
           format_str = ('%s: step %d, loss = %.8f (%.1f examples/sec; %.3f '
                         'sec/batch)')
           '''
-          format_str = ('User'+str(sys.argv[1])+': %s: step %d loss=%0.8f')
+          format_str = ('*'*3*(int(sys.argv[1])-1)+': %s: step %d loss=%0.8f')
           print(format_str % (datetime.now(), self._step, run_values.results))
          
     class _LoggerHook2(tf.train.SessionRunHook):
@@ -207,7 +207,7 @@ def train():
         temp = all_paras[i].reshape(-1)
         w_flat=np.concatenate((w_flat, temp), axis=0)
 	
-      print(len(w_flat))
+      #print(len(w_flat))
       comm.send2server(w_flat,0)
       
 
