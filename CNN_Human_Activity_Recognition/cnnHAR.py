@@ -17,7 +17,7 @@ import cnnHAR_input
 # Basic model parameters.
 batch_size = 32
                           
-data_dir = '/Users/lynn/Documents/CNN_Human_Activity_Recognition/data/'
+data_dir = '/home/ubuntu/deepHAR/CNN_Human_Activity_Recognition/data/'
                     
 
 # Global constants describing the CIFAR-10 data set.
