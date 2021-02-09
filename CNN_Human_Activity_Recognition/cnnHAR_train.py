@@ -48,7 +48,7 @@ from tensorflow.python import debug as tfdbg
 import cnnHAR
 import cnnHAR_eval
 
-train_dir = '/Users/lynn/Documents/CNN_Human_Activity_Recognition/cnnHAR_check0'+str(sys.argv[1])
+train_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check0'+str(sys.argv[1])
 
 num=1 # number of nodes
 
