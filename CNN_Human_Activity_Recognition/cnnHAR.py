@@ -143,10 +143,7 @@ def _add_loss_summaries(total_loss):
   return loss_averages_op
   
 def inference(signals):
-    print("User"+str(sys.argv[1])+" trainable variables::::::::::::::::::::")
-    for var in tf.trainable_variables():
-      print("::::::::::::::::::::::::::::::::::::", var.op.name)
-    #print ('<<<<<<<<<<<<<<<<<<<<Shape of signals :',signals.get_shape())
+   
     with tf.variable_scope('conv1') as scope:
            kernel = _variable_with_weight_decay('weights',
                                                 shape=[ 32, 1, 64],
@@ -162,11 +159,7 @@ def inference(signals):
     pool1 = tf.nn.max_pool1d(conv1, ksize=[1,4,1], strides=[1,1,1],padding='VALID',name='pool1')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """6x1x64"""
-    
-    print("User"+str(sys.argv[1])+"trainable variables after cov1::::::::::::::::::::")
-    for var in tf.trainable_variables():
-      print("::::::::::::::::::::::::::::::::::::", var.op.name)
-      
+   
     with tf.variable_scope('conv2') as scope:
            kernel = _variable_with_weight_decay('weights',
                                                 shape=[ 3, 64, 32],
