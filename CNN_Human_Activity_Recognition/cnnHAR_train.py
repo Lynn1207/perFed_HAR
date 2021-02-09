@@ -189,7 +189,7 @@ def train():
                #_LoggerHook2(),
                _LoggerHook4()],#,save_checkpoint_steps=5000
         config=tf.ConfigProto(
-            log_device_placement=log_device_placement),save_checkpoint_steps=50*log_frequency) as mon_sess:
+            log_device_placement=log_device_placement),save_checkpoint_steps=50*log_frequency,log_step_count_steps=max_steps) as mon_sess:
       while not mon_sess.should_stop():
         _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
 
