@@ -81,11 +81,13 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 				#receive the size of content
 				header = self.request.recv(4)
 				size = struct.unpack('i', header)
+				print(size)
 
 				#receive the id of client
 				u_id = self.request.recv(4)
 				user_id = struct.unpack('i',u_id)
-
+                                print(user_id)
+				
 				# receive the type of message, defination in communication.py
 				mess_type = self.request.recv(4)
 				mess_type = struct.unpack('i',mess_type)[0]
@@ -128,6 +130,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 					W_avg_data = pickle.dumps(W_avg, protocol = 0)
 					W_avg_size = sys.getsizeof(W_avg_data)
 					W_avg_header = struct.pack("i",W_avg_size)
+					print("len of Weight average:", W_avg_size)
+
 					#print("The Omega matrix is like: \n",Omega)
 					##self.request.sendall(W_avg_header)
 					##self.request.sendall(W_avg_data)
