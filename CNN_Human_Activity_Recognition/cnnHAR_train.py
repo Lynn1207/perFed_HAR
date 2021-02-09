@@ -64,6 +64,16 @@ log_frequency = 7 # log per epoch
 batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
+
+if args.debug is True:
+	print("???????????????????????????????????????????????????")
+        os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
+        tf.get_logger().setLevel("INFO")
+else:
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+	os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
+        tf.get_logger().setLevel("ERROR")
+	
 def train():
   """Train CIFAR-10 for a number of steps."""
   with tf.Graph().as_default():
