@@ -47,11 +47,11 @@ num=1 #number of nodes
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_string('eval_dir', '/Users/lynn/Documents/CNN_Human_Activity_Recognition/cnnHAR_e'+str(sys.argv[1]),
+tf.app.flags.DEFINE_string('eval_dir', '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_e'+str(sys.argv[1]),
                            """Directory where to write event logs.""")
 tf.app.flags.DEFINE_string('eval_data', 'test',
                            """Either 'test' or 'train_eval'.""")
-tf.app.flags.DEFINE_string('checkpoint_dir', '/Users/lynn/Documents/CNN_Human_Activity_Recognition/cnnHAR_check0'+str(sys.argv[1]),
+tf.app.flags.DEFINE_string('checkpoint_dir', '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check0'+str(sys.argv[1]),
                            """Directory where to read model checkpoints.""")
 tf.app.flags.DEFINE_integer('eval_interval_secs', 60 * 5,
                             """How often to run the eval.""")
