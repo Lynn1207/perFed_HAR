@@ -97,7 +97,7 @@ def read_cifar10_2(filename_queue):
 
 def _generate_image_and_label_batch(signal, label, min_queue_examples,
                                     batch_size, shuffle):
-  print('????????? signal shape BEFORE batch', signal.get_shape())
+  #print('????????? signal shape BEFORE batch', signal.get_shape())
   num_preprocess_threads = 1
   if shuffle:
     signals, label_batch= tf.train.shuffle_batch(
@@ -112,7 +112,7 @@ def _generate_image_and_label_batch(signal, label, min_queue_examples,
               batch_size=batch_size,
               num_threads=num_preprocess_threads,
               capacity=min_queue_examples + 3 * batch_size)
-    print('????????? signal shape AFTER batch reshape', signals.get_shape())
+    #print('????????? signal shape AFTER batch reshape', signals.get_shape())
   return signals, label_batch #tf.reshape(label_batch, [batch_size, SIGNAL_SIZE, 1])
 
 def distorted_inputs(data_dir, batch_size):
@@ -145,8 +145,8 @@ def distorted_inputs(data_dir, batch_size):
     min_fraction_of_examples_in_queue = 0.4
     min_queue_examples = int(NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN *
                              min_fraction_of_examples_in_queue)
-    print ('Filling queue with %d acc_frames before starting to train. '
-           'This will take a few minutes.' % min_queue_examples)
+    #print ('Filling queue with %d acc_frames before starting to train. '
+    #'This will take a few minutes.' % min_queue_examples)
 
   # Generate a batch of images and labels by building up a queue of examples.
   return _generate_image_and_label_batch(signal, read_input.label,
@@ -179,8 +179,8 @@ def inputs(eval_data, data_dir, batch_size):
     min_fraction_of_examples_in_queue = 0.4
     min_queue_examples = int(num_examples_per_epoch *
                              min_fraction_of_examples_in_queue)
-    print ('Filling queue with %d acc_frames before starting to test. '
-                             'This will take a few minutes.' % min_queue_examples)
+    #print ('Filling queue with %d acc_frames before starting to test. '
+    #                         'This will take a few minutes.' % min_queue_examples)
 
   # Generate a batch of images and labels by building up a queue of examples.
   return _generate_image_and_label_batch(signal, read_input.label,

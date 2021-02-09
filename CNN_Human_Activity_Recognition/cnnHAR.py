@@ -17,7 +17,7 @@ import cnnHAR_input
 # Basic model parameters.
 batch_size = 32
                           
-data_dir = '/home/ubuntu/deepHAR/CNN_Human_Activity_Recognition/data/'
+data_dir = '/Users/lynn/Documents/CNN_Human_Activity_Recognition/data/'
                     
 
 # Global constants describing the CIFAR-10 data set.
@@ -280,10 +280,10 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
 # Apply gradients.
  apply_gradient_op = opt.apply_gradients(grads, global_step=global_step)
 
+
 # Add histograms for trainable variables.
  for var in tf.trainable_variables():
   tf.summary.histogram(var.op.name, var)
-  #print(var.op.name)
 
 # Add histograms for gradients.
  for grad, var in grads:
@@ -295,5 +295,12 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
     MOVING_AVERAGE_DECAY, global_step)
  with tf.control_dependencies([apply_gradient_op]):
   variables_averages_op = variable_averages.apply(tf.trainable_variables())
+
+###### Record the parameters
+ paras=[]
+# Add histograms for trainable variables.
+ for var in tf.trainable_variables():
+  paras.append(var)
+  print('!!!!!!!!!!!!!!!Shape of '+var.op.name+':',var.get_shape())
   
- return variables_averages_op
+ return variables_averages_op, paras

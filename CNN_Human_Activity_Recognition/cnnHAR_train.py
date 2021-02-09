@@ -37,6 +37,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from communication import COMM
 from datetime import datetime
 import time
 import sys
@@ -47,7 +48,7 @@ from tensorflow.python import debug as tfdbg
 import cnnHAR
 import cnnHAR_eval
 
-train_dir = '/home/ubuntu/deepHAR/CNN_Human_Activity_Recognition/cnnHAR_check0'+str(sys.argv[1])
+train_dir = '/Users/lynn/Documents/CNN_Human_Activity_Recognition/cnnHAR_check0'+str(sys.argv[1])
 
 num=1 # number of nodes
 
@@ -69,7 +70,7 @@ def train():
     # GPU and resulting in a slow down.
     #with tf.device('/cpu:'+str(int(sys.argv[1])-1)):
     signals, labels = cnnHAR.distorted_inputs()
-    print('<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>')
+    #print('<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>')
       
     # Build a Graph that computes the logits predictions from the
     # inference model.
@@ -79,9 +80,21 @@ def train():
 
     loss=cnnHAR.loss(logits, labels)
                                      
-    train_op = cnnHAR.train(loss, global_step)
+    [train_op,paras]= cnnHAR.train(loss, global_step)
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+
+    
+    # prepare the communication module
+    server_addr = "localhost"
+    server_port = 9999
+    comm = COMM(server_addr,server_port,int(sys.argv[1]))
+    
+    
+    comm.send2server('hello',-1)
+    print("Send Hello")
+    print(comm.recvfserver())
+    
     
     class _LoggerHook(tf.train.SessionRunHook):
       """Logs loss and runtime."""
@@ -159,12 +172,12 @@ def train():
       def before_run(self, run_context):
         self._step += 1
         #print('~~~~~~~~~~~~~~~~before run4~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-        #return tf.train.SessionRunArgs(signals)  # Asks for signals.
+        #return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
         if (self._step+1)% (50*log_frequency) == 0:
         #if self._step == max_steps-1:#:
-          #print('~~~~~~~~~~~~~~~~after run4~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+          paras_v=run_values.results
           cnnHAR_eval.main()
 
     with tf.train.MonitoredTrainingSession(
@@ -176,12 +189,18 @@ def train():
                _LoggerHook4()],#,save_checkpoint_steps=5000
         config=tf.ConfigProto(
             log_device_placement=log_device_placement),save_checkpoint_steps=50*log_frequency) as mon_sess:
-      ''',save_checkpoint_steps=10*log_frequency'''
-      
       while not mon_sess.should_stop():
-        #print('~~~~~~~~~~~~~~~~%d step:'%i)
-        mon_sess.run([train_op,extra_update_ops])
-        #print('~~~~~~~~~~~~~~~~one session ends~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+        _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
+
+      #get the weights and send to server
+      w_flat = np.array([])
+      for i in range(len(all_paras)):
+        temp = all_paras[i].reshape(-1)
+        w_flat=np.concatenate((w_flat, temp), axis=0)
+        print(len(w_flat))
+	
+      comm.send2server(w_flat,0)
+      
 
 def main(argv=None):  # pylint: disable=unused-argument
 #  cifar10.maybe_download_and_extract()
