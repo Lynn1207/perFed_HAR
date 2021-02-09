@@ -160,6 +160,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
 
 if __name__ == "__main__":
-	HOST, PORT = "0.0.0.0", 9999
+	HOST, PORT = "192.168.7.137", 9999
 	server = socketserver.ThreadingTCPServer((HOST,PORT),MyTCPHandler)
 	server.serve_forever(poll_interval = 0.5)
