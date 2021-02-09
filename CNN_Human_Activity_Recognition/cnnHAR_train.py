@@ -44,7 +44,8 @@ import sys
 import tensorflow.compat.v1 as tf
 import numpy as np
 from tensorflow.python import debug as tfdbg 
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 import cnnHAR
 import cnnHAR_eval
 
