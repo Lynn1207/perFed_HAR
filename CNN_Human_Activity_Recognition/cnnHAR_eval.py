@@ -101,7 +101,7 @@ def eval_once(saver,summary_writer,labels,loss,logits,summary_op):
       n_l=0.0
       while step < num_iter and not coord.should_stop():
         step += 1
-        print(str(sys.argv[1])+'~~~~Local test:%d'%(step))
+        #print(str(sys.argv[1])+'~~~~Local test:%d'%(step))
         samplelabels,predictions,precision=sess.run([labels,logits,loss])
         
         for i in range(0, batch_size):
