@@ -197,8 +197,8 @@ def train():
       for i in range(len(all_paras)):
         temp = all_paras[i].reshape(-1)
         w_flat=np.concatenate((w_flat, temp), axis=0)
-        print(len(w_flat))
 	
+      print(len(w_flat))
       comm.send2server(w_flat,0)
       
 
