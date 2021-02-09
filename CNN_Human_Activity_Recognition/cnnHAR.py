@@ -143,6 +143,9 @@ def _add_loss_summaries(total_loss):
   return loss_averages_op
   
 def inference(signals):
+    print("User"+str(sys.argv[1])+"'s trainable variables:")
+    for var in tf.trainable_variables():
+      print(var.op.name)
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of signals :',signals.get_shape())
     with tf.variable_scope('conv1') as scope:
            kernel = _variable_with_weight_decay('weights',
