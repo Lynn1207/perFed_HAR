@@ -86,7 +86,7 @@ def train():
 
     
     # prepare the communication module
-    server_addr = "localhost"
+    server_addr = "192.168.7.137"
     server_port = 9999
     comm = COMM(server_addr,server_port,int(sys.argv[1]))
     
