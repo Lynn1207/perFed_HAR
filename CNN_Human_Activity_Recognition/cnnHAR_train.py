@@ -40,6 +40,8 @@ from __future__ import print_function
 from communication import COMM
 from datetime import datetime
 import time
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
 import sys
 import tensorflow.compat.v1 as tf
 import numpy as np
@@ -47,7 +49,7 @@ from tensorflow.python import debug as tfdbg
 import cnnHAR
 import cnnHAR_eval
 
-tf.get_logger().setLevel('INFO')
+
 
 train_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check0'+str(sys.argv[1])
 
