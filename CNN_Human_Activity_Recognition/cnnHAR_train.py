@@ -115,7 +115,7 @@ def train():
 #          ndar = np.array(run_values.results)
 #          np.savetxt("logits.csv", ndar.reshape(128,256), delimiter=",")
         
-        if (self._step-1) % (log_frequency*10)==0:
+        if (self._step-1) % (log_frequency*30)==0:
           #print('~~~~~~~~~~~~~~~~after run1~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
           '''
           current_time = time.time()
@@ -175,7 +175,7 @@ def train():
         #return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
-        if (self._step+1)% (50*log_frequency) == 0:
+        if (self._step+1)% (150*log_frequency) == 0:
         #if self._step == max_steps-1:#:
           paras_v=run_values.results
           cnnHAR_eval.main()
