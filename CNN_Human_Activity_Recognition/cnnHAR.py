@@ -143,7 +143,7 @@ def _add_loss_summaries(total_loss):
   return loss_averages_op
   
 def inference(signals):
-    print("User"+str(sys.argv[1])+"'s trainable variables:")
+    print("User"+str(sys.argv[1])+"'s trainable variables::::::::::::::::::::")
     for var in tf.trainable_variables():
       print(var.op.name)
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of signals :',signals.get_shape())
@@ -304,6 +304,6 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
 # Add histograms for trainable variables.
  for var in tf.trainable_variables():
   paras.append(var)
-  print('!!!!!!!!!!!!!!!Shape of '+var.op.name+':',var.get_shape())
+  #print('!!!!!!!!!!!!!!!Shape of '+var.op.name+':',var.get_shape())
   
  return variables_averages_op, paras
