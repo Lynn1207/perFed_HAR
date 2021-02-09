@@ -81,12 +81,12 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 				#receive the size of content
 				header = self.request.recv(4)
 				size = struct.unpack('i', header)
-				print(size)
+				
 
 				#receive the id of client
 				u_id = self.request.recv(4)
 				user_id = struct.unpack('i',u_id)
-                                print(user_id)
+                                
 				
 				# receive the type of message, defination in communication.py
 				mess_type = self.request.recv(4)
