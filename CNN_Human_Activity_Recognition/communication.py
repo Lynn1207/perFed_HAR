@@ -79,7 +79,7 @@ class COMM:
         except Exception as e:
             # everything else, possibly fatal
             print(traceback.format_exc(e))
-        print("W_avg",W_avg)
+        #print("W_avg",W_avg)
         return W_avg
 
 
