@@ -42,7 +42,19 @@ class COMM:
 
         data = recv_data
         # print("the received data size is: {}, while the size of notice is: {}".format(sys.getsizeof(data),size[0]))
-        data = pickle.loads(data)
+        try:
+            data = pickle.loads(data)
+        except pickle.UnpicklingError as e:
+            # normal, somewhat expected
+            continue
+        except (AttributeError,  EOFError, ImportError, IndexError) as e:
+            # secondary errors
+            print(traceback.format_exc(e))
+            continue
+        except Exception as e:
+            # everything else, possibly fatal
+            print(traceback.format_exc(e))
+    
 
         return data
 
@@ -56,7 +68,18 @@ class COMM:
             recv_data += self.client.recv(size[0]-sys.getsizeof(recv_data))
 
         data = recv_data
-        W_avg = pickle.loads(data)
+        try:
+            W_avg = pickle.loads(data)
+        except pickle.UnpicklingError as e:
+            # normal, somewhat expected
+            continue
+        except (AttributeError,  EOFError, ImportError, IndexError) as e:
+            # secondary errors
+            print(traceback.format_exc(e))
+            continue
+        except Exception as e:
+            # everything else, possibly fatal
+            print(traceback.format_exc(e))
 
         return W_avg
 
