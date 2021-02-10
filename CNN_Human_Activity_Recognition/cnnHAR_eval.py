@@ -82,7 +82,7 @@ def eval_once(saver,summary_writer,labels,loss,logits,summary_op):
       #   /my-favorite-path/cifar10_train/model.ckpt-0,
       # extract global_step from it.
       global_step = ckpt.model_checkpoint_path.split('/')[-1].split('-')[-1]
-      print('~~~~~~~~~~~checkpoint file found at step %s'% global_step)
+      #print('~~~~~~~~~~~checkpoint file found at step %s'% global_step)
     else:
       print('No checkpoint file found')
       return
@@ -113,7 +113,7 @@ def eval_once(saver,summary_writer,labels,loss,logits,summary_op):
       f = open("log"+str(sys.argv[1])+".txt", "a")
       f.write(str(sys.argv[1])+" locally test loss:= %.3f, average_accuracy=%.3f\n"% (n_l/64,n_acc/64))
       f.close()
-      print(str(sys.argv[1])+'(locally test)!!!!!!!!!!!!!!!!!!!! average_test loss = %.3f, average_accuracy=%.3f' % (n_l/64,n_acc/64))
+      #print(str(sys.argv[1])+'(locally test)!!!!!!!!!!!!!!!!!!!! average_test loss = %.3f, average_accuracy=%.3f' % (n_l/64,n_acc/64))
       
       summary = tf.Summary()
       summary.ParseFromString(sess.run(summary_op))
