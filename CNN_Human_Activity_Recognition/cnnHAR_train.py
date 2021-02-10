@@ -102,8 +102,8 @@ def train():
     
     
     comm.send2server('hello',-1)
-    print("Send Hello")
-    print(comm.recvfserver())
+    #print("Send Hello")
+    #print(comm.recvfserver())
     
     
     class _LoggerHook(tf.train.SessionRunHook):
@@ -122,8 +122,8 @@ def train():
       def after_run(self, run_context, run_values):
         if (self._step-1) % (log_frequency*30)==0:
           logLoss.append([self._step, run_values.results])
-          format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.3f')
-          print(format_str % ( self._step, run_values.results))
+          #format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.3f')
+          #print(format_str % ( self._step, run_values.results))
          
     class _LoggerHook2(tf.train.SessionRunHook):
       """Logs signals."""
@@ -199,6 +199,7 @@ def train():
         format_str = ("%d=%0.3f\n")
         f.write(format_str % ( logLoss[i][0], logLoss[i][1]))
       f.close()
+
       
 
 def main(argv=None):  # pylint: disable=unused-argument
