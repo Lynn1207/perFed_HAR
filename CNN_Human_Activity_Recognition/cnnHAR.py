@@ -149,7 +149,7 @@ def inference(signals):
            kernel = _variable_with_weight_decay('weights',
                                                 shape=[ 32, 1, 64],
                                                 #shape=[3, 1, 128],
-                                                stddev=5e-2,
+                                                stddev=0.04,
                                                 wd=0.001)
            biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.0))#!!!
            conv = tf.nn.conv1d(signals, kernel, [1,12,1], padding='VALID', data_format='NWC')
@@ -165,7 +165,7 @@ def inference(signals):
            kernel = _variable_with_weight_decay('weights',
                                                 shape=[ 3, 64, 32],
                                                 #shape=[3, 1, 128],
-                                                stddev=5e-2,
+                                                stddev=0.04,
                                                 wd=0.001)
            biases = _variable_on_cpu('biases', [32], tf.constant_initializer(0.0))#!!!
            conv = tf.nn.conv1d(pool1, kernel, [1,1,1], padding='VALID', data_format='NWC')
@@ -211,7 +211,7 @@ def inference(signals):
         _activation_summary(local4)
 
     with tf.variable_scope('softmax_linear') as scope:
-          weights = _variable_with_weight_decay('weights', [30, NUM_CLASSES],stddev=1/30.0, wd=0.001)
+          weights = _variable_with_weight_decay('weights', [30, NUM_CLASSES],stddev=0.04, wd=0.001)
           biases = _variable_on_cpu('biases', [NUM_CLASSES],tf.constant_initializer(0.0))
           softmax_linear = tf.nn.softmax(tf.matmul(local4, weights)+biases,name=scope.name)
           _activation_summary(softmax_linear)
