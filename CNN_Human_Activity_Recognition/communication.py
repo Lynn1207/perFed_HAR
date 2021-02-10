@@ -56,6 +56,7 @@ class COMM:
             recv_data += self.client.recv(size[0]-sys.getsizeof(recv_data))
 
         data = recv_data
+        data = open('pickle.char', 'rb')
         W_avg = pickle.loads(data)
 
         return W_avg
