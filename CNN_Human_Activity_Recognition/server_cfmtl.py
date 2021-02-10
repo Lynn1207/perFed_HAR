@@ -133,8 +133,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 					print("len of Weight average:", W_avg_size)
 
 					#print("The Omega matrix is like: \n",Omega)
-					##self.request.sendall(W_avg_header)
-					##self.request.sendall(W_avg_data)
+					self.request.sendall(W_avg_header)
+					self.request.sendall(W_avg_data)
 					# print("send Omega to client {} with the size of {}".format(user_id[0],size))
 
 
