@@ -176,19 +176,20 @@ def train():
           cnnHAR_eval.main()
 
     outer_i = 0
+    step=0
     while outer_i < outer_iter:
-      self._step=0
       with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
-          hooks=[tf.train.StopAtStepHook(last_step=max_steps),
+          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter),
                  #tf.train.NanTensorHook(loss),
                  _LoggerHook(),
                  #_LoggerHook2(),
                  _LoggerHook4()],#,save_checkpoint_steps=5000
           config=tf.ConfigProto(
-              log_device_placement=log_device_placement),save_checkpoint_steps=50*log_frequency,log_step_count_steps=max_steps) as mon_sess:
-        while not mon_sess.should_stop():
+              log_device_placement=log_device_placement),save_checkpoint_steps=50*log_frequency) as mon_sess:
+        while step<max_steps:
           _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
+          step+=1
 
         #get the weights and send to server
         w_flat = np.array([])
