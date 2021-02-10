@@ -66,6 +66,8 @@ batch_size = cnnHAR.batch_size
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
 outer_iter=2
+
+
 	
 def train():
   logLoss=[]
@@ -210,7 +212,7 @@ def train():
         #receive aggregated weights from server
         W_avg = comm.recvOUF()
         print(W_avg)
-	'''
+        '''
         W_avg = W_avg.astype(np.float32)
        
         #assign_model(W_avg)
