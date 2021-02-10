@@ -67,7 +67,7 @@ class COMM:
             recv_data += self.client.recv(size[0]-sys.getsizeof(recv_data))
 
         data = recv_data
-        print("data", data)
+        #print("data", data)
         try:
             W_avg = pickle.loads(data)
         except pickle.UnpicklingError as e:
