@@ -104,7 +104,7 @@ def train():
     
     comm.send2server('hello',-1)
     #print("Send Hello")
-    #print(comm.recvfserver())
+    print(comm.recvfserver())
     
     
     class _LoggerHook(tf.train.SessionRunHook):
