@@ -67,6 +67,7 @@ class COMM:
             recv_data += self.client.recv(size[0]-sys.getsizeof(recv_data))
 
         data = recv_data
+        print("data", data)
         try:
             W_avg = pickle.loads(data)
         except pickle.UnpicklingError as e:
@@ -78,7 +79,7 @@ class COMM:
         except Exception as e:
             # everything else, possibly fatal
             print(traceback.format_exc(e))
-
+        print("W_avg",W_avg)
         return W_avg
 
 
