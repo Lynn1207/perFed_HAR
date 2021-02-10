@@ -187,7 +187,7 @@ def train():
       while outer_i < outer_iter:
         step=0
       
-        while step<max_steps:
+        while step<max_steps and not mon_sess.should_stop():
           _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
           step+=1
 
@@ -198,14 +198,12 @@ def train():
           w_flat=np.concatenate((w_flat, temp), axis=0)
           
         comm.send2server(w_flat,0)
-
+      
         #receive aggregated weights from server
         W_avg = comm.recvOUF()
-        
         W_avg = W_avg.astype(np.float32)
-       
         #assign_model(W_avg)
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv1/weights:0'), tf.reshape(W_avg[0:2048],[32, 1, 64])))
+        mon_sess.run(tf.assign(tf.get_variable('conv1/weights:0'), tf.reshape(W_avg[0:2048],[32, 1, 64])))
         mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv1/bias:0'), W_avg[2048:2112]))
         mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv2/weights:0'), tf.reshape(W_avg[2112:8256],[3, 64, 32])))
         mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv2/bias:0'), W_avg[8256:8288]))
@@ -217,7 +215,8 @@ def train():
         mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local4/bias:0'), W_avg[615008:615038]))
         mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/weights:0'), tf.reshape(W_avg[615038:615218],[30, 6])))
         mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/bias:0'), W_avg[615218:615224]))
-        
+     
+                
         outer_i += 1
 
     #log the train losses
