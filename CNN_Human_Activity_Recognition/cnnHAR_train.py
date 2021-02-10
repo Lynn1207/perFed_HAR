@@ -209,7 +209,8 @@ def train():
 
         #receive aggregated weights from server
         W_avg = comm.recvOUF()
-
+        print(W_avg)
+	'''
         W_avg = W_avg.astype(np.float32)
        
         #assign_model(W_avg)
@@ -225,7 +226,7 @@ def train():
         sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local4/bias'), W_avg[615008:615038]))
         sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/weights'), tf.reshape(W_avg[615038:615218],[30, 6])))
         sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/bias'), W_avg[615218:615224]))
-        
+        '''
         outer_i += 1
 	
 
