@@ -46,11 +46,10 @@ class COMM:
             data = pickle.loads(data)
         except pickle.UnpicklingError as e:
             # normal, somewhat expected
-            continue
+            print(traceback.format_exc(e))
         except (AttributeError,  EOFError, ImportError, IndexError) as e:
             # secondary errors
             print(traceback.format_exc(e))
-            continue
         except Exception as e:
             # everything else, possibly fatal
             print(traceback.format_exc(e))
@@ -72,11 +71,10 @@ class COMM:
             W_avg = pickle.loads(data)
         except pickle.UnpicklingError as e:
             # normal, somewhat expected
-            continue
+            print(traceback.format_exc(e))
         except (AttributeError,  EOFError, ImportError, IndexError) as e:
             # secondary errors
             print(traceback.format_exc(e))
-            continue
         except Exception as e:
             # everything else, possibly fatal
             print(traceback.format_exc(e))
