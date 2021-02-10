@@ -70,6 +70,7 @@ NUM_CLASSES = cnnHAR.NUM_CLASSES
 	
 def train():
   f = open("log"+str(sys.argv[1])+".txt", "a")
+  f.write(str(sys.argv[1])+"\n")
   logLoss=[]
   os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
   tf.get_logger().setLevel("ERROR")
