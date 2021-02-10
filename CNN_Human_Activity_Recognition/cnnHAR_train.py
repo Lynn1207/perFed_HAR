@@ -191,6 +191,7 @@ def train():
       f = open("log"+str(sys.argv[1])+".txt", "a")
       f.write("\n"+str(outer_i)+" Round: \n")
       f.close()
+      logLoss=[]
       with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
           hooks=[tf.train.StopAtStepHook(last_step=max_steps),
