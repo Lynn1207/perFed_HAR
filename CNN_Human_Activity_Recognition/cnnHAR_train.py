@@ -66,19 +66,6 @@ batch_size = cnnHAR.batch_size
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
 outer_iter=2
-
-def assign_model(weight_vector):
-
-  sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/conv1layer/conv1/weights:0'), tf.reshape(weight_vector[0:1200],[5,5,1,48])))
-	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/conv1layer/conv1/bias:0'), weight_vector[1200:1248]))
-	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/conv2layer/conv2/weights:0'), tf.reshape(weight_vector[1248:22848],[5,5,48,18])))
-	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/conv2layer/conv2/bias:0'), weight_vector[22848:22866]))
-	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/fc1layer/fc1/weights:0'), tf.reshape(weight_vector[22866:368466],[1152,300])))
-	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/fc1layer/fc1/bias:0'), weight_vector[368466:368766]))
-	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/fc2layer/fc2/weights:0'), tf.reshape(weight_vector[368766:370266],[300,NUM_OF_CLASS])))
-	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/fc2layer/fc2/bias:0'), weight_vector[370266:370271]))
-
-	
 	
 def train():
   logLoss=[]
