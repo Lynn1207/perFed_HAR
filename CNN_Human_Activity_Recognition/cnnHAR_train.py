@@ -69,6 +69,8 @@ NUM_CLASSES = cnnHAR.NUM_CLASSES
 	
 	
 def train():
+  f = open("log"+str(sys.argv[1])+".txt", "a")
+
   os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
   tf.get_logger().setLevel("ERROR")
   """Train CIFAR-10 for a number of steps."""
@@ -137,6 +139,7 @@ def train():
           format_str = ('%s: step %d, loss = %.8f (%.1f examples/sec; %.3f '
                         'sec/batch)')
           '''
+	  f.write(str(self._step)+":"+str(run_values.results)+"\n")
           format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.8f')
           print(format_str % ( self._step, run_values.results))
          
