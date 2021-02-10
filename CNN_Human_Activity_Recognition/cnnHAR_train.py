@@ -69,8 +69,6 @@ NUM_CLASSES = cnnHAR.NUM_CLASSES
 	
 	
 def train():
-  f = open("log"+str(sys.argv[1])+".txt", "a")
-  f.write(str(sys.argv[1])+"\n")
   logLoss=[]
   os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
   tf.get_logger().setLevel("ERROR")
@@ -168,7 +166,7 @@ def train():
       def before_run(self, run_context):
         self._step += 1
         #print('~~~~~~~~~~~~~~~~before run4~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-        #return tf.train.SessionRunArgs(paras)  # Asks for signals.
+        return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
         if (self._step+1)% (150*log_frequency) == 0:
@@ -195,6 +193,8 @@ def train():
         w_flat=np.concatenate((w_flat, temp), axis=0)
 	
       comm.send2server(w_flat,0)
+      f = open("log"+str(sys.argv[1])+".txt", "a")
+      f.write(str(sys.argv[1])+" train_loss:\n")
       for i in range(len(logLoss)):
         format_str = ("%d=%0.3f\n")
         f.write(format_str % ( logLoss[i][0], logLoss[i][1]))
