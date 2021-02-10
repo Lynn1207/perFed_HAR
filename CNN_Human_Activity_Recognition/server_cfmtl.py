@@ -118,8 +118,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 				#if W message, update Omega and U or F
 				elif mess_type == 0:
 					weights = pickle.loads(recv_data)
-					print(len(weights))
-					print(user_id[0])
+					#print(len(weights))
+					#print(user_id[0])
 					W[user_id[0]-1] = weights
 
 					try:
@@ -130,7 +130,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 					W_avg_data = pickle.dumps(W_avg, protocol = 0)
 					W_avg_size = sys.getsizeof(W_avg_data)
 					W_avg_header = struct.pack("i",W_avg_size)
-					print("len of Weight average:", W_avg_size)
+					#print("len of Weight average:", W_avg_size)
 
 					#print("The Omega matrix is like: \n",Omega)
 					self.request.sendall(W_avg_header)
