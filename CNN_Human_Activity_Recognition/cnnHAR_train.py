@@ -175,18 +175,18 @@ def train():
           cnnHAR_eval.main()
 
     outer_i = 0
-    
-    while outer_i < outer_iter:
-      step=0
-      with tf.train.MonitoredTrainingSession(
+    with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
-          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter),
+          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter+1),
                  #tf.train.NanTensorHook(loss),
                  _LoggerHook(),
                  #_LoggerHook2(),
                  _LoggerHook4()],#,save_checkpoint_steps=5000
           config=tf.ConfigProto(
               log_device_placement=log_device_placement),save_checkpoint_steps=50*log_frequency) as mon_sess:
+      while outer_i < outer_iter:
+        step=0
+      
         while step<max_steps:
           _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
           step+=1
