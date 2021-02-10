@@ -177,10 +177,6 @@ def train():
 
     outer_i = 0
     while outer_i < outer_iter:
-      f = open("log"+str(sys.argv[1])+".txt", "a")
-      f.write("\n"+str(outer_i)+" Round: \n")
-      f.close()
-      logLoss=[]
       with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
           hooks=[tf.train.StopAtStepHook(last_step=max_steps),
@@ -192,14 +188,6 @@ def train():
               log_device_placement=log_device_placement),save_checkpoint_steps=50*log_frequency,log_step_count_steps=max_steps) as mon_sess:
         while not mon_sess.should_stop():
           _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
-
-        #log the train losses
-        f = open("log"+str(sys.argv[1])+".txt", "a")
-        f.write(str(sys.argv[1])+" train_loss:\n")
-        for i in range(len(logLoss)):
-          format_str = ("%d=%0.3f\n")
-          f.write(format_str % ( logLoss[i][0], logLoss[i][1]))
-        f.close()
 
         #get the weights and send to server
         w_flat = np.array([])
@@ -230,8 +218,15 @@ def train():
         sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/bias'), W_avg[615218:615224]))
         '''
         outer_i += 1
-	
 
+    #log the train losses
+    f = open("log"+str(sys.argv[1])+".txt", "a")
+    f.write(str(sys.argv[1])+" train_loss:\n")
+    for i in range(len(logLoss)):
+      format_str = ("%d=%0.3f\n")
+      f.write(format_str % ( logLoss[i][0], logLoss[i][1]))
+    f.close()
+      
               
       
 
