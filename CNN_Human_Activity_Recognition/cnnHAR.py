@@ -3,7 +3,7 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
+
 import re
 import sys
 import tarfile
@@ -302,6 +302,6 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
 # Add histograms for trainable variables.
  for var in tf.trainable_variables():
   paras.append(var)
-  #print('!!!!!!!!!!!!!!!Shape of '+var.op.name+':',var.get_shape())
+  print('!!!!!!!!!!!!!!!Shape of '+var.op.name+':',var.get_shape())
   
  return variables_averages_op, paras
