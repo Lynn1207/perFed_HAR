@@ -65,6 +65,18 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
+outer_iter=2
+
+def assign_model(weight_vector):
+
+  sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/conv1layer/conv1/weights:0'), tf.reshape(weight_vector[0:1200],[5,5,1,48])))
+	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/conv1layer/conv1/bias:0'), weight_vector[1200:1248]))
+	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/conv2layer/conv2/weights:0'), tf.reshape(weight_vector[1248:22848],[5,5,48,18])))
+	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/conv2layer/conv2/bias:0'), weight_vector[22848:22866]))
+	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/fc1layer/fc1/weights:0'), tf.reshape(weight_vector[22866:368466],[1152,300])))
+	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/fc1layer/fc1/bias:0'), weight_vector[368466:368766]))
+	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/fc2layer/fc2/weights:0'), tf.reshape(weight_vector[368766:370266],[300,NUM_OF_CLASS])))
+	sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('teacher_alex/fc2layer/fc2/bias:0'), weight_vector[370266:370271]))
 
 	
 	
@@ -174,31 +186,63 @@ def train():
           paras_v=run_values.results
           cnnHAR_eval.main()
 
-    with tf.train.MonitoredTrainingSession(
-        checkpoint_dir=train_dir,
-        hooks=[tf.train.StopAtStepHook(last_step=max_steps),
-               #tf.train.NanTensorHook(loss),
-               _LoggerHook(),
-               #_LoggerHook2(),
-               _LoggerHook4()],#,save_checkpoint_steps=5000
-        config=tf.ConfigProto(
-            log_device_placement=log_device_placement),save_checkpoint_steps=50*log_frequency,log_step_count_steps=max_steps) as mon_sess:
-      while not mon_sess.should_stop():
-        _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
-
-      #get the weights and send to server
-      w_flat = np.array([])
-      for i in range(len(all_paras)):
-        temp = all_paras[i].reshape(-1)
-        w_flat=np.concatenate((w_flat, temp), axis=0)
-	
-      comm.send2server(w_flat,0)
+    outer_i = 0
+    while outer_i < outer_iter:
       f = open("log"+str(sys.argv[1])+".txt", "a")
-      f.write(str(sys.argv[1])+" train_loss:\n")
-      for i in range(len(logLoss)):
-        format_str = ("%d=%0.3f\n")
-        f.write(format_str % ( logLoss[i][0], logLoss[i][1]))
+      f.write("\n"+str(outer_i)+" Round: \n")
       f.close()
+      with tf.train.MonitoredTrainingSession(
+          checkpoint_dir=train_dir,
+          hooks=[tf.train.StopAtStepHook(last_step=max_steps),
+                 #tf.train.NanTensorHook(loss),
+                 _LoggerHook(),
+                 #_LoggerHook2(),
+                 _LoggerHook4()],#,save_checkpoint_steps=5000
+          config=tf.ConfigProto(
+              log_device_placement=log_device_placement),save_checkpoint_steps=50*log_frequency,log_step_count_steps=max_steps) as mon_sess:
+        while not mon_sess.should_stop():
+          _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
+
+        #log the train losses
+        f = open("log"+str(sys.argv[1])+".txt", "a")
+        f.write(str(sys.argv[1])+" train_loss:\n")
+        for i in range(len(logLoss)):
+          format_str = ("%d=%0.3f\n")
+          f.write(format_str % ( logLoss[i][0], logLoss[i][1]))
+        f.close()
+
+        #get the weights and send to server
+        w_flat = np.array([])
+        for i in range(len(all_paras)):
+          temp = all_paras[i].reshape(-1)
+          w_flat=np.concatenate((w_flat, temp), axis=0)
+          
+        comm.send2server(w_flat,0)
+
+        #receive aggregated weights from server
+        W_avg = comm.recvOUF()
+
+        W_avg = W_avg.astype(np.float32)
+       
+        #assign_model(W_avg)
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv1/weights'), tf.reshape(W_avg[0:2048],[32, 1, 64])))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv1/bias'), W_avg[2048:2112]))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv2/weights'), tf.reshape(W_avg[2112:8256],[3, 64, 32])))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv2/bias'), W_avg[8256:8288]))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local2/weights'), tf.reshape(W_avg[8288:73824],[64, 1024])))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local2/bias'), W_avg[73824:74848]))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local3/weights'), tf.reshape(W_avg[74848:599136],[1024, 512])))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local3/bias'), W_avg[599136:599648]))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local4/weights'), tf.reshape(W_avg[599648:615008],[512, 30])))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local4/bias'), W_avg[615008:615038]))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/weights'), tf.reshape(W_avg[615038:615218],[30, 6])))
+        sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/bias'), W_avg[615218:615224]))
+        
+        outer_i += 1
+	
+
+              
+      
 
       
 
