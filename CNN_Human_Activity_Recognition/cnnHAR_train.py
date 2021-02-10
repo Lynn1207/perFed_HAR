@@ -176,8 +176,9 @@ def train():
           cnnHAR_eval.main()
 
     outer_i = 0
-    step=0
+    
     while outer_i < outer_iter:
+      step=0
       with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
           hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter),
