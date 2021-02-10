@@ -121,11 +121,6 @@ def train():
         return tf.train.SessionRunArgs(loss)# Asks for loss value.
 
       def after_run(self, run_context, run_values):
-#        if self._step == 1000:
-#          #tf.Session().run(tf.global_variables_initializer())
-#          ndar = np.array(run_values.results)
-#          np.savetxt("logits.csv", ndar.reshape(128,256), delimiter=",")
-        
         if (self._step-1) % (log_frequency*30)==0:
 	  f.write(str(self._step)+":"+str(run_values.results)+"\n")
           format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.8f')
