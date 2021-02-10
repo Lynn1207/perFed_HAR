@@ -59,7 +59,7 @@ max_steps = 7*450+1 #400 epoch
 
 log_device_placement = False
 
-log_frequency = 7 # log per epoch
+log_frequency = 7*90 # log per epoch
 
 batch_size = cnnHAR.batch_size
 
@@ -121,7 +121,7 @@ def train():
         return tf.train.SessionRunArgs(loss)# Asks for loss value.
 
       def after_run(self, run_context, run_values):
-        if (self._step-1) % (log_frequency*30)==0:
+        if (self._step-1) % (log_frequency)==0:
           logLoss.append([self._step, run_values.results])
           #format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.3f')
           #print(format_str % ( self._step, run_values.results))
@@ -170,8 +170,7 @@ def train():
         return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
-        if (self._step+1)% (150*log_frequency) == 0:
-        #if self._step == max_steps-1:#:
+        if self._step == max_steps-1:
           paras_v=run_values.results
           cnnHAR_eval.main()
 
@@ -202,8 +201,7 @@ def train():
 
         #receive aggregated weights from server
         W_avg = comm.recvOUF()
-        print(W_avg)
-        '''
+        
         W_avg = W_avg.astype(np.float32)
        
         #assign_model(W_avg)
@@ -219,7 +217,7 @@ def train():
         sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local4/bias'), W_avg[615008:615038]))
         sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/weights'), tf.reshape(W_avg[615038:615218],[30, 6])))
         sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/bias'), W_avg[615218:615224]))
-        '''
+        
         outer_i += 1
 
     #log the train losses
