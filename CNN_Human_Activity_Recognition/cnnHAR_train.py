@@ -205,6 +205,7 @@ def train():
         W_avg = W_avg.astype(np.float32)
        
         #assign_model(W_avg)
+	sess=tf.Session()
         sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv1/weights'), tf.reshape(W_avg[0:2048],[32, 1, 64])))
         sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv1/bias'), W_avg[2048:2112]))
         sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv2/weights'), tf.reshape(W_avg[2112:8256],[3, 64, 32])))
