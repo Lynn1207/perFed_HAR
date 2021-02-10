@@ -195,7 +195,7 @@ def train():
 	
       comm.send2server(w_flat,0)
       for i in range(len(logLoss)):
-	format_str = ("%d=%0.3f\n")
+        format_str = ("%d=%0.3f\n")
         f.write(format_str % ( self._step, run_values.results))
       f.close()
       
