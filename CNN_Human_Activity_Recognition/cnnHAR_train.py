@@ -127,18 +127,6 @@ def train():
 #          np.savetxt("logits.csv", ndar.reshape(128,256), delimiter=",")
         
         if (self._step-1) % (log_frequency*30)==0:
-          #print('~~~~~~~~~~~~~~~~after run1~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-          '''
-          current_time = time.time()
-          duration = current_time - self._start_time
-          self._start_time = current_time
-          
-          loss_value = run_values.results
-          examples_per_sec = log_frequency * batch_size / duration
-          sec_per_batch = float(duration / log_frequency)
-          format_str = ('%s: step %d, loss = %.8f (%.1f examples/sec; %.3f '
-                        'sec/batch)')
-          '''
 	  f.write(str(self._step)+":"+str(run_values.results)+"\n")
           format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.8f')
           print(format_str % ( self._step, run_values.results))
