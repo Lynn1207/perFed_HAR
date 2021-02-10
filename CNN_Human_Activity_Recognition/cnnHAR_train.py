@@ -122,9 +122,9 @@ def train():
 
       def after_run(self, run_context, run_values):
         if (self._step-1) % (log_frequency*30)==0:
-          log_s=str(self._step)+":"+str(run_values.results)+"\n"
+          log_s=("%d = %0.3f"% ( self._step, run_values.results))
           f.write(log_s)
-          format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.8f')
+          format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.3f')
           print(format_str % ( self._step, run_values.results))
          
     class _LoggerHook2(tf.train.SessionRunHook):
