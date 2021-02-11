@@ -102,7 +102,7 @@ def _variable_on_cpu(name, shape, initializer):
   Returns:
     Variable Tensor
   """
-  #with tf.device('/cpu:'+str(int(sys.argv[1])-1)):
+  print(name)#with tf.device('/cpu:'+str(int(sys.argv[1])-1)):
   dtype = tf.float64
   var = tf.get_variable(name, shape, initializer=initializer, dtype=dtype)
   return var
