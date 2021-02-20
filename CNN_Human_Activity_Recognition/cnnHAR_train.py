@@ -203,6 +203,8 @@ def train():
         W_avg = comm.recvOUF()
         W_avg = W_avg.astype(np.float32)
         #assign_model(W_avg)
+        print(tf.get_default_graph().get_tensor_by_name('conv1/biases1:0'))
+        
         mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv1/biases1:0'), W_avg[2048:2112]))
         mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv2/weights2:0'), tf.reshape(W_avg[2112:8256],[3, 64, 32])))
         mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv2/biases2:0'), W_avg[8256:8288]))
