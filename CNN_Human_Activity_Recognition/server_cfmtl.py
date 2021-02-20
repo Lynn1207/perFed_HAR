@@ -7,6 +7,8 @@ import numpy as np
 from sklearn.decomposition import PCA
 from keras.utils import to_categorical
 import tensorflow.compat.v1 as tf
+import cnnHAR_train
+
 tf.disable_v2_behavior()
 # np.set_printoptions(threshold=np.inf)
 
@@ -30,6 +32,7 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
+out_i=0
 
 def server_update():
 	
@@ -76,7 +79,7 @@ def barrier_update():
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
 	def handle(self):
-		while True:
+		while out_i<cnn_train.outer_iter:
 			try:
 				#receive the size of content
 				header = self.request.recv(4)
@@ -135,6 +138,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 					#print("The Omega matrix is like: \n",Omega)
 					self.request.sendall(W_avg_header)
 					self.request.sendall(W_avg_data)
+
+					out_i+=1
 					# print("send Omega to client {} with the size of {}".format(user_id[0],size))
 
 

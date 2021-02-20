@@ -110,8 +110,9 @@ def eval_once(saver,summary_writer,labels,loss,logits,summary_op):
           
           n_l+=-math.log(predictions[i][int(samplelabels[i][0][0])])
           
-      f = open("log_test"+str(sys.argv[1])+".txt", "a")
-      f.write(str(sys.argv[1])+" locally test loss:= %.3f, average_accuracy=%.3f\n"% (n_l/64,n_acc/64))
+      f = open("log_test_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
+      x = datetime.datetime.now()
+      f.write(str(sys.argv[1])+", "+x+", %.3f, %.3f\n"% (n_l/64,n_acc/64))
       f.close()
       #print(str(sys.argv[1])+'(locally test)!!!!!!!!!!!!!!!!!!!! average_test loss = %.3f, average_accuracy=%.3f' % (n_l/64,n_acc/64))
       

@@ -68,9 +68,13 @@ NUM_CLASSES = cnnHAR.NUM_CLASSES
 outer_iter=3
 
 
+
+
 	
 def train():
   logLoss=[]
+  loc_paras=[]
+  gen_paras=[]
   os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
   tf.get_logger().setLevel("ERROR")
   """Train CIFAR-10 for a number of steps."""
@@ -199,22 +203,43 @@ def train():
         for i in range(len(all_paras)):
           temp = all_paras[i].reshape(-1)
           w_flat=np.concatenate((w_flat, temp), axis=0)
-          
+        loc_paras.append(w_flat)
+        
         comm.send2server(w_flat,0)
       
         #receive aggregated weights from server
         W_general = comm.recvOUF()
         #w = tf.cast(W_general, tf.float64)
-        mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
+        updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
+
+        #debug~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        updated_flat = np.array([])
+        for i in range(len(all_paras)):
+          temp = updated_paras_v[i].reshape(-1)
+          updated_flat=np.concatenate((updated_flat, temp), axis=0)
+        gen_paras.append(updated_flat)
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
         outer_i += 1
 
     #log the train losses
-    f = open("log"+str(sys.argv[1])+".txt", "a")
-    f.write(str(sys.argv[1])+" train_loss:\n")
+    f = open("log_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
+    x = datetime.datetime.now()
+    f.write(str(sys.argv[1])+", "+x+":\n")
     for i in range(len(logLoss)):
-      format_str = ("%d=%0.3f\n")
+      format_str = ("%d, %0.3f\n")
       f.write(format_str % ( logLoss[i][0], logLoss[i][1]))
+    f.close()
+
+    #debug~~~~~~~~~~
+    f = open("log_paras"+str(sys.argv[1])+".txt", "a")
+    x = datetime.datetime.now()
+    f.write(str(sys.argv[1])+", "+x+":\n")
+    for i in range(len(gen_paras)):
+      f.write(loc_paras[i])
+      f.write("\n")
+      f.write(gen_paras[i])
+      f.write("\n\n")
     f.close()
       
               
