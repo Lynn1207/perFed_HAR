@@ -96,7 +96,7 @@ def train():
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
 
-    W_avg = tf.compat.v1.placeholder(tf.float32, shape=(615224,1))
+    W_avg = tf.compat.v1.placeholder(tf.float64, shape=(615224,1))
     updated_paras=cnnHAR.reset_var(W_avg)
     
     # prepare the communication module
@@ -204,8 +204,8 @@ def train():
       
         #receive aggregated weights from server
         W_general = comm.recvOUF()
-        w = tf.cast(W_general, tf.float64)
-        mon_sess.run(updated_paras, feed_dict={W_avg: w})
+        #w = tf.cast(W_general, tf.float64)
+        mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
         
         outer_i += 1
 
