@@ -203,20 +203,24 @@ def train():
         W_avg = comm.recvOUF()
         W_avg = W_avg.astype(np.float32)
         #assign_model(W_avg)
-        print(tf.get_default_graph().get_tensor_by_name('conv1/biases1:0'))
         with tf.variable_scope('conv1') as scope:
           mon_sess.run(tf.assign(tf.get_variable('weights1'), tf.reshape(W_avg[0:2048],[32, 1, 64]))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv1/biases1:0'), W_avg[2048:2112]))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv2/weights2:0'), tf.reshape(W_avg[2112:8256],[3, 64, 32])))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('conv2/biases2:0'), W_avg[8256:8288]))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local2/weights3:0'), tf.reshape(W_avg[8288:73824],[64, 1024])))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local2/biases3:0'), W_avg[73824:74848]))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local3/weights4:0'), tf.reshape(W_avg[74848:599136],[1024, 512])))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local3/biases4:0'), W_avg[599136:599648]))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local4/weights5:0'), tf.reshape(W_avg[599648:615008],[512, 30])))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('local4/biases5:0'), W_avg[615008:615038]))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/weights6:0'), tf.reshape(W_avg[615038:615218],[30, 6])))
-        mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('softmax_linear/biases6:0'), W_avg[615218:615224]))
+          mon_sess.run(tf.assign(tf.get_variable('biases1'), W_avg[2048:2112]))
+        with tf.variable_scope('conv2') as scope:
+          mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('weights2'), tf.reshape(W_avg[2112:8256],[3, 64, 32])))
+          mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('biases2'), W_avg[8256:8288]))
+        with tf.variable_scope('local2') as scope:
+          mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('weights3'), tf.reshape(W_avg[8288:73824],[64, 1024])))
+          mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('biases3'), W_avg[73824:74848]))
+        with tf.variable_scope('local3') as scope:
+          mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('weights4'), tf.reshape(W_avg[74848:599136],[1024, 512])))
+          mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('biases4'), W_avg[599136:599648]))
+        with tf.variable_scope('local4') as scope:
+          mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('weights5'), tf.reshape(W_avg[599648:615008],[512, 30])))
+          mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('biases5'), W_avg[615008:615038]))
+        with tf.variable_scope('softmax_linear') as scope:
+          mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('weights6'), tf.reshape(W_avg[615038:615218],[30, 6])))
+          mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('biases6'), W_avg[615218:615224]))
         
         outer_i += 1
 
