@@ -302,7 +302,7 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
 # Add histograms for trainable variables.
  for var in tf.trainable_variables():
   paras.append(var)
-  print('!!!!!!!!!!!!!!!Shape of ', var)
+  #print('!!!!!!!!!!!!!!!Shape of ', var)
   
  return variables_averages_op, paras
 
