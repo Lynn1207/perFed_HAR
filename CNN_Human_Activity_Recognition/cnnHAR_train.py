@@ -96,7 +96,7 @@ def train():
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
 
-    [weights1, bias1, weights2, bias2, weights3, bias3, weights4, bias4, weights5, bias5, weights6, bias6]=reset_var(W_avg)
+    [weights1, bias1, weights2, bias2, weights3, bias3, weights4, bias4, weights5, bias5, weights6, bias6]=cnnHAR.reset_var(W_avg)
     
     # prepare the communication module
     server_addr = "localhost"
