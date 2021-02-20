@@ -97,7 +97,7 @@ def train():
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
 
     W_avg = tf.compat.v1.placeholder(tf.float32, shape=(615224,1))
-    updated_paras=reset_var(W_avg)
+    updated_paras=cnnHAR.reset_var(W_avg)
     
     # prepare the communication module
     server_addr = "localhost"
