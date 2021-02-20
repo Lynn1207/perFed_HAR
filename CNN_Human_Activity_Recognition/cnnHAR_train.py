@@ -204,7 +204,7 @@ def train():
         W_avg = W_avg.astype(np.float32)
         #assign_model(W_avg)
         with tf.variable_scope('conv1') as scope:
-          mon_sess.run(tf.assign(tf.get_variable('weights1'), tf.reshape(W_avg[0:2048],[32, 1, 64])))
+          mon_sess.run(tf.get_variable('weights1').assign(tf.reshape(W_avg[0:2048],[32, 1, 64])))
           mon_sess.run(tf.assign(tf.get_variable('biases1'), W_avg[2048:2112]))
         with tf.variable_scope('conv2') as scope:
           mon_sess.run(tf.assign(tf.get_default_graph().get_tensor_by_name('weights2'), tf.reshape(W_avg[2112:8256],[3, 64, 32])))
