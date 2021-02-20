@@ -305,3 +305,27 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
   #print('!!!!!!!!!!!!!!!Shape of '+var.op.name+':',var.get_shape())
   
  return variables_averages_op, paras
+
+def reset_var(W_avg):
+  with tf.variable_scope('conv1') as scope:
+    weights1=tf.assign(tf.get_variable('weights1'), tf.reshape(W_avg[0:2048],[32, 1, 64]))
+    bias1=tf.assign(tf.get_variable('biases1'), W_avg[2048:2112])
+  with tf.variable_scope('conv2') as scope:
+    weights2=tf.assign(tf.get_default_graph().get_tensor_by_name('weights2'), tf.reshape(W_avg[2112:8256],[3, 64, 32]))
+    bias2=tf.assign(tf.get_default_graph().get_tensor_by_name('biases2'), W_avg[8256:8288])
+  with tf.variable_scope('local2') as scope:
+    weights3=tf.assign(tf.get_default_graph().get_tensor_by_name('weights3'), tf.reshape(W_avg[8288:73824],[64, 1024]))
+    bias3=tf.assign(tf.get_default_graph().get_tensor_by_name('biases3'), W_avg[73824:74848])
+  with tf.variable_scope('local3') as scope:
+    weights4=tf.assign(tf.get_default_graph().get_tensor_by_name('weights4'), tf.reshape(W_avg[74848:599136],[1024, 512]))
+    bias4=tf.assign(tf.get_default_graph().get_tensor_by_name('biases4'), W_avg[599136:599648])
+  with tf.variable_scope('local4') as scope:
+    weights5=tf.assign(tf.get_default_graph().get_tensor_by_name('weights5'), tf.reshape(W_avg[599648:615008],[512, 30]))
+    bias5=tf.assign(tf.get_default_graph().get_tensor_by_name('biases5'), W_avg[615008:615038])
+  with tf.variable_scope('softmax_linear') as scope:
+    weights6=tf.assign(tf.get_default_graph().get_tensor_by_name('weights6'), tf.reshape(W_avg[615038:615218],[30, 6]))
+    bias6=tf.assign(tf.get_default_graph().get_tensor_by_name('biases6'), W_avg[615218:615224])
+
+
+  return weights1, bias1, weights2, bias2, weights3, bias3, weights4, bias4, weights5, bias5, weights6, bias6
+  
