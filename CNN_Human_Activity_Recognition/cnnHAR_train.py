@@ -75,7 +75,7 @@ def train():
   tf.get_logger().setLevel("ERROR")
   """Train CIFAR-10 for a number of steps."""
   with tf.Graph().as_default():
-    #W_avg = tf.compat.v1.placeholder(tf.float32, shape=(615224,1))
+    
     global_step = tf.train.get_or_create_global_step()
     # Get images and labels for CIFAR-10.
     # Force input pipeline to CPU:0 to avoid operations sometimes ending up on
@@ -96,7 +96,8 @@ def train():
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
 
-    #[weights1, bias1, weights2, bias2, weights3, bias3, weights4, bias4, weights5, bias5, weights6, bias6]=cnnHAR.reset_var(W_avg)
+    W_avg = tf.compat.v1.placeholder(tf.float32, shape=(615224,1))
+    updated_paras=reset_var(W_avg)
     
     # prepare the communication module
     server_addr = "localhost"
@@ -204,7 +205,8 @@ def train():
         #receive aggregated weights from server
         W_general = comm.recvOUF()
         #assign_model(W_avg)
-        #mon_sess.run([weights1, bias1, weights2, bias2, weights3, bias3, weights4, bias4, weights5, bias5, weights6, bias6], feed_dict={W_avg: W_general.astype(np.float32)})        
+        mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float32)})
+        
         outer_i += 1
 
     #log the train losses

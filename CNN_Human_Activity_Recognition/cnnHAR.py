@@ -307,8 +307,22 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
  return variables_averages_op, paras
 
 def reset_var(W_avg):
+  updated_paras=[]
+  for var in tf.trainable_variables():
+    if var.op.name=="conv1/weights1":
+      tf.assign(var, tf.reshape(W_avg[0:2048],[32, 1, 64]))
+    elif var.op.name=="conv1/biases1":
+      tf.assign(var, W_avg[2048:2112])
+    elif var.op.name=="conv2/weights1":
+      tf.assign(var,tf.reshape(W_avg[2112:8256],[3, 64, 32]))
+    elif var.op.name=="conv2/biases1":
+      tf.assign(var, W_avg[8256:8288])
+      
+    updated_paras.append(var)
+  '''  
   with tf.variable_scope('conv1') as scope:
-    weights1=tf.assign(tf.get_variable('weights1'), tf.reshape(W_avg[0:2048],[32, 1, 64]))
+    weights1=tf.get_variable('weights1')
+    weights1.assign(tf.reshape(W_avg[0:2048],[32, 1, 64]))
     bias1=tf.assign(tf.get_variable('biases1'), W_avg[2048:2112])
   with tf.variable_scope('conv2') as scope:
     weights2=tf.assign(tf.get_default_graph().get_tensor_by_name('weights2'), tf.reshape(W_avg[2112:8256],[3, 64, 32]))
@@ -325,7 +339,7 @@ def reset_var(W_avg):
   with tf.variable_scope('softmax_linear') as scope:
     weights6=tf.assign(tf.get_default_graph().get_tensor_by_name('weights6'), tf.reshape(W_avg[615038:615218],[30, 6]))
     bias6=tf.assign(tf.get_default_graph().get_tensor_by_name('biases6'), W_avg[615218:615224])
+  '''
 
-
-  return weights1, bias1, weights2, bias2, weights3, bias3, weights4, bias4, weights5, bias5, weights6, bias6
+  return updated_paras
   
