@@ -205,7 +205,7 @@ def train():
         #receive aggregated weights from server
         W_general = comm.recvOUF()
         #assign_model(W_avg)
-        mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float32)})
+        mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
         
         outer_i += 1
 
