@@ -313,7 +313,7 @@ def reset_var(W_avg):
       print(tf.reshape(W_avg[0:2048],[32, 1, 64]))
       tf.assign(var, tf.reshape(W_avg[0:2048],[32, 1, 64]))
     elif var.op.name=="conv1/biases1":
-      tf.assign(var, (W_avg[2048:2112]).set_shape(64,))
+      tf.assign(var, (W_avg[2048:2112]).set_shape(64))
     elif var.op.name=="conv2/weights1":
       tf.assign(var,tf.reshape(W_avg[2112:8256],[3, 64, 32]))
     elif var.op.name=="conv2/biases1":
