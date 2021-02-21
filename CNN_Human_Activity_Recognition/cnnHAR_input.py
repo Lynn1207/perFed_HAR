@@ -30,7 +30,7 @@ import tensorflow.compat.v1 as tf
 # each chanel like acc_x is 128 length which is sata collected for 2.56s. 
 SIGNAL_SIZE = 128 
 channels = 1
-batch_per_user_train=7
+batch_per_user_train=10
 batch_per_user_test=2
 # Global constants describing the cnnHAR data set.
 NUM_CLASSES = 6
