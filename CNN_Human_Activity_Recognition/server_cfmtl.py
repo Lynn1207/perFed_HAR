@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.decomposition import PCA
 from keras.utils import to_categorical
 import tensorflow.compat.v1 as tf
-import cnnHAR_train
+
 
 tf.disable_v2_behavior()
 # np.set_printoptions(threshold=np.inf)
@@ -32,6 +32,7 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
+outer_iter=10
 out_i=0
 
 def server_update():
@@ -79,7 +80,7 @@ def barrier_update():
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
 	def handle(self):
-		while out_i<cnn_train.outer_iter:
+		while out_i<outer_iter:
 			try:
 				#receive the size of content
 				header = self.request.recv(4)
