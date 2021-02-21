@@ -55,17 +55,17 @@ train_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check
 
 num=1 # number of nodes
 
-max_steps = 7*450+1 #400 epoch
+max_steps = 20 #400 epoch
 
 log_device_placement = False
 
-log_frequency = 7*90 # log per epoch
+log_frequency = 5# log per epoch
 
 batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=10
+outer_iter=600
 
 
 
@@ -128,7 +128,7 @@ def train():
         return tf.train.SessionRunArgs(loss)# Asks for loss value.
 
       def after_run(self, run_context, run_values):
-        if (self._step-1) % (log_frequency)==0:
+        if (self._step+1) % (log_frequency)==0:
           logLoss.append([self._step, run_values.results])
           #format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.3f')
           #print(format_str % ( self._step, run_values.results))
@@ -184,13 +184,13 @@ def train():
     outer_i = 0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
-          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter+1),
+          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter),
                  #tf.train.NanTensorHook(loss),
                  _LoggerHook(),
                  #_LoggerHook2(),
                  _LoggerHook4()],#,save_checkpoint_steps=5000
           config=tf.ConfigProto(
-              log_device_placement=log_device_placement),save_checkpoint_steps=log_frequency) as mon_sess:
+              log_device_placement=log_device_placement),save_checkpoint_steps=max_steps-1) as mon_sess:
       while outer_i < outer_iter:
         step=0
       
