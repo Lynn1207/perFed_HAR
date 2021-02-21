@@ -78,7 +78,7 @@ def barrier_update():
 class MyTCPHandler(socketserver.BaseRequestHandler):
 	def handle(self):
 		out_i=0
-		outer_iter=10
+		outer_iter=600
 		while out_i<outer_iter:
 			try:
 				#receive the size of content
