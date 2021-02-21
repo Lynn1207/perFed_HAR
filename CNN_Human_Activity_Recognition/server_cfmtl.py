@@ -122,7 +122,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 				elif mess_type == 0:
 					weights = pickle.loads(recv_data)
 					#print(len(weights))
-					#print(user_id[0])
+					print(user_id[0], out_i)
 					W[user_id[0]-1] = weights
 
 					try:
