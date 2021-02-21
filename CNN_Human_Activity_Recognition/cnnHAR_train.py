@@ -235,10 +235,10 @@ def train():
     f = open("log_paras"+str(sys.argv[1])+".txt", "a")
     f.write(str(sys.argv[1])+", "+x+":\n")
     for i in range(len(gen_paras)):
-      str1 = ''.join(((%0.3f)%e) for e in loc_paras[i])
+      str1 = ''.join(("%0.3f"%e) for e in loc_paras[i])
       f.write(str1)
       f.write("\n")
-      str2 = ''.join(((%0.3f)%e) for e in gen_paras[i])
+      str2 = ''.join(("%0.3f"%e) for e in gen_paras[i])
       f.write(str2)
       f.write("\n\n")
     f.close()
