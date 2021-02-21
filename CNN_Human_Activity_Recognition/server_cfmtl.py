@@ -32,9 +32,6 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
-outer_iter=10
-out_i=0
-
 def server_update():
 	
 	global W_avg
@@ -80,6 +77,8 @@ def barrier_update():
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
 	def handle(self):
+		out_i=0
+		outer_iter=10
 		while out_i<outer_iter:
 			try:
 				#receive the size of content
