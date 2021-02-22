@@ -65,7 +65,7 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=600
+outer_iter=60
 
 
 
@@ -73,8 +73,8 @@ outer_iter=600
 	
 def train():
   logLoss=[]
-  loc_paras=[]
-  gen_paras=[]
+  #loc_paras=[]
+  #gen_paras=[]
   os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
   tf.get_logger().setLevel("ERROR")
   """Train CIFAR-10 for a number of steps."""
@@ -203,7 +203,7 @@ def train():
         for i in range(len(all_paras)):
           temp = all_paras[i].reshape(-1)
           w_flat=np.concatenate((w_flat, temp), axis=0)
-        loc_paras.append(w_flat)
+        #loc_paras.append(w_flat)
         
         comm.send2server(w_flat,0)
       
@@ -211,7 +211,8 @@ def train():
         W_general = comm.recvOUF()
         #w = tf.cast(W_general, tf.float64)
         updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
-
+        
+	'''
         #debug~~~~~~~~~~~~~~~~~~~~~~~~~~~
         updated_flat = np.array([])
         for i in range(len(all_paras)):
@@ -219,7 +220,7 @@ def train():
           updated_flat=np.concatenate((updated_flat, temp), axis=0)
         gen_paras.append(updated_flat)
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        
+        '''
         outer_i += 1
 
     #log the train losses
