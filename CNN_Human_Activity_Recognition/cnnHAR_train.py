@@ -65,7 +65,7 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=150
+outer_iter=200
 
 
 
@@ -191,7 +191,7 @@ def train():
                  #_LoggerHook2(),
                  _LoggerHook4()],#,save_checkpoint_steps=5000
           config=tf.ConfigProto(
-              log_device_placement=log_device_placement),save_checkpoint_steps=max_steps*50-1) as mon_sess:
+              log_device_placement=log_device_placement),save_checkpoint_steps=max_steps*20) as mon_sess:
       while outer_i < outer_iter and not mon_sess.should_stop():
         step=0
       
