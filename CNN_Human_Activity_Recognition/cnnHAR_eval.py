@@ -82,7 +82,7 @@ def eval_once(saver,summary_writer,labels,loss,logits,summary_op):
       #   /my-favorite-path/cifar10_train/model.ckpt-0,
       # extract global_step from it.
       global_step = ckpt.model_checkpoint_path.split('/')[-1].split('-')[-1]
-      print('~~~~~~~~~~~checkpoint file found at step %s'% global_step)
+      #print('~~~~~~~~~~~checkpoint file found at step %s'% global_step)
     else:
       print('No checkpoint file found')
       return
