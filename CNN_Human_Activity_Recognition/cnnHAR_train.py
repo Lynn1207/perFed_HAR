@@ -65,7 +65,7 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=60
+outer_iter=150
 
 
 
@@ -177,7 +177,7 @@ def train():
         return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
-        if (self._step+1)%max_steps*50==1:
+        if (self._step+1)%(max_steps*50)==1:
           paras_v=run_values.results
           cnnHAR_eval.main()
 
