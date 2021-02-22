@@ -177,7 +177,7 @@ def train():
         return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
-        if (self._step+1)%max_steps==0:
+        if (self._step+1)%max_steps*50==1:
           paras_v=run_values.results
           cnnHAR_eval.main()
 
@@ -190,7 +190,7 @@ def train():
                  #_LoggerHook2(),
                  _LoggerHook4()],#,save_checkpoint_steps=5000
           config=tf.ConfigProto(
-              log_device_placement=log_device_placement),save_checkpoint_steps=max_steps-1) as mon_sess:
+              log_device_placement=log_device_placement),save_checkpoint_steps=max_steps*50) as mon_sess:
       while outer_i < outer_iter and not mon_sess.should_stop():
         step=0
       
@@ -230,7 +230,7 @@ def train():
       format_str = ("%d, %0.3f\n")
       f.write(format_str % ( logLoss[i][0], logLoss[i][2])+", "+logLoss[i][1])
     f.close()
-
+    '''
     #debug~~~~~~~~~~
     f = open("log_paras"+str(sys.argv[1])+".txt", "a")
     f.write(str(sys.argv[1])+", "+x+":\n")
@@ -242,7 +242,7 @@ def train():
       f.write(str2)
       f.write("\n\n")
     f.close()
-      
+    '''  
               
       
 
