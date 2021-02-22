@@ -59,7 +59,7 @@ max_steps = 20 #400 epoch
 
 log_device_placement = False
 
-log_frequency = 5# log per epoch
+#log_frequency = 5# log per epoch
 
 batch_size = cnnHAR.batch_size
 
