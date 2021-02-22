@@ -128,7 +128,7 @@ def train():
         return tf.train.SessionRunArgs(loss)# Asks for loss value.
 
       def after_run(self, run_context, run_values):
-        if (self._step+1) % (log_frequency)==0:
+        if (self._step-1)%(max_steps*25)==0:
           logLoss.append([self._step, time.time()-self._start_time, run_values.results])
           #format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.3f')
           #print(format_str % ( self._step, run_values.results))
