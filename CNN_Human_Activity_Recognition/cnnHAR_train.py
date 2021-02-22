@@ -211,8 +211,7 @@ def train():
         W_general = comm.recvOUF()
         #w = tf.cast(W_general, tf.float64)
         updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
-        
-	'''
+        '''
         #debug~~~~~~~~~~~~~~~~~~~~~~~~~~~
         updated_flat = np.array([])
         for i in range(len(all_paras)):
