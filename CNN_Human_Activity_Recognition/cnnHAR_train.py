@@ -129,7 +129,7 @@ def train():
 
       def after_run(self, run_context, run_values):
         if (self._step+1) % (log_frequency)==0:
-          logLoss.append([self._step, "%0.3f"%(time.time()-self._start_time), run_values.results])
+          logLoss.append([self._step, time.time()-self._start_time, run_values.results])
           #format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.3f')
           #print(format_str % ( self._step, run_values.results))
          
@@ -227,8 +227,8 @@ def train():
     x = time.strftime("%Y%m%d-%H%M%S")
     f.write(str(sys.argv[1])+", "+x+":\n")
     for i in range(len(logLoss)):
-      format_str = ("%d, %0.3f\n")
-      f.write(format_str % ( logLoss[i][0], logLoss[i][2])+", "+logLoss[i][1])
+      format_str = ("%d, %0.3f, %0.3f\n")
+      f.write(format_str % ( logLoss[i][0], logLoss[i][1], logLoss[i][2]))
     f.close()
     '''
     #debug~~~~~~~~~~
