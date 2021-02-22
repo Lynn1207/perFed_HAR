@@ -129,7 +129,7 @@ def train():
 
       def after_run(self, run_context, run_values):
         if (self._step+1) % (log_frequency)==0:
-          logLoss.append([self._step, run_values.results])
+          logLoss.append([self._step, "%0.3f"%(time.time()-self._start_time), run_values.results])
           #format_str = ('*'*3*(int(sys.argv[1])-1)+':step %d=%0.3f')
           #print(format_str % ( self._step, run_values.results))
          
@@ -184,7 +184,7 @@ def train():
     outer_i = 0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
-          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter),
+          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter+1),
                  #tf.train.NanTensorHook(loss),
                  _LoggerHook(),
                  #_LoggerHook2(),
@@ -228,7 +228,7 @@ def train():
     f.write(str(sys.argv[1])+", "+x+":\n")
     for i in range(len(logLoss)):
       format_str = ("%d, %0.3f\n")
-      f.write(format_str % ( logLoss[i][0], logLoss[i][1]))
+      f.write(format_str % ( logLoss[i][0], logLoss[i][2])+", "+logLoss[i][1])
     f.close()
 
     #debug~~~~~~~~~~
