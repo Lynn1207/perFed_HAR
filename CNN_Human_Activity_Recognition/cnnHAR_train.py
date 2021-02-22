@@ -65,7 +65,7 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=200
+outer_iter=150
 
 
 
@@ -111,7 +111,7 @@ def train():
     
     comm.send2server('hello',-1)
     #print("Send Hello")
-    print(comm.recvfserver())
+    #print(comm.recvfserver())
     
     
     class _LoggerHook(tf.train.SessionRunHook):
