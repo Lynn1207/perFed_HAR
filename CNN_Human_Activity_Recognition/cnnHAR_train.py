@@ -177,7 +177,7 @@ def train():
         return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
-        if self._step>0 and (self._step-1)%(max_steps*50)==0:
+        if self._step>0 and (self._step-1)%(max_steps*20)==0:
           print(self._step)	
           paras_v=run_values.results
           cnnHAR_eval.main()
@@ -191,7 +191,7 @@ def train():
                  #_LoggerHook2(),
                  _LoggerHook4()],#,save_checkpoint_steps=5000
           config=tf.ConfigProto(
-              log_device_placement=log_device_placement),save_checkpoint_steps=max_steps*20) as mon_sess:
+              log_device_placement=log_device_placement),save_checkpoint_steps=max_steps*5) as mon_sess:
       while outer_i < outer_iter and not mon_sess.should_stop():
         step=0
       
