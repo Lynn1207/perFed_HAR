@@ -337,7 +337,7 @@ def reset_var(W_avg):
     elif var.op.name=="softmax_linear/biases6":
       tf.assign(var, W_avg[615218:615224])
     updated_paras.append(var)
-    print(var)
+    #print(var)
   '''  
   with tf.variable_scope('conv1') as scope:
     weights1=tf.get_variable('weights1')
