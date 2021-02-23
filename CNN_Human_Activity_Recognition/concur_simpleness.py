@@ -14,7 +14,7 @@ for i in range(1,7):
         pass
     acc=[]
     for i in line:
-        if i!=' ':
+        if i!=' ' and  i!='\n':
             acc.append(int(i))
     accs.append(acc)
     
