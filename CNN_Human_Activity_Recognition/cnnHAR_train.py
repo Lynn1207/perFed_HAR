@@ -197,7 +197,7 @@ def train():
         while step<max_steps :
           _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
           step+=1
-
+'''
         #get the weights and send to server
         w_flat = np.array([])
         for i in range(len(all_paras)):
@@ -217,7 +217,7 @@ def train():
           #if updated_paras_v[1][i]!=all_paras[1][i]:
             #print("Not the same")
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        
+'''        
         outer_i += 1
 
     #log the train losses
