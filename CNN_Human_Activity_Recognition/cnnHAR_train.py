@@ -215,7 +215,7 @@ def train():
         #debug~~~~~~~~~~~~~~~~~~~~~~~~~~~
         for i in range(len(updated_paras_v[1])):
           if updated_paras_v[1][i]!=all_paras[1][i]:
-		print("Not the same")
+            print("Not the same")
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         '''
         outer_i += 1
