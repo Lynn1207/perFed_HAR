@@ -217,7 +217,7 @@ def train():
           if updated_paras_v[1][i]!=all_paras[1][i]:
             print("Not the same")
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        '''
+        
         outer_i += 1
 
     #log the train losses
