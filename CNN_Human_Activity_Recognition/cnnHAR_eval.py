@@ -63,7 +63,7 @@ tf.app.flags.DEFINE_boolean('run_once', True,
 batch_size = 32
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-def eval_once(saver,summary_writer,labels,loss,logits,summary_op):
+def eval_once(is_loc, saver,summary_writer,labels,loss,logits,summary_op):
   
   """Run Eval once.
 
@@ -99,6 +99,7 @@ def eval_once(saver,summary_writer,labels,loss,logits,summary_op):
       step = 0
       n_acc=0.0
       n_l=0.0
+      simpleness=[]
       while step < num_iter and not coord.should_stop():
         step += 1
         #print(str(sys.argv[1])+'~~~~Local test:%d'%(step))
@@ -106,13 +107,21 @@ def eval_once(saver,summary_writer,labels,loss,logits,summary_op):
         
         for i in range(0, batch_size):
           if int(samplelabels[i][0][0])==np.argmax(predictions[i]):
-              n_acc+=1.0
+            n_acc+=1.0
+            simpleness.append(1)
+          else:
+            simpleness.append(0)
           
           n_l+=-math.log(predictions[i][int(samplelabels[i][0][0])])
-          
+      
       f = open("log_test_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
-      x = time.strftime("%Y%m%d-%H%M%S")
-      f.write(str(sys.argv[1])+", "+x+", %.3f, %.3f\n"% (n_l/64,n_acc/64))
+      if is_loc:
+        x = time.strftime("%Y%m%d-%H%M%S")
+        f.write(str(sys.argv[1])+", "+x+", %.3f, %.3f\n"% (n_l/64,n_acc/64))
+      else:
+        for i in range(len(simpleness)):
+          f.write("%d "%simpleness[i])
+        f.write("\n")
       f.close()
       #print(str(sys.argv[1])+'(locally test)!!!!!!!!!!!!!!!!!!!! average_test loss = %.3f, average_accuracy=%.3f' % (n_l/64,n_acc/64))
       
@@ -155,7 +164,7 @@ def evaluate(is_loc):
     summary_writer = tf.summary.FileWriter(FLAGS.eval_dir, g)
 
     while True:
-      eval_once(saver,summary_writer,labels,loss,logits,summary_op)
+      eval_once(is_loc, saver,summary_writer,labels,loss,logits,summary_op)
       #loss7,logits7,loss8,logits8,loss9,logits9,loss10,logits10,loss11,logits11,loss12,logits12
       if FLAGS.run_once:
         break
