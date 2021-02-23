@@ -36,10 +36,7 @@ def server_update():
 	
 	global W_avg
 	# print(np.max(W))
-	#global average
 	W_avg = np.mean(W, axis = 0)
-	#personalized federated average:
-	W_avg = np.mean(W[0:2112], axis = 0)
 	# print(np.max(W_avg))
 	
 def reinitialize():
@@ -84,7 +81,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 		outer_iter=40
 		while out_i<outer_iter:
 			try:
-				#receive the size of content
+                                #receive the size of content
 				header = self.request.recv(4)
 				size = struct.unpack('i', header)
 				
@@ -92,7 +89,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 				#receive the id of client
 				u_id = self.request.recv(4)
 				user_id = struct.unpack('i',u_id)
-                                print(user_id)
 				
 				# receive the type of message, defination in communication.py
 				mess_type = self.request.recv(4)
@@ -137,9 +133,10 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 					W_avg_size = sys.getsizeof(W_avg_data)
 					W_avg_header = struct.pack("i",W_avg_size)
 					#print("len of Weight average:", W_avg_size)
-
+    
 					#print("The Omega matrix is like: \n",Omega)
-					#if user_id<=6 and user_id>=1:
+					#adpate with grouping result
+					if user_id[0]<=6 and user_id[0]>=1:
                                                 self.request.sendall(W_avg_header)
                                                 self.request.sendall(W_avg_data)
 
