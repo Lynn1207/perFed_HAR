@@ -177,7 +177,7 @@ def train():
         return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
-        if (self._step+1)%(max_steps)==0:
+        if self._step==0 or (self._step+1)%(max_steps)==0:
           print(self._step)
           paras_v=run_values.results
           cnnHAR_eval.main(True)
@@ -214,7 +214,7 @@ def train():
         #receive aggregated weights from server
         W_general = comm.recvOUF()
         #w = tf.cast(W_general, tf.float64)
-        #updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
+        updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
 	
         
         
