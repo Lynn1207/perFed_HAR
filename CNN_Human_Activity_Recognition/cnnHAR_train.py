@@ -218,11 +218,11 @@ def train():
         W_general = comm.recvOUF()
         #w = tf.cast(W_general, tf.float64)
         updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
-	print("Length of updated paras: %d \n"% len(updated_paras_v))
+        print("Length of updated paras: %d \n"% len(updated_paras_v))
         
         
 
-        #log the train losses
+    #log the train losses
     f = open("log_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
     x = time.strftime("%Y%m%d-%H%M%S")
     f.write(str(sys.argv[1])+", "+x+":\n")
