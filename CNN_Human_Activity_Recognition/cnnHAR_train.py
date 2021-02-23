@@ -211,13 +211,11 @@ def train():
         W_general = comm.recvOUF()
         #w = tf.cast(W_general, tf.float64)
         updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
-        '''
+	
         #debug~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        updated_flat = np.array([])
-        for i in range(len(all_paras)):
-          temp = updated_paras_v[i].reshape(-1)
-          updated_flat=np.concatenate((updated_flat, temp), axis=0)
-        gen_paras.append(updated_flat)
+        for i in range(len(updated_paras_v[1])):
+          if updated_paras_v[1][i]!=all_paras[1][i]:
+		print("Not the same")
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         '''
         outer_i += 1
