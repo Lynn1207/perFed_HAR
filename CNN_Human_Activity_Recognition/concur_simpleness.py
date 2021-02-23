@@ -9,7 +9,7 @@ def concur_simp(self, acc1, acc2):
 accs=[]
 meth="FedAvg"
 for i in range(1,7):
-    f=open("log_test_"+meth+str(i)+".txt") as f:
+    f=open("log_test_"+meth+str(i)+".txt")
     for line in f:
         pass
     acc=[]
