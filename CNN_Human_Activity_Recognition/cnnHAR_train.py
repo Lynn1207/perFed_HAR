@@ -177,7 +177,7 @@ def train():
         return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
-        if self._step>0 and (self._step)%(max_steps)==0:
+        if (self._step)%(max_steps)==0:
           paras_v=run_values.results
           cnnHAR_eval.main()
 
