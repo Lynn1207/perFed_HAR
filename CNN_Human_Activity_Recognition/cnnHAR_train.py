@@ -179,7 +179,9 @@ def train():
       def after_run(self, run_context, run_values):
         if (self._step)%(max_steps)==0:
           paras_v=run_values.results
-          cnnHAR_eval.main()
+          cnnHAR_eval.main(True)
+          if self._step==max_steps:
+            cnnHAR_eval.main(False)
 
     outer_i = 0
     with tf.train.MonitoredTrainingSession(

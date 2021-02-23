@@ -127,12 +127,12 @@ def eval_once(saver,summary_writer,labels,loss,logits,summary_op):
     coord.join(threads, stop_grace_period_secs=10)
 
 
-def evaluate():
+def evaluate(is_loc):
   """Eval for a number of steps."""
   with tf.Graph().as_default() as g:
     # Get images and labels for CIFAR-10.
-    eval_data = FLAGS.eval_data == 'test'
-    signals, labels = cnnHAR.inputs(eval_data=eval_data)
+    
+    signals, labels = cnnHAR.inputs(eval_data=is_loc)
     
     # Build a Graph that computes the logits predictions from the
 
@@ -162,10 +162,10 @@ def evaluate():
       #time.sleep(FLAGS.eval_interval_secs)
 
 
-def main(argv=None):  # pylint: disable=unused-argument
+def main(is_loc):  # pylint: disable=unused-argument
   if not tf.gfile.Exists(FLAGS.eval_dir):
     tf.gfile.MakeDirs(FLAGS.eval_dir)
-  evaluate()
+  evaluate(is_loc)
 
 if __name__ == '__main__':
   tf.app.run()
