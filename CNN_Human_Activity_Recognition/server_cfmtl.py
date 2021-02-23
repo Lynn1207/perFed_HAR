@@ -36,7 +36,10 @@ def server_update():
 	
 	global W_avg
 	# print(np.max(W))
+	#global average
 	W_avg = np.mean(W, axis = 0)
+	#personalized federated average:
+	W_avg = np.mean(W[0:2112], axis = 0)
 	# print(np.max(W_avg))
 	
 def reinitialize():
@@ -136,8 +139,9 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 					#print("len of Weight average:", W_avg_size)
 
 					#print("The Omega matrix is like: \n",Omega)
-					self.request.sendall(W_avg_header)
-					self.request.sendall(W_avg_data)
+					if user_id<=6 and user_id>=1:
+                                                self.request.sendall(W_avg_header)
+                                                self.request.sendall(W_avg_data)
 
 					out_i+=1
 					# print("send Omega to client {} with the size of {}".format(user_id[0],size))
@@ -145,7 +149,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
 				# if Loss message, record the loss
 				elif mess_type == 1:
-
 					loss = pickle.loads(recv_data)
 					Loss_cache[user_id] = Loss[user_id]
 					Loss[user_id] = (loss + regular)/NUM_OF_TOTAL_USERS
