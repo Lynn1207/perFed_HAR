@@ -213,9 +213,9 @@ def train():
         updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
 	
         #debug~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        for i in range(len(updated_paras_v[1])):
-          if updated_paras_v[1][i]!=all_paras[1][i]:
-            print("Not the same")
+        #for i in range(len(updated_paras_v[1])):
+          #if updated_paras_v[1][i]!=all_paras[1][i]:
+            #print("Not the same")
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
         outer_i += 1
