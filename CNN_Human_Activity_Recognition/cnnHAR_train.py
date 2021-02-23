@@ -188,7 +188,7 @@ def train():
     outer_i = 0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
-          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter),
+          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter+1),
                  #tf.train.NanTensorHook(loss),
                  _LoggerHook(),
                  #_LoggerHook2(),
