@@ -58,8 +58,16 @@ def distorted_inputs():
   signals = tf.cast(signals, tf.float64)
   labels = tf.cast(labels, tf.float64)
   return signals, labels
-  
 
+ 
+def inputs(eval_data):
+    global data_dir
+    data_dir = data_dir
+    signals, labels = cnnHAR_input.inputs(eval_data ,data_dir=data_dir,batch_size=batch_size)
+    signals = tf.cast(signals, tf.float64)
+    labels = tf.cast(labels, tf.float64)
+    return signals, labels
+  
 def _variable_with_weight_decay(name, shape, stddev, wd):
   """Helper to create an initialized Variable with weight decay.
 
