@@ -156,7 +156,6 @@ def distorted_inputs(data_dir, batch_size):
 def inputs(eval_data, data_dir, batch_size):
 
   if not eval_data:
-    print('commset.csv')
     filenames = [os.path.join(data_dir, 'commset.csv')]
     num_examples_per_epoch = NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN
   else:

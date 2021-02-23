@@ -181,7 +181,8 @@ def train():
           print(self._step)
           paras_v=run_values.results
           cnnHAR_eval.main(True)
-          if self._step==max_steps:
+          if self._step==max_steps*outer_iter:
+            print("commonset")
             cnnHAR_eval.main(False)
 
     outer_i = 0
@@ -196,13 +197,12 @@ def train():
               log_device_placement=log_device_placement),save_checkpoint_steps=(max_steps/2)) as mon_sess:
       while outer_i < outer_iter and not mon_sess.should_stop():
         step=0
-      
         while step<max_steps :
           _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
           step+=1
           
         outer_i += 1
-        '''
+        
         #get the weights and send to server
         w_flat = np.array([])
         for i in range(len(all_paras)):
@@ -215,7 +215,7 @@ def train():
         W_general = comm.recvOUF()
         #w = tf.cast(W_general, tf.float64)
         updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
-	'''
+	
         
         
 
