@@ -1,4 +1,5 @@
 import os
+import numpy as np
 
 def concur_simp(acc1, acc2):
     count=0.0
@@ -20,7 +21,7 @@ for i in range(1,7):
     
 
 #compute the concur_simpleness matrix
-concur_m=[[0.0 for h in range(6)] for k in range(6)]
+concur_m=np.zeros((6,6))
 for i in range(6):
     for j in range(i+1, 6):
         concur_m[i][j]=concur_simp(accs[i], accs[j])
