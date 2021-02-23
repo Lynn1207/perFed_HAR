@@ -197,13 +197,14 @@ def train():
         while step<max_steps :
           _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
           step+=1
+          
+        outer_i += 1
 '''
         #get the weights and send to server
         w_flat = np.array([])
         for i in range(len(all_paras)):
           temp = all_paras[i].reshape(-1)
           w_flat=np.concatenate((w_flat, temp), axis=0)
-        #loc_paras.append(w_flat)
         
         comm.send2server(w_flat,0)
       
@@ -212,13 +213,8 @@ def train():
         #w = tf.cast(W_general, tf.float64)
         updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
 	
-        #debug~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        #for i in range(len(updated_paras_v[1])):
-          #if updated_paras_v[1][i]!=all_paras[1][i]:
-            #print("Not the same")
-        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 '''
-        outer_i += 1
+        
 
     #log the train losses
     f = open("log_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
