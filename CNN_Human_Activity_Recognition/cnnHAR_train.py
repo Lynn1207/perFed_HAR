@@ -99,8 +99,8 @@ def train():
     [train_op,paras]= cnnHAR.train(loss, global_step)
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
-
-    W_avg = tf.compat.v1.placeholder(tf.float64, shape=(615224,))
+    
+    W_avg = tf.compat.v1.placeholder(tf.float64, shape=(cnnHAR.num_paras,))
     updated_paras=cnnHAR.reset_var(W_avg)
     
     # prepare the communication module
