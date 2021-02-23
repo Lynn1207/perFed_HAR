@@ -177,27 +177,27 @@ def train():
         return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
-        if (self._step)%(max_steps)==0:
+        if (self._step+1)%(max_steps)==0:
           print(self._step)
           paras_v=run_values.results
           cnnHAR_eval.main(True)
-          if self._step==max_steps*outer_iter:
+          if self._step+1==max_steps*outer_iter:
             print("commonset")
             cnnHAR_eval.main(False)
 
     outer_i = 0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
-          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter+1),
+          hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter),
                  #tf.train.NanTensorHook(loss),
                  _LoggerHook(),
                  #_LoggerHook2(),
                  _LoggerHook4()],#,save_checkpoint_steps=5000
           config=tf.ConfigProto(
               log_device_placement=log_device_placement),save_checkpoint_steps=(max_steps/2)) as mon_sess:
-      while outer_i <= outer_iter and not mon_sess.should_stop():
+      while outer_i < outer_iter and not mon_sess.should_stop():
         step=0
-        while step<max_steps :
+        while step<max_steps:
           _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
           step+=1
           
