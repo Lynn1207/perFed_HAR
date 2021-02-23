@@ -1,6 +1,6 @@
 import os
 
-def concur_simp(self, acc1, acc2):
+def concur_simp(acc1, acc2):
     count=0.0
     for i in range(len(acc1)):
         count+=acc1[i]*acc2[i]+(1-acc1[i])*(1-acc2[i])
