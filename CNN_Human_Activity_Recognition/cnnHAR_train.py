@@ -199,7 +199,7 @@ def train():
           step+=1
           
         outer_i += 1
-'''
+        '''
         #get the weights and send to server
         w_flat = np.array([])
         for i in range(len(all_paras)):
@@ -213,10 +213,10 @@ def train():
         #w = tf.cast(W_general, tf.float64)
         updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
 	
-'''
+        '''
         
 
-    #log the train losses
+        #log the train losses
     f = open("log_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
     x = time.strftime("%Y%m%d-%H%M%S")
     f.write(str(sys.argv[1])+", "+x+":\n")
