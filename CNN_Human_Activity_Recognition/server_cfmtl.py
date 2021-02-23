@@ -92,7 +92,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 				#receive the id of client
 				u_id = self.request.recv(4)
 				user_id = struct.unpack('i',u_id)
-                                
+                                print(user_id)
 				
 				# receive the type of message, defination in communication.py
 				mess_type = self.request.recv(4)
@@ -139,7 +139,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 					#print("len of Weight average:", W_avg_size)
 
 					#print("The Omega matrix is like: \n",Omega)
-					if user_id<=6 and user_id>=1:
+					#if user_id<=6 and user_id>=1:
                                                 self.request.sendall(W_avg_header)
                                                 self.request.sendall(W_avg_data)
 
