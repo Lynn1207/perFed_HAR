@@ -16,7 +16,7 @@ import numpy as np
 import cnnHAR_input
 
 #2 baselines, our method: fedper
-method="Local" #"local", "FedPer"
+method="FedPer" #"local", "FedPer"
 
 # Basic model parameters.
 batch_size = 32
