@@ -16,7 +16,7 @@ import numpy as np
 import cnnHAR_input
 
 #2 baselines, our method: fedper
-method="FedPer" #"local", "FedPer"
+method="Local1" #"local", "FedPer"
 
 # Basic model parameters.
 batch_size = 32
@@ -317,6 +317,7 @@ def reset_var(W_avg):
       tf.assign(var, tf.reshape(W_avg[0:2048],[32, 1, 64]))
     elif var.op.name=="conv1/biases1":
       tf.assign(var, tf.reshape(W_avg[2048:2112],[64,]))
+    '''
     elif var.op.name=="conv2/weights2":
       tf.assign(var,tf.reshape(W_avg[2112:8256],[3, 64, 32]))
     elif var.op.name=="conv2/biases2":
@@ -337,6 +338,7 @@ def reset_var(W_avg):
       tf.assign(var,tf.reshape(W_avg[615038:615218],[30, 6]))
     elif var.op.name=="softmax_linear/biases6":
       tf.assign(var, W_avg[615218:615224])
+    '''
     updated_paras.append(var)
     #print(var)
   '''  
