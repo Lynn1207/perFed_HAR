@@ -327,7 +327,7 @@ def reset_var(W_avg):
         elif var.op.name=="conv2/biases2":
           tf.assign(var, W_avg[8256:8288])
           updated_paras.append(var)
-        if len(W_avg)>8288
+        if len(W_avg)>8288:
           if var.op.name=="local2/weights3":
             tf.assign(var,tf.reshape(W_avg[8288:73824],[64, 1024]))
             updated_paras.append(var)
