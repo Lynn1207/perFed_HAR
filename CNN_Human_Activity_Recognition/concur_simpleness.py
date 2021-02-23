@@ -7,10 +7,9 @@ def concur_simp(self, acc1, acc2):
     return count/float(len(acc1))
 
 accs=[]
-meth="Fedavg"
+meth="FedAvg"
 for i in range(1,7):
-    filename=
-    f=open("log_test"+meth+str(i)+".txt") as f:
+    f=open("log_test_"+meth+str(i)+".txt") as f:
     for line in f:
         pass
     acc=[]
