@@ -278,7 +278,7 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
 
  # Compute gradients.
  with tf.control_dependencies([loss_averages_op]):
-  opt = tf.train.MomentumOptimizer(lr, 0.7)#opt = tf.train.AdadeltaOptimizer(lr)
+  opt = tf.train.GradientDescentOptimizer(lr)#MomentumOptimizer(lr, 0.7)#opt = tf.train.AdadeltaOptimizer(lr)
   grads = opt.compute_gradients(total_loss)
   #for i in range(0,len(grads)):
     #print(i)
