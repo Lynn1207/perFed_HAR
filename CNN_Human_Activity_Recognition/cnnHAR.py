@@ -16,7 +16,7 @@ import numpy as np
 import cnnHAR_input
 
 #2 baselines, our method: fedper
-method="Local6" #"local", "FedPer"
+method="FedAvg" #"local", "FedPer"
 cur_l=6
 num_paras=615224
 
