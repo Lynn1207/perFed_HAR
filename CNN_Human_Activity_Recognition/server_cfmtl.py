@@ -137,7 +137,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                         else:
                                                 np.concatenate((W_avg1_1, W_avg2_2))
                                                 
-
 					W_avg_data = pickle.dumps(W_avg, protocol = 0)
 					W_avg_size = sys.getsizeof(W_avg_data)
 					W_avg_header = struct.pack("i",W_avg_size)
