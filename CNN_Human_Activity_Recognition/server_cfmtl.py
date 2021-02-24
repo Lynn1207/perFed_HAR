@@ -130,7 +130,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 						barrier_W.wait(2400)
 					except Exception as e:
 						print("wait W timeout...")
-
+						
                                         if user_id[0]<=5 and user_id[0]>=1:
                                                 print(user_id[0])
                                                 np.concatenate((W_avg1_1, W_avg2_1))
@@ -141,10 +141,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 					W_avg_data = pickle.dumps(W_avg, protocol = 0)
 					W_avg_size = sys.getsizeof(W_avg_data)
 					W_avg_header = struct.pack("i",W_avg_size)
-					#print("len of Weight average:", W_avg_size)
-    
-					#print("The Omega matrix is like: \n",Omega)
-					#adpate with grouping result
+					
                                         self.request.sendall(W_avg_header)
                                         self.request.sendall(W_avg_data)
 
