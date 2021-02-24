@@ -36,7 +36,7 @@ def server_update():
     
     global W_avg1_1,W_avg2_1,W_avg2_2
     # print(np.max(W))
-    W_avg1_1= np.mean(W[0:6,0:2112+1], axis = 0)
+    W_avg1_1= np.mean(W[0:6,0:2112], axis = 0)
     W_avg2_1=np.mean(W[0:5,2112:], axis = 0)
     W_avg2_2=np.mean(W[5:6, 2112:], axis = 0)
     # print(np.max(W_avg))
