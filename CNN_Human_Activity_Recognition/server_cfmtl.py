@@ -132,7 +132,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         print("wait W timeout...")
                         
                     if user_id[0]<=5 and user_id[0]>=1:
-                        print(user_id[0])
+                        #print(user_id[0])
                         np.concatenate((W_avg1_1, W_avg2_1))
                     else:
                         np.concatenate((W_avg1_1, W_avg2_2))
