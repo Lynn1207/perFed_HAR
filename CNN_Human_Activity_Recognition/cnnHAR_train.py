@@ -203,7 +203,6 @@ def train():
           
         outer_i += 1
         
-        '''
 	#get the weights and send to server
         w_flat = np.array([])
         #depends on how many layer wanna upload to server to share with other users
@@ -220,7 +219,7 @@ def train():
         #w = tf.cast(W_general, tf.float64)
         updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
         #print("Length of updated paras: %d \n"% len(updated_paras_v))
-	'''
+	
         
         
 
