@@ -34,7 +34,7 @@ update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
 def server_update():
     
-    global W_avg1_1,W_avg2_1,W_avg2_2, W_avg3_1, W_avg3_2, W_avg3_3, W_avg4_1, W_avg4_2, W_avg4_3, W_avg4_4, W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4
+    global W_avg1_1,W_avg2_1,W_avg2_2, W_avg3_1, W_avg3_2, W_avg3_3, W_avg4_1, W_avg4_2, W_avg4_3, W_avg4_4, W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4, W_avg6_1, W_avg6_2, W_avg6_3, W_avg6_4
     # print(np.max(W))
     W_avg1_1= np.mean(W[0:6,0:2112], axis = 0)
     
