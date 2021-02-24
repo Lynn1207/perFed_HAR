@@ -53,7 +53,7 @@ def server_update():
     W_avg5_2=np.mean(W[1:4, 599648:615038], axis = 0)
     W_avg5_3=W[4][599648:615038]
     
-    W_avg6_1=(np.array(W[0][615038:615224]])+np.array(W[5][615038:615224]]))/2.0
+    W_avg6_1=(np.array(W[0][615038:615224])+np.array(W[5][615038:615224]))/2.0
     W_avg6_2=np.mean(W[1:4, 615038:615224], axis = 0)
     W_avg6_3=W[4][615038:615224]
     #W_avg= np.mean(W, axis = 0)
