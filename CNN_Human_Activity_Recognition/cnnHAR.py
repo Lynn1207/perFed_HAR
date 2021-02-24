@@ -18,7 +18,7 @@ import cnnHAR_input
 #2 baselines, our method: fedper
 method="Local3" #"local", "FedPer"
 cur_l=3
-num_paras=599648
+num_paras=74848
 
 # Basic model parameters.
 batch_size = 32
