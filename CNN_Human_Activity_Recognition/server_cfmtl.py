@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 6
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM = 2112 #l1: 2112; l6: 615224
+W_DIM = 8288 #l1: 2112; l2: 8288; l6: 615224
 inner_iteration = 5
 T_thresh = 10
 
@@ -34,9 +34,11 @@ update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
 def server_update():
 	
-	global W_avg
+	global W_avg1_1,W_avg2_1,W_avg2_2
 	# print(np.max(W))
-	W_avg = np.mean(W, axis = 0)
+	W_avg1_1= np.mean(W[0:6,0:2112+1], axis = 0)
+	W_avg2_1=np.mean(W[0:5,2112:], axis = 0)
+	W_avg2_2=W[5:6, 2112:]
 	# print(np.max(W_avg))
 	
 def reinitialize():
@@ -129,6 +131,13 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 					except Exception as e:
 						print("wait W timeout...")
 
+                                        if user_id[0]<=5 and user_id[0]>=1:
+                                                print(user_id[0])
+                                                np.concatenate((W_avg1_1, W_avg2_1))
+                                        else:
+                                                np.concatenate((W_avg1_1, W_avg2_2))
+                                                
+
 					W_avg_data = pickle.dumps(W_avg, protocol = 0)
 					W_avg_size = sys.getsizeof(W_avg_data)
 					W_avg_header = struct.pack("i",W_avg_size)
@@ -136,9 +145,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
     
 					#print("The Omega matrix is like: \n",Omega)
 					#adpate with grouping result
-					if user_id[0]<=6 and user_id[0]>=1:
-                                                self.request.sendall(W_avg_header)
-                                                self.request.sendall(W_avg_data)
+                                        self.request.sendall(W_avg_header)
+                                        self.request.sendall(W_avg_data)
 
 					out_i+=1
 					# print("send Omega to client {} with the size of {}".format(user_id[0],size))
