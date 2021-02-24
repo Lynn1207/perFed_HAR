@@ -194,7 +194,7 @@ def train():
                  #_LoggerHook2(),
                  _LoggerHook4()],#,save_checkpoint_steps=5000
           config=tf.ConfigProto(
-              log_device_placement=log_device_placement),save_checkpoint_steps=(max_steps/2)) as mon_sess:
+              log_device_placement=log_device_placement),save_checkpoint_steps=(max_steps/8)) as mon_sess:
       while outer_i < outer_iter and not mon_sess.should_stop():
         step=0
         while step<max_steps:
