@@ -8,7 +8,7 @@ def concur_simp(acc1, acc2):
     return count/float(len(acc1))
 
 accs=[]
-meth="Local1"
+meth="Local2"
 for i in range(1,7):
     f=open("log_test_"+meth+str(i)+".txt")
     for line in f:
