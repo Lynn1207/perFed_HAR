@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 6
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM = 599648 #l1: 2112; l2: 8288; l3: 74848, l4: 599648; l5: 615038; l6: 615224
+W_DIM = 74848 #l1: 2112; l2: 8288; l3: 74848, l4: 599648; l5: 615038; l6: 615224
 inner_iteration = 5
 T_thresh = 10
 
@@ -46,11 +46,11 @@ def server_update():
     
     W_avg3_1=(np.array(W[0][8288:74848])+np.array(W[4][8288:74848])+np.array(W[5][8288:74848]))/3.0
     W_avg3_2=np.mean(W[1:4, 8288:74848], axis = 0)
-    
+    '''
     W_avg4_1=(np.array(W[0][74848:599648])+np.array(W[4][74848:599648])+np.array(W[5][74848:599648]))/3.0
     W_avg4_2=np.mean(W[1:4, 74848:599648], axis = 0)
     
-    '''
+    
     W_avg5_1=(np.array(W[0][599648:615038])+np.array(W[5][599648:615038]))/2.0
     W_avg5_2=np.mean(W[1:4, 599648:615038], axis = 0)
     W_avg5_3=W[4][599648:615038]
@@ -155,11 +155,11 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         
                     
                     if user_id[0]<=4 and user_id[0]>=2:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_2,W_avg4_2))#, W_avg5_2, W_avg6_2))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_2))#,W_avg4_2, W_avg5_2, W_avg6_2))
                     elif user_id[0]==5:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_1))#, W_avg5_3, W_avg6_3))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1))#,W_avg4_1, W_avg5_3, W_avg6_3))
                     else:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_1))#, W_avg5_1, W_avg6_1))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1))#,W_avg4_1, W_avg5_1, W_avg6_1))
                     
                                                 
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
