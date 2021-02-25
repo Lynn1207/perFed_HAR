@@ -195,9 +195,9 @@ def train():
                  _LoggerHook4()],#,save_checkpoint_steps=5000
           config=tf.ConfigProto(
               log_device_placement=log_device_placement),save_checkpoint_steps=(max_steps/8)) as mon_sess:
-      while outer_i < outer_iter and not mon_sess.should_stop():
+      while outer_i < outer_iter:
         step=0
-        while step<max_steps:
+        while step<max_steps and not mon_sess.should_stop():
           _,all_paras,_=mon_sess.run([train_op,paras,extra_update_ops])
           step+=1
           
@@ -217,7 +217,8 @@ def train():
         #receive aggregated weights from server
         W_general = comm.recvOUF()
         #w = tf.cast(W_general, tf.float64)
-        updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
+	if not mon_sess.should_stop():
+		updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
         #print("Length of updated paras: %d \n"% len(updated_paras_v))
 	
         
