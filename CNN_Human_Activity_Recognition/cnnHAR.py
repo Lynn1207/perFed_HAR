@@ -16,8 +16,8 @@ import numpy as np
 import cnnHAR_input
 
 #2 baselines, our method: fedper
-method="Local1" #"local", "FedPer"
-cur_l=1
+method="Local0" #"local", "FedPer"
+cur_l=0
 num_paras=2112 #l1: 2112; l2: 8288; l3: 74848, l4: 599648; l5: 615038; l6: 615224
 
 # Basic model parameters.
