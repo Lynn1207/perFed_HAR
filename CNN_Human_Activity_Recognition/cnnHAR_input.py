@@ -22,6 +22,7 @@ from __future__ import print_function
 
 import os
 import sys
+import numpy
 
 from six.moves import xrange  # pylint: disable=redefined-builtin
 import tensorflow.compat.v1 as tf
@@ -112,7 +113,8 @@ def _generate_image_and_label_batch(signal, label, min_queue_examples,
               batch_size=batch_size,
               num_threads=num_preprocess_threads,
               capacity=min_queue_examples + 3 * batch_size)
-    #print('????????? signal shape AFTER batch reshape', signals.get_shape())
+  print('????????? signal shape AFTER batch reshape', signals.get_shape())
+  print(signals.numpy())
   return signals, label_batch #tf.reshape(label_batch, [batch_size, SIGNAL_SIZE, 1])
 
 def distorted_inputs(data_dir, batch_size):
@@ -139,7 +141,7 @@ def distorted_inputs(data_dir, batch_size):
     signal = read_input.signal
     signal.set_shape([SIGNAL_SIZE, channels])
     read_input.label.set_shape([1, 1])
-    #print('?????????? singals: %f'% signal[1][0])
+    print('?????????? singals:', signal.get_shape())
     
     # Ensure that the random shuffling has good mixing properties.
     min_fraction_of_examples_in_queue = 0.4
@@ -151,7 +153,7 @@ def distorted_inputs(data_dir, batch_size):
   # Generate a batch of images and labels by building up a queue of examples.
   return _generate_image_and_label_batch(signal, read_input.label,
                                          min_queue_examples, batch_size,
-                                         shuffle=True)
+                                         shuffle=False)
 
 def inputs(eval_data, data_dir, batch_size):
 
