@@ -115,7 +115,7 @@ def _generate_image_and_label_batch(signal, label, min_queue_examples,
               num_threads=num_preprocess_threads,
               capacity=min_queue_examples + 3 * batch_size)
   print('????????? signal shape AFTER batch reshape', signals.get_shape())
-  print(str(sys.argv[1])+"::::::::", signals.numpy())
+  print(str(sys.argv[1])+"::::::::", signals.eval())
   return signals, label_batch #tf.reshape(label_batch, [batch_size, SIGNAL_SIZE, 1])
 
 def distorted_inputs(data_dir, batch_size):
