@@ -22,11 +22,9 @@ from __future__ import print_function
 
 import os
 import sys
-import numpy
 
 from six.moves import xrange  # pylint: disable=redefined-builtin
 import tensorflow.compat.v1 as tf
-tf.enable_eager_execution()
 
 # Process sensing data "image" of this size, 128*6.
 # each chanel like acc_x is 128 length which is sata collected for 2.56s. 
@@ -115,7 +113,6 @@ def _generate_image_and_label_batch(signal, label, min_queue_examples,
               num_threads=num_preprocess_threads,
               capacity=min_queue_examples + 3 * batch_size)
   print('????????? signal shape AFTER batch reshape', signals.get_shape())
-  print(str(sys.argv[1])+"::::::::", signals.eval())
   return signals, label_batch #tf.reshape(label_batch, [batch_size, SIGNAL_SIZE, 1])
 
 def distorted_inputs(data_dir, batch_size):
