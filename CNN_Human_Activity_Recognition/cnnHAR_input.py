@@ -53,7 +53,7 @@ def read_cnnHAR(filename_queue):
   record_defaults = [[1.0] for col in range(SIGNAL_SIZE*channels+1)]
   
   record_bytes = tf.decode_csv(value, record_defaults = record_defaults)
-  print('!!!!!!!!!!!!!!!!!!! records.type', record_bytes.get_shape())# 224*(128*1)
+  print('!!!!!!!!!!!!!!!!!!! records.type', len(record_bytes), record_bytes[0].get_shape())# 224*(128*1)
   # The first bytes represent the label, which we convert from uint8->int32.
   result.signal = tf.cast(
       tf.strided_slice(record_bytes, [1], [SIGNAL_SIZE+1]), tf.float32)
