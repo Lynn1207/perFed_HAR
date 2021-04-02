@@ -26,6 +26,7 @@ import numpy
 
 from six.moves import xrange  # pylint: disable=redefined-builtin
 import tensorflow.compat.v1 as tf
+tf.enable_eager_execution()
 
 # Process sensing data "image" of this size, 128*6.
 # each chanel like acc_x is 128 length which is sata collected for 2.56s. 
