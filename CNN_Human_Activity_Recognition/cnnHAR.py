@@ -162,7 +162,7 @@ def inference(signals):
            pre_activation = tf.nn.bias_add(conv, biases)
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv1)
-           #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
+           print ('<<<<<<<<<<<<<<<<<<<<Shape of singals :',signals.get_shape())
     pool1 = tf.nn.max_pool1d(conv1, ksize=[1,4,1], strides=[1,1,1],padding='VALID',name='pool1')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """6x1x64"""
@@ -221,7 +221,7 @@ def inference(signals):
           biases = _variable_on_cpu('biases6', [NUM_CLASSES],tf.constant_initializer(0.0))
           softmax_linear = tf.nn.softmax(tf.matmul(local4, weights)+biases,name=scope.name)
           _activation_summary(softmax_linear)
-          #print ('!!!!!!!!!!!!!!!Shape of softmax_linear :', softmax_linear.get_shape())
+          print ('!!!!!!!!!!!!!!!Shape of softmax_linear :', softmax_linear.get_shape())
     
     return softmax_linear
     
