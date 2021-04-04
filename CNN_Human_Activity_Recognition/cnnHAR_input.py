@@ -37,8 +37,8 @@ NUM_CLASSES = 6
 NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = 32*batch_per_user_train#1 min data
 NUM_EXAMPLES_PER_EPOCH_FOR_EVAL = 32*batch_per_user_test
 
+#read ONE LINE from the filename
 def read_cnnHAR(filename_queue):
-
   class CNNHARRecord(object):
     pass
   result = CNNHARRecord()
@@ -53,17 +53,17 @@ def read_cnnHAR(filename_queue):
   record_defaults = [[1.0] for col in range(SIGNAL_SIZE*channels+1)]
   
   record_bytes = tf.decode_csv(value, record_defaults = record_defaults)
-  print('!!!!!!!!!!!!!!!!!!! records.type', len(record_bytes), record_bytes[0].get_shape())# 224*(128*1)
+  #print('!!!!!!!!!!!!!!!!!!! records.type', len(record_bytes), record_bytes[0].get_shape())# 224*(128*1)
   # The first bytes represent the label, which we convert from uint8->int32.
   result.signal = tf.cast(
       tf.strided_slice(record_bytes, [1], [SIGNAL_SIZE+1]), tf.float32)
   result.signal = tf.reshape(result.signal, [SIGNAL_SIZE, channels])
-  print('!!!!!!!!!!!!!!!!!!! signals.type', result.signal.get_shape())# 224*(128*1)
+  #print('!!!!!!!!!!!!!!!!!!! signals.type', result.signal.get_shape())# 224*(128*1)
   # labels-1 cause the logits is defaulted to start with 0~NUM_CLASS-1
   result.label = tf.cast(
       tf.strided_slice(record_bytes, [0], [1])-1, tf.float32)
   result.label = tf.reshape(result.label, [1, 1])
-  print('!!!!!!!!!!!!!!!!!!! labels.type', result.label.get_shape())# 224*1
+  #print('!!!!!!!!!!!!!!!!!!! labels.type', result.label.get_shape())# 224*1
   return result
 
 """
