@@ -113,7 +113,7 @@ def distorted_inputs(data_dir, batch_size):
     read_input = read_cnnHAR(filename_queue)
     signal = tf.transpose(read_input.signal, (2,1,0)) # Singals * numofAxis * channel
     read_input.label.set_shape([1, 1])
-    print('?????????? shape of  the singals:', signal.get_shape())
+    #print('?????????? shape of  the singals:', signal.get_shape())
     
     # Ensure that the random shuffling has good mixing properties.
     min_fraction_of_examples_in_queue = 0.4
