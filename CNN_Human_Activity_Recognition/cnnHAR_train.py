@@ -86,8 +86,6 @@ def train():
     # GPU and resulting in a slow down.
     #with tf.device('/cpu:'+str(int(sys.argv[1])-1)):
     signals, labels = cnnHAR.distorted_inputs()
-    print('<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>', signals.get_shape()) #32*128*1
-    print(str(sys.argv[1]), signals.numpy())
       
     # Build a Graph that computes the logits predictions from the
     # inference model.
