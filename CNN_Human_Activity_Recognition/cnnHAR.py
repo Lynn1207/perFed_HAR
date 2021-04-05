@@ -163,7 +163,7 @@ def inference(signals):
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv1)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
-    pool1 = tf.nn.max_pool1d(conv1, ksize=[1,4,1,1], strides=[1,1,1,1],padding='VALID',name='pool1')
+    pool1 = tf.nn.max_pool2d(conv1, ksize=[1,4,1,1], strides=[1,1,1,1],padding='VALID',name='pool1')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """6x1x64"""
    
@@ -179,7 +179,7 @@ def inference(signals):
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv2)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape())
-    pool2 = tf.nn.max_pool1d(conv2, ksize=[1,3,1, 1], strides=[1,1,1,1],padding='VALID',name='pool2')
+    pool2 = tf.nn.max_pool2d(conv2, ksize=[1,3,1, 1], strides=[1,1,1,1],padding='VALID',name='pool2')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
     reshape = tf.keras.layers.Flatten()(pool2)
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()) 
