@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 6
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM = 772824 #l1: 2112; l2: 8288; l3: 74848, l4: 599648; l5: 615038; l6: 615224
+W_DIM = 789304 #l1: 2112; l2: 8288; l3: 74848, l4: 599648; l5: 615038; l6: 615224
 inner_iteration = 5
 T_thresh = 10
 
