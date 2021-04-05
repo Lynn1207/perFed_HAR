@@ -226,7 +226,7 @@ def train():
         
 
     #log the train losses
-    f = open("log_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
+    f = open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
     x = time.strftime("%Y%m%d-%H%M%S")
     f.write(str(sys.argv[1])+", "+x+":\n")
     for i in range(len(logLoss)):
