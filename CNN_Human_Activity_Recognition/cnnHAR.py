@@ -90,11 +90,11 @@ def _variable_with_weight_decay(name, shape, stddev, wd):
       shape,
       tf.truncated_normal_initializer(stddev=stddev, dtype=dtype))
   #print(name, var)
-  '''
+  
   if wd is not None:
     weight_decay = tf.multiply(tf.nn.l2_loss(var), wd, name='weight_loss')
     tf.add_to_collection('losses', weight_decay)
-  '''
+  
   return var
   
 def _variable_on_cpu(name, shape, initializer):
@@ -153,34 +153,34 @@ def inference(signals):
    
     with tf.variable_scope('conv1') as scope:
            kernel = _variable_with_weight_decay('weights1',
-                                                shape=[ 32, 1, 64],
+                                                shape=[ 32, 3, 2, 64],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.001)
            biases = _variable_on_cpu('biases1', [64], tf.constant_initializer(0.0))#!!!
-           conv = tf.nn.conv1d(signals, kernel, [1,12,1], padding='VALID', data_format='NWC')
+           conv = tf.nn.conv1d(signals, kernel, [1,12,3,1], padding='VALID', data_format='NWC')
            pre_activation = tf.nn.bias_add(conv, biases)
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv1)
-           print ('<<<<<<<<<<<<<<<<<<<<Shape of singals :',conv.get_shape())
-    pool1 = tf.nn.max_pool1d(conv1, ksize=[1,4,1], strides=[1,1,1],padding='VALID',name='pool1')
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
+           #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
+    pool1 = tf.nn.max_pool1d(conv1, ksize=[1,4,1,1], strides=[1,1,1,1],padding='VALID',name='pool1')
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """6x1x64"""
    
     with tf.variable_scope('conv2') as scope:
            kernel = _variable_with_weight_decay('weights2',
-                                                shape=[ 3, 64, 32],
+                                                shape=[ 3, 1, 64, 32],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.001)
            biases = _variable_on_cpu('biases2', [32], tf.constant_initializer(0.0))#!!!
-           conv = tf.nn.conv1d(pool1, kernel, [1,1,1], padding='VALID', data_format='NWC')
+           conv = tf.nn.conv1d(pool1, kernel, [1,1,1,1], padding='VALID', data_format='NWC')
            pre_activation = tf.nn.bias_add(conv, biases)
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv2)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape())
-    pool2 = tf.nn.max_pool1d(conv2, ksize=[1,3,1], strides=[1,1,1],padding='VALID',name='pool2')
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
+    pool2 = tf.nn.max_pool1d(conv2, ksize=[1,3,1, 1], strides=[1,1,1,1],padding='VALID',name='pool2')
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
     reshape = tf.keras.layers.Flatten()(pool2)
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()) 
     reshape = tf.cast(reshape, tf.float64)
@@ -195,7 +195,7 @@ def inference(signals):
         biases = _variable_on_cpu('biases3', [1024], tf.constant_initializer(0.10))
         
         local2 = tf.nn.relu(tf.matmul(reshape, weights) + biases, name=scope.name)
-        print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
+        #print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
         _activation_summary(local2)
 
     with tf.variable_scope('local3') as scope:
@@ -221,7 +221,7 @@ def inference(signals):
           biases = _variable_on_cpu('biases6', [NUM_CLASSES],tf.constant_initializer(0.0))
           softmax_linear = tf.nn.softmax(tf.matmul(local4, weights)+biases,name=scope.name)
           _activation_summary(softmax_linear)
-          print ('!!!!!!!!!!!!!!!Shape of softmax_linear :', softmax_linear.get_shape())
+          #print ('!!!!!!!!!!!!!!!Shape of softmax_linear :', softmax_linear.get_shape())
     
     return softmax_linear
     

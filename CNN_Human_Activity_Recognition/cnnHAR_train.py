@@ -85,11 +85,12 @@ def train():
     # Force input pipeline to CPU:0 to avoid operations sometimes ending up on
     # GPU and resulting in a slow down.
     #with tf.device('/cpu:'+str(int(sys.argv[1])-1)):
-    signals, labels = cnnHAR.distorted_inputs()
+    #print('<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>')
       
     # Build a Graph that computes the logits predictions from the
     # inference model.
     #training = tf.placeholder(tf.bool)
+    signals, labels = cnnHAR.distorted_inputs()
     
     logits=cnnHAR.inference(signals)
 
