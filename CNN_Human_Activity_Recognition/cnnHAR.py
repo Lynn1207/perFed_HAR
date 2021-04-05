@@ -17,7 +17,7 @@ import cnnHAR_input
 
 #2 baselines, our method: fedper
 method="FedPer" #"local", "FedPer"
-cur_l=3
+cur_l=6
 num_paras= 789304#l1: 2112; l2: 8288; l3: 74848, l4: 599648; l5: 615038; l6: 615224
 
 # Basic model parameters.
