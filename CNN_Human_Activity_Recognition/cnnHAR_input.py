@@ -112,7 +112,7 @@ def _generate_image_and_label_batch(signal, label, min_queue_examples,
               batch_size=batch_size,
               num_threads=num_preprocess_threads,
               capacity=min_queue_examples + 3 * batch_size)
-  print('????????? signal shape AFTER batch reshape', signals.get_shape())
+  #print('????????? signal shape AFTER batch reshape', signals.get_shape())
   return signals, label_batch #tf.reshape(label_batch, [batch_size, SIGNAL_SIZE, 1])
 
 def distorted_inputs(data_dir, batch_size):
@@ -139,7 +139,7 @@ def distorted_inputs(data_dir, batch_size):
     signal = read_input.signal
     signal.set_shape([SIGNAL_SIZE, channels])
     read_input.label.set_shape([1, 1])
-    print('?????????? singals:', signal.get_shape())
+    #print('?????????? singals:', signal.get_shape())
     
     # Ensure that the random shuffling has good mixing properties.
     min_fraction_of_examples_in_queue = 0.4
