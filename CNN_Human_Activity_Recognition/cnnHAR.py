@@ -163,7 +163,7 @@ def inference(signals):
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv1)
            print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
-    pool1 = tf.nn.max_pool2d(conv1, ksize=[1,4,1,1], strides=[1,1,1,1],padding='VALID',name='pool1')
+    pool1 = tf.nn.max_pool2d(conv1, ksize=[1,1,1,1], strides=[1,1,1,1],padding='VALID',name='pool1')
     print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """6x1x64"""
    
