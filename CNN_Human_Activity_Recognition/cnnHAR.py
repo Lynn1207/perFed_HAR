@@ -153,7 +153,7 @@ def inference(signals):
    
     with tf.variable_scope('conv1') as scope:
            kernel = _variable_with_weight_decay('weights1',
-                                                shape=[ 32, 3, 2, 64],
+                                                shape=[ 32, 3, 1, 64],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.001)
@@ -169,17 +169,17 @@ def inference(signals):
    
     with tf.variable_scope('conv2') as scope:
            kernel = _variable_with_weight_decay('weights2',
-                                                shape=[ 3, 1, 64, 32],
+                                                shape=[ 3, 2, 64, 32],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.001)
            biases = _variable_on_cpu('biases2', [32], tf.constant_initializer(0.0))#!!!
-           conv = tf.nn.conv2d(pool1, kernel, [1,1,1,1], padding='VALID', data_format='NHWC')
+           conv = tf.nn.conv2d(pool1, kernel, [1,1,2,1], padding='VALID', data_format='NHWC')
            pre_activation = tf.nn.bias_add(conv, biases)
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv2)
            print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape())
-    pool2 = tf.nn.max_pool2d(conv2, ksize=[1,3,1, 1], strides=[1,1,1,1],padding='VALID',name='pool2')
+    pool2 = tf.nn.max_pool2d(conv2, ksize=[1,1,1, 1], strides=[1,1,1,1],padding='VALID',name='pool2')
     print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
     reshape = tf.keras.layers.Flatten()(pool2)
     print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()) 
