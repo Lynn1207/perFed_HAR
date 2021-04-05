@@ -333,31 +333,31 @@ def reset_var(W_avg):
           updated_paras.append(var)
         if cur_l>2:
           if var.op.name=="local2/weights3":
-            tf.assign(var,tf.reshape(W_avg[18528:231424],[224, 1024]))
+            tf.assign(var,tf.reshape(W_avg[18528:247904],[224, 1024]))
             updated_paras.append(var)
           elif var.op.name=="local2/biases3":
-            tf.assign(var, W_avg[231424:232448])
+            tf.assign(var, W_avg[247904:248928])
             updated_paras.append(var)
           if cur_l>3:
             if var.op.name=="local3/weights4":
-              tf.assign(var,tf.reshape(W_avg[232448:756736],[1024, 512]))
+              tf.assign(var,tf.reshape(W_avg[248928:773216],[1024, 512]))
               updated_paras.append(var)
             elif var.op.name=="local3/biases4":
-              tf.assign(var, W_avg[756736:757248])
+              tf.assign(var, W_avg[773216:773728])
               updated_paras.append(var)
             if cur_l>4:
               if var.op.name=="local4/weights5":
-                tf.assign(var,tf.reshape(W_avg[757248:772608],[512, 30]))
+                tf.assign(var,tf.reshape(W_avg[773728:789088],[512, 30]))
                 updated_paras.append(var)
               elif var.op.name=="local4/biases5":
-                tf.assign(var, W_avg[772608:772638])
+                tf.assign(var, W_avg[789088:789118])
                 updated_paras.append(var)
               if cur_l>5:
                 if var.op.name=="softmax_linear/weights6":
-                  tf.assign(var,tf.reshape(W_avg[772638:772818],[30, 6]))
+                  tf.assign(var,tf.reshape(W_avg[789118:789298],[30, 6]))
                   updated_paras.append(var)
                 elif var.op.name=="softmax_linear/biases6":
-                  tf.assign(var, W_avg[772818:772824])
+                  tf.assign(var, W_avg[789298:789304])
                   updated_paras.append(var)
     
     
