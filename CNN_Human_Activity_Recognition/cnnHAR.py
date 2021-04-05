@@ -313,7 +313,9 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
  return variables_averages_op, paras
 
 def reset_var(W_avg):
+
   updated_paras=[]
+  '''
   for var in tf.trainable_variables():
     if cur_l>0:
       if var.op.name=="conv1/weights1":
@@ -360,7 +362,7 @@ def reset_var(W_avg):
     
     
     #print(var)
-  '''  
+  
   with tf.variable_scope('conv1') as scope:
     weights1=tf.get_variable('weights1')
     weights1.assign(tf.reshape(W_avg[0:2048],[32, 1, 64]))
