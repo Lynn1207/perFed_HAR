@@ -57,9 +57,9 @@ def read_cnnHAR(filename_queue):
   # The first bytes represent the label, which we convert from uint8->int32.
   result.signal = tf.cast(
       tf.strided_slice(record_bytes, [2], [SIGNAL_SIZE*axis_num*channels+2]), tf.float32)
-  print('!!!!!!!!!!!!!!!!!!! result.signals', result.signal.get_shape())
+  #print('!!!!!!!!!!!!!!!!!!! result.signals', result.signal.get_shape())
   result.signal = tf.reshape(result.signal, [channels,axis_num, SIGNAL_SIZE])
-  print('!!!!!!!!!!!!!!!!!!! result.signals', result.signal.get_shape())
+  #print('!!!!!!!!!!!!!!!!!!! result.signals', result.signal.get_shape())
   # labels-1 cause the logits is defaulted to start with 0~NUM_CLASS-1
   result.label = tf.cast(
       tf.strided_slice(record_bytes, [1], [2])-1, tf.float32)
@@ -113,7 +113,7 @@ def distorted_inputs(data_dir, batch_size):
     read_input = read_cnnHAR(filename_queue)
     signal = tf.transpose(read_input.signal, (2,1,0)) # Singals * numofAxis * channel
     read_input.label.set_shape([1, 1])
-    #print('?????????? all the singals: %f'% signal.get_shape())
+    print('?????????? shape of  the singals:', signal.get_shape())
     
     # Ensure that the random shuffling has good mixing properties.
     min_fraction_of_examples_in_queue = 0.4
