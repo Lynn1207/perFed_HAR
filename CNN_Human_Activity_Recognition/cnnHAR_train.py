@@ -198,8 +198,9 @@ def train():
       while outer_i < outer_iter:
         step=0
         while step<max_steps and not mon_sess.should_stop():
-          _,pre_allparas, all_paras,_=mon_sess.run([train_op,pre_paras,paras, extra_update_ops])
+          _,pre_all_paras, all_paras,_=mon_sess.run([train_op,pre_paras,paras, extra_update_ops])
           if step<=3 and str(sys.argv[1])=="1":
+            print("Pre_train:", pre_all_paras[0].reshape(-1)[0:3])
             print("Post_train:", all_paras[0].reshape(-1)[0:3])
           step+=1
           
