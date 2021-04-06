@@ -297,7 +297,7 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
  with tf.control_dependencies([apply_gradient_op]):
   variables_averages_op = variable_averages.apply(tf.trainable_variables())
   
- return  variables_averages_op, paras
+ return  paras, variables_averages_op
 
 
 
