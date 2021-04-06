@@ -262,7 +262,14 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
         
  # Generate moving averages of all losses and associated summaries.
  loss_averages_op = _add_loss_summaries(total_loss)
-
+  
+ ###### Record the parameters
+ paras=[]
+# Add histograms for trainable variables.
+ for var in tf.trainable_variables():
+  paras.append(var)
+  #print('!!!!!!!!!!!!!!!Shape of ', var)
+  
  # Compute gradients.
  with tf.control_dependencies([loss_averages_op]):
   opt = tf.train.MomentumOptimizer(lr,0.9)#opt = tf.train.AdadeltaOptimizer(lr)
@@ -289,15 +296,10 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
     MOVING_AVERAGE_DECAY, global_step)
  with tf.control_dependencies([apply_gradient_op]):
   variables_averages_op = variable_averages.apply(tf.trainable_variables())
-
-###### Record the parameters
- paras=[]
-# Add histograms for trainable variables.
- for var in tf.trainable_variables():
-  paras.append(var)
-  #print('!!!!!!!!!!!!!!!Shape of ', var)
   
- return variables_averages_op, paras
+ return  variables_averages_op, paras
+
+
 
 def reset_var(W_avg):
 
