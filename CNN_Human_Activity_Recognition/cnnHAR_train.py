@@ -211,8 +211,8 @@ def train():
         for i in range(cur_layer*2):
           temp = all_paras[i].reshape(-1)
           w_flat=np.concatenate((w_flat, temp), axis=0)
-        if str(sys.argv[1])=="1":
-          print("Before:", w_flat[0:3])
+        #if str(sys.argv[1])=="1":
+          #print("Before:", w_flat[0:3])
         comm.send2server(w_flat,0)
       
         #receive aggregated weights from server
@@ -220,9 +220,9 @@ def train():
         #w = tf.cast(W_general, tf.float64)
         if not mon_sess.should_stop():
           updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
-          print("W_avg:", W_general[0:3])
-          if str(sys.argv[1])=="1":
-            print("After:", updated_paras_v[0][0:3][0][0])
+          #print("W_avg:", W_general[0:3])
+          #if str(sys.argv[1])=="1":
+            #print("After:", updated_paras_v[0][0:3][0][0])
         #print("Length of updated paras: %d \n"% len(updated_paras_v))
         
   
