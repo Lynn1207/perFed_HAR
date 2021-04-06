@@ -65,7 +65,7 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=6
+outer_iter=10
 
 
 
