@@ -40,7 +40,7 @@ def server_update():
     
     #W_avg=np.mean(W, axis=0)
     
-    W_avg1_1= np.mean(W[0:6,0:12352], axis = 0)
+    W_avg1_1= np.zeros(W_DIM)#np.mean(W[0:6,0:12352], axis = 0)
     '''
     W_avg2_1=W[0:1, 12352:18528]
     W_avg2_2=np.mean(W[1:5, 12352:18528], axis = 0)
