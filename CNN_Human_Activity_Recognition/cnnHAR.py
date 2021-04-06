@@ -260,18 +260,11 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
                                 staircase=True)
  tf.summary.scalar('learning_rate', lr)
 
- """
  var_list=[]
  for var in tf.trainable_variables():
-     if var.op.name.find(index)!= -1:
-        var_list.append(var)
-        #print('@@@@@@@@@@@@@@@@@@'+var.op.name)
-        '''
-        if var.op.name.find('weights')!= -1 and var.op.name.find('conv')==-1 and var.op.name.find('soft')==-1:
-            weight_decay = tf.multiply(tf.nn.l2_loss(var), wd, name='weight_loss')
-            total_loss+= weight_decay
-        '''
- """
+     var_list.append(var)
+        
+
         
  # Generate moving averages of all losses and associated summaries.
  loss_averages_op = _add_loss_summaries(total_loss)
@@ -384,5 +377,5 @@ def reset_var(W_avg):
     bias6=tf.assign(tf.get_default_graph().get_tensor_by_name('biases6'), W_avg[615218:615224])
   '''
 
-  return updated_paras
+  return var_list, updated_paras
   
