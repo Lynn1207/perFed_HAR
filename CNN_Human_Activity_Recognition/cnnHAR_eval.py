@@ -117,7 +117,7 @@ def eval_once(is_loc, saver,summary_writer,labels,loss,logits,summary_op):
       if is_loc:
         f = open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_test_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
         #x = time.strftime("%Y%m%d-%H%M%S")
-        f.write(", %.3f, %.3f\n"% (n_l/64,n_acc/64))
+        f.write("%.3f, %.3f\n"% (n_l/64,n_acc/64))
         f.close()
       else:
         f = open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_com_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
