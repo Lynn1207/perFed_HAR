@@ -96,7 +96,7 @@ def train():
 
     loss=cnnHAR.loss(logits, labels)
                                      
-    [train_op,paras]= cnnHAR.train(loss, global_step)
+    [paras, train_op]= cnnHAR.train(loss, global_step)
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     
@@ -198,7 +198,7 @@ def train():
       while outer_i < outer_iter:
         step=0
         while step<max_steps and not mon_sess.should_stop():
-          _,all_paras,_=mon_sess.run([train_op, paras,extra_update_ops])
+          all_paras,_,_=mon_sess.run([paras, train_op, extra_update_ops])
           if step<=3 and str(sys.argv[1])=="1":
             print("Post_train:", all_paras[0].reshape(-1)[0:3])
           step+=1
