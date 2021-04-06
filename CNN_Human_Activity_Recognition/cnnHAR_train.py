@@ -220,8 +220,9 @@ def train():
         #w = tf.cast(W_general, tf.float64)
         if not mon_sess.should_stop():
           updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
+          print("W_avg:", W_general[0:3])
           if str(sys.argv[1])=="1":
-            print("After", updated_paras_v[0:3])
+            print("After:", updated_paras_v[0][0:3][0][0])
         #print("Length of updated paras: %d \n"% len(updated_paras_v))
         
   
