@@ -259,12 +259,6 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
                                 LEARNING_RATE_DECAY_FACTOR,
                                 staircase=True)
  tf.summary.scalar('learning_rate', lr)
-
- var_list=[]
- for var in tf.trainable_variables():
-     var_list.append(var)
-        
-
         
  # Generate moving averages of all losses and associated summaries.
  loss_averages_op = _add_loss_summaries(total_loss)
@@ -303,7 +297,7 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
   paras.append(var)
   #print('!!!!!!!!!!!!!!!Shape of ', var)
   
- return variables_averages_op, var_list, paras
+ return variables_averages_op, paras
 
 def reset_var(W_avg):
 
