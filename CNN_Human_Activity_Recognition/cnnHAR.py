@@ -319,11 +319,11 @@ def reset_var(W_avg):
   for var in tf.trainable_variables():
     if cur_l>0:
       if var.op.name=="conv1/weights1":
-        tf.assign(var, tf.reshape(W_avg[0:12288],[32, 3, 2, 64]))
-        updated_paras.append(var)
+        new_var=tf.assign(var, tf.reshape(W_avg[0:12288],[32, 3, 2, 64]))
+        updated_paras.append(new_var)
       elif var.op.name=="conv1/biases1":
-        tf.assign(var, tf.reshape(W_avg[12288:12352],[64,]))
-        updated_paras.append(var)
+        new_var=tf.assign(var, tf.reshape(W_avg[12288:12352],[64,]))
+        updated_paras.append(new_var)
       if cur_l>1:
         if var.op.name=="conv2/weights2":
           tf.assign(var,tf.reshape(W_avg[12352:18496],[3, 1, 64, 32]))
