@@ -303,7 +303,7 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
   paras.append(var)
   #print('!!!!!!!!!!!!!!!Shape of ', var)
   
- return variables_averages_op, paras
+ return variables_averages_op, var_list, paras
 
 def reset_var(W_avg):
 
@@ -377,5 +377,5 @@ def reset_var(W_avg):
     bias6=tf.assign(tf.get_default_graph().get_tensor_by_name('biases6'), W_avg[615218:615224])
   '''
 
-  return var_list, updated_paras
+  return updated_paras
   
