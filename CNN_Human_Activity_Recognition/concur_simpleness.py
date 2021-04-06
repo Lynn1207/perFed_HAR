@@ -10,13 +10,12 @@ def concur_simp(acc1, acc2):
 accs=[]
 meth="FedAvg"
 for i in range(1,7):
-    f=open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_test_"+meth+str(i)+".txt")
+    f=open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_com_"+meth+str(i)+".txt")
     for line in f:
-        pass
-    acc=[]
-    for i in line:
-        if i!=' ' and  i!='\n':
-            acc.append(int(i))
+        acc=[]
+        for i in line:
+            if i!=' ' and  i!='\n':
+                acc.append(int(i))
     accs.append(acc)
     
 
