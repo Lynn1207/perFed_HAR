@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 6
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =773728 #l1: 12352; l2: 18528; l3: 248928, l4: 773728; l5: 615038; l6: 789304
+W_DIM =789118 #l1: 12352; l2: 18528; l3: 248928, l4: 773728; l5: 789118; l6: 789304
 inner_iteration = 5
 T_thresh = 10
 
@@ -34,7 +34,7 @@ update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
 def server_update():
     
-    global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg3_1, W_avg3_2, W_avg3_3, W_avg4_1, W_avg4_2,W_avg4_3# W_avg5_1, W_avg5_2, W_avg5_3, W_avg6_1, W_avg6_2, W_avg6_3
+    global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg3_1, W_avg3_2, W_avg3_3, W_avg4_1, W_avg4_2,W_avg4_3, W_avg5_1, W_avg5_2, W_avg5_3#, W_avg6_1, W_avg6_2, W_avg6_3
     # print(np.max(W))
     
     
@@ -53,6 +53,10 @@ def server_update():
     W_avg4_1=W[0:1, 248928:773728]
     W_avg4_2=W[1:2, 248928:773728]
     W_avg4_3=np.mean(W[2:6, 248928:773728], axis = 0)
+    
+    W_avg5_1=W[0:1, 773728:789118]
+    W_avg5_2=W[1:2, 773728:789118]
+    W_avg5_3=np.mean(W[2:6, 773728:789118], axis = 0)
     '''
     
     W_avg5_1=(np.array(W[0][599648:615038])+np.array(W[5][599648:615038]))/2.0
@@ -159,11 +163,11 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         
                     
                     if user_id[0]==1 :
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_1))#, W_avg2_1,W_avg3_2,W_avg4_2, W_avg5_2, W_avg6_2))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_1))#, W_avg2_1,W_avg3_2,W_avg4_2, W_avg5_2, W_avg6_2))
                     elif user_id[0]==2 :
-                        W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_2,W_avg4_2))
+                        W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_2,W_avg4_2, W_avg5_2))
                     else: 
-                        W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_3,W_avg4_3))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
+                        W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_3,W_avg4_3, W_avg5_3))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
                                                
                     #W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1))
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
