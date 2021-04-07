@@ -28,8 +28,8 @@ import tensorflow.compat.v1 as tf
 
 # Process sensing data "image" of this size, 128*6.
 # each chanel like acc_x is 128 length which is sata collected for 2.56s. 
-axis_num=240
-SIGNAL_SIZE = 240
+axis_num=40
+SIGNAL_SIZE = 40
 channels = 1 #acc and gyro
 batch_per_user_train=7
 batch_per_user_test=2
