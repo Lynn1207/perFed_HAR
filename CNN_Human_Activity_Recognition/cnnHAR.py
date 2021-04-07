@@ -18,7 +18,7 @@ import cnnHAR_input
 #2 baselines, our method: fedper
 method="FedAvg" #"local", "FedPer"
 cur_l=6
-num_paras=  789304 #l1: 12352; l2: 18528; l3: 248928, l4: 773728; l5: 789118; l6: 789304
+num_paras=  2250661 #l1: 1664; l2: 18528; l3: 248928, l4: 773728; l5: 789118; l6: 2250661
 
 # Basic model parameters.
 batch_size = 32
@@ -310,6 +310,53 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
 def reset_var(W_avg):
 
   updated_paras=[]
+  
+  for var in tf.trainable_variables():
+    if cur_l>0:
+      if var.op.name=="conv1/weights1":
+        var=tf.assign(var, tf.reshape(W_avg[0:1600],[5, 5, 1, 64]))
+        updated_paras.append(var)
+      elif var.op.name=="conv1/biases1":
+        var=tf.assign(var, tf.reshape(W_avg[1600:1664],[64,]))
+        updated_paras.append(var)
+      if cur_l>1:
+        if var.op.name=="conv2/weights2":
+          var=tf.assign(var,tf.reshape(W_avg[1664:52864],[5, 5, 64, 32]))
+          updated_paras.append(var)
+        elif var.op.name=="conv2/biases2":
+          var=tf.assign(var, W_avg[52864:52896])
+          updated_paras.append(var)
+        if cur_l>2:
+          if var.op.name=="local2/weights3":
+            var=tf.assign(var,tf.reshape(W_avg[52896:1658528],[1568, 1024]))
+            updated_paras.append(var)
+          elif var.op.name=="local2/biases3":
+            var=tf.assign(var, W_avg[1658528:1659552])
+            updated_paras.append(var)
+          if cur_l>3:
+            if var.op.name=="local3/weights4":
+              var=tf.assign(var,tf.reshape(W_avg[1659552:2183840],[1024, 512]))
+              updated_paras.append(var)
+            elif var.op.name=="local3/biases4":
+              var=tf.assign(var, W_avg[2183840:2184352])
+              updated_paras.append(var)
+            if cur_l>4:
+              if var.op.name=="local4/weights5":
+                var=tf.assign(var,tf.reshape(W_avg[2184352:2249888],[512, 128]))
+                updated_paras.append(var)
+              elif var.op.name=="local4/biases5":
+                var=tf.assign(var, W_avg[2249888:2250016])
+                updated_paras.append(var)
+              if cur_l>5:
+                if var.op.name=="softmax_linear/weights6":
+                  var=tf.assign(var,tf.reshape(W_avg[2250016:2250656],[128, 5]))
+                  updated_paras.append(var)
+                elif var.op.name=="softmax_linear/biases6":
+                  var=tf.assign(var, W_avg[2250656:2250661])
+                  updated_paras.append(var)
+    
+    
+    #print(var)
   '''
   for var in tf.trainable_variables():
     if cur_l>0:
@@ -354,10 +401,8 @@ def reset_var(W_avg):
                 elif var.op.name=="softmax_linear/biases6":
                   var=tf.assign(var, W_avg[789298:789304])
                   updated_paras.append(var)
-    
-    
-    #print(var)
-  
+  '''
+  '''                
   with tf.variable_scope('conv1') as scope:
     weights1=tf.get_variable('weights1')
     weights1.assign(tf.reshape(W_avg[0:2048],[32, 1, 64]))
