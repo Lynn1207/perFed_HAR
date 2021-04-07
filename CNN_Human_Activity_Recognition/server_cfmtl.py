@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 6
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =163872 #l1: 1664; l2: 52896; l3: 163872, l4: 773728; l5: 789118; l6: 213797
+W_DIM =213152 #l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5: 789118; l6: 213797
 inner_iteration = 5
 T_thresh = 10
 
@@ -47,11 +47,11 @@ def server_update():
     
     W_avg3_1=(np.array(W[0][52896:163872])+np.array(W[2][52896:163872]))/2.0
     W_avg3_2=(np.array(W[1][52896:163872])+np.array(W[3][52896:163872])+np.array(W[4][52896:163872])+np.array(W[5][52896:163872]))/4.0
+   
+    W_avg4_1=W[0:1, 163872:213152]
+    W_avg4_2=W[2:3, 163872:213152]
+    W_avg4_3=(np.array(W[1][163872:213152])+np.array(W[3][163872:213152])+np.array(W[4][163872:213152])+np.array(W[5][163872:213152]))/4.0
     '''
-    W_avg4_1=W[0:1, 248928:773728]
-    W_avg4_2=W[1:2, 248928:773728]
-    W_avg4_3=np.mean(W[2:6, 248928:773728], axis = 0)
-    
     W_avg5_1=W[0:1, 773728:789118]
     W_avg5_2=W[1:2, 773728:789118]
     W_avg5_3=np.mean(W[2:6, 773728:789118], axis = 0)
@@ -155,10 +155,12 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         print("wait W timeout...")
                         
                     
-                    if user_id[0]==1 or user_id[0]==3:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1))#, W_avg2_1,W_avg3_2,W_avg4_2, W_avg5_2, W_avg6_2))
+                    if user_id[0]==1 :
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_1))#, W_avg2_1,W_avg3_2,W_avg4_2, W_avg5_2, W_avg6_2))
+                    elif user_id[0]==3:
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_2))#, W_avg2_1,W_avg3_2,W_avg4_2, W_avg5_2, W_avg6_2))
                     else: 
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_2))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_2,W_avg4_3))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
                                              
                 
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
