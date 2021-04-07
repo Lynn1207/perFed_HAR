@@ -23,7 +23,7 @@ num_paras= 776806#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5: 213797
 # Basic model parameters.
 batch_size = 32
                           
-data_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/data/'
+data_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/dataset/'
                     
 
 # Global constants describing the CIFAR-10 data set.
