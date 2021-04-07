@@ -38,11 +38,11 @@ def server_update():
     # print(np.max(W))
     
     
-    W_avg=np.mean(W, axis=0)
-    '''
-    W_avg1_1= W[0:1,0:12352]
-    W_avg1_2= np.mean(W[1:6,0:12352], axis = 0)
+    #W_avg=np.mean(W, axis=0)
+   
     
+    W_avg1_1= np.mean(W[:,0:1664], axis = 0)
+    '''
     W_avg2_1=W[0:1, 12352:18528]
     W_avg2_2=np.mean(W[1:6, 12352:18528], axis = 0)
     
@@ -165,7 +165,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     else: 
                         W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_3,W_avg4_3, W_avg5_3,W_avg6_3))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
                     '''                          
-                    #W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1))
+                    W_avg=np.concatenate((W_avg1_1))
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
                     W_avg_size = sys.getsizeof(W_avg_data)
                     W_avg_header = struct.pack("i",W_avg_size)
