@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 6
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =1664 #l1: 1664; l2: 18528; l3: 248928, l4: 773728; l5: 789118; l6: 213797
+W_DIM =52896 #l1: 1664; l2: 52896; l3: 248928, l4: 773728; l5: 789118; l6: 213797
 inner_iteration = 5
 T_thresh = 10
 
@@ -42,11 +42,9 @@ def server_update():
    
     
     W_avg1_1= np.mean(W[0:6,0:1664], axis = 0)
+    
+    W_avg2_1=np.mean(W[0:6, 1664:52896], axis = 0)
     '''
-    W_avg2_1=W[0:1, 12352:18528]
-    W_avg2_2=np.mean(W[1:6, 12352:18528], axis = 0)
-    
-    
     W_avg3_1=W[0:1, 18528:248928]
     W_avg3_2=W[1:2, 18528:248928]
     W_avg3_3=np.mean(W[2:6, 18528:248928], axis = 0)
@@ -165,8 +163,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     else: 
                         W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_3,W_avg4_3, W_avg5_3,W_avg6_3))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
                     '''                          
-                    #W_avg=np.concatenate((W_avg1_1))
-                    W_avg=W_avg1_1
+                    W_avg=np.concatenate((W_avg1_1,W_avg2_1))
+    
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
                     W_avg_size = sys.getsizeof(W_avg_data)
                     W_avg_header = struct.pack("i",W_avg_size)
