@@ -23,7 +23,7 @@ num_paras=  789304 #l1: 12352; l2: 18528; l3: 248928, l4: 773728; l5: 789118; l6
 # Basic model parameters.
 batch_size = 32
                           
-data_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/data/'
+data_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/images/'
                     
 
 # Global constants describing the CIFAR-10 data set.
@@ -153,23 +153,23 @@ def inference(signals):
    
     with tf.variable_scope('conv1') as scope:
            kernel = _variable_with_weight_decay('weights1',
-                                                shape=[ 32, 3, 2, 64],
+                                                shape=[ 32, 32, 1, 64],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.009)
            biases = _variable_on_cpu('biases1', [64], tf.constant_initializer(0.0))#!!!
-           conv = tf.nn.conv2d(signals, kernel, [1,12,3,1], padding='VALID', data_format='NHWC')
+           conv = tf.nn.conv2d(signals, kernel, [1,8,8,1], padding='VALID', data_format='NHWC')
            pre_activation = tf.nn.bias_add(conv, biases)
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv1)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
-    pool1 = tf.nn.max_pool2d(conv1, ksize=[1,1,1,1], strides=[1,1,1,1],padding='VALID',name='pool1')
+    pool1 = tf.nn.max_pool2d(conv1, ksize=[1,1,1,1], strides=[1,1,1,1],padding='SAME',name='pool1')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
-    """6x1x64"""
+    """27x27x64"""
    
     with tf.variable_scope('conv2') as scope:
            kernel = _variable_with_weight_decay('weights2',
-                                                shape=[ 3, 1, 64, 32],
+                                                shape=[ 3, 3, 64, 32],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.009)
@@ -179,12 +179,12 @@ def inference(signals):
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv2)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape())
-    pool2 = tf.nn.max_pool2d(conv2, ksize=[1,1,1, 1], strides=[1,1,1,1],padding='VALID',name='pool2')
+    pool2 = tf.nn.max_pool2d(conv2, ksize=[1,9,9, 1], strides=[1,2,2,1],padding='SAME',name='pool2')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
     reshape = tf.keras.layers.Flatten()(pool2)
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()) 
     reshape = tf.cast(reshape, tf.float64)
-    """32x224"""
+    """32x9*9*32"""
     
     dim = reshape.get_shape()[1]
      
@@ -209,7 +209,7 @@ def inference(signals):
         _activation_summary(local3)
 
     with tf.variable_scope('local4') as scope:
-        weights = _variable_with_weight_decay('weights5', shape=[512, 30], stddev=0.04, wd=0.009)
+        weights = _variable_with_weight_decay('weights5', shape=[512, 128], stddev=0.04, wd=0.009)
         biases = _variable_on_cpu('biases5', [30], tf.constant_initializer(0.00))
             
         local4 = tf.nn.relu(tf.matmul(local3, weights) + biases, name=scope.name)
@@ -217,7 +217,7 @@ def inference(signals):
         _activation_summary(local4)
 
     with tf.variable_scope('softmax_linear') as scope:
-          weights = _variable_with_weight_decay('weights6', [30, NUM_CLASSES],stddev=0.04, wd=0.009)
+          weights = _variable_with_weight_decay('weights6', [128, NUM_CLASSES],stddev=0.04, wd=0.009)
           biases = _variable_on_cpu('biases6', [NUM_CLASSES],tf.constant_initializer(0.0))
           softmax_linear = tf.nn.softmax(tf.matmul(local4, weights)+biases,name=scope.name)
           _activation_summary(softmax_linear)
