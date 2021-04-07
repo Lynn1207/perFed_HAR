@@ -161,7 +161,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_2))#, W_avg2_1,W_avg3_2,W_avg4_2, W_avg5_2, W_avg6_2))
                     else: 
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_2,W_avg4_3))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
-                    print(out_i, user_id[0])
+                    #print(out_i, user_id[0])
                                              
                 
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
