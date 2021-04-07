@@ -153,23 +153,23 @@ def inference(signals):
    
     with tf.variable_scope('conv1') as scope:
            kernel = _variable_with_weight_decay('weights1',
-                                                shape=[ 32, 32, 1, 64],
+                                                shape=[5, 5, 1, 64],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.009)
            biases = _variable_on_cpu('biases1', [64], tf.constant_initializer(0.0))#!!!
-           conv = tf.nn.conv2d(signals, kernel, [1,8,8,1], padding='VALID', data_format='NHWC')
+           conv = tf.nn.conv2d(signals, kernel, [1,1,1,1], padding='VALID', data_format='NHWC')
            pre_activation = tf.nn.bias_add(conv, biases)
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv1)
-           #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
-    pool1 = tf.nn.max_pool2d(conv1, ksize=[1,1,1,1], strides=[1,1,1,1],padding='SAME',name='pool1')
-    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
-    """27x27x64"""
+           print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
+    pool1 = tf.nn.max_pool2d(conv1, ksize=[1,3,3,1], strides=[1,2,2,1],padding='SAME',name='pool1')
+    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
+    """18x18x64"""
    
     with tf.variable_scope('conv2') as scope:
            kernel = _variable_with_weight_decay('weights2',
-                                                shape=[ 3, 3, 64, 32],
+                                                shape=[ 5, 5, 64, 32],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.009)
@@ -179,12 +179,12 @@ def inference(signals):
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv2)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape())
-    pool2 = tf.nn.max_pool2d(conv2, ksize=[1,9,9, 1], strides=[1,2,2,1],padding='SAME',name='pool2')
-    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
+    pool2 = tf.nn.max_pool2d(conv2, ksize=[1,3,3, 1], strides=[1,2,2,1],padding='SAME',name='pool2')
+    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
     reshape = tf.keras.layers.Flatten()(pool2)
-    #print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()) 
+    print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()) 
     reshape = tf.cast(reshape, tf.float64)
-    """32x9*9*32"""
+    """32x7x7x32: 32x1568"""
     
     dim = reshape.get_shape()[1]
      
@@ -195,7 +195,7 @@ def inference(signals):
         biases = _variable_on_cpu('biases3', [1024], tf.constant_initializer(0.10))
         
         local2 = tf.nn.relu(tf.matmul(reshape, weights) + biases, name=scope.name)
-        #print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
+        print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
         _activation_summary(local2)
 
     with tf.variable_scope('local3') as scope:
@@ -205,7 +205,7 @@ def inference(signals):
         biases = _variable_on_cpu('biases4', [512], tf.constant_initializer(0.00))
         
         local3 = tf.nn.relu(tf.matmul(local2, weights) + biases, name=scope.name)
-        #print ('!!!!!!!!!!!!!!!Shape of local3 :', local3.get_shape())
+        print ('!!!!!!!!!!!!!!!Shape of local3 :', local3.get_shape())
         _activation_summary(local3)
 
     with tf.variable_scope('local4') as scope:
@@ -213,7 +213,7 @@ def inference(signals):
         biases = _variable_on_cpu('biases5', [30], tf.constant_initializer(0.00))
             
         local4 = tf.nn.relu(tf.matmul(local3, weights) + biases, name=scope.name)
-        #print ('!!!!!!!!!!!!!!!Shape of local4 :', local4.get_shape())#256
+        print ('!!!!!!!!!!!!!!!Shape of local4 :', local4.get_shape())#256
         _activation_summary(local4)
 
     with tf.variable_scope('softmax_linear') as scope:
@@ -221,7 +221,7 @@ def inference(signals):
           biases = _variable_on_cpu('biases6', [NUM_CLASSES],tf.constant_initializer(0.0))
           softmax_linear = tf.nn.softmax(tf.matmul(local4, weights)+biases,name=scope.name)
           _activation_summary(softmax_linear)
-          #print ('!!!!!!!!!!!!!!!Shape of softmax_linear :', softmax_linear.get_shape())
+          print ('!!!!!!!!!!!!!!!Shape of softmax_linear :', softmax_linear.get_shape())
     
     return softmax_linear
     
