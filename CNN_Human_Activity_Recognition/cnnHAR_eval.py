@@ -48,7 +48,7 @@ num=1 #number of nodes
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_string('eval_dir', '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_e'+str(sys.argv[1]),
+tf.app.flags.DEFINE_string('eval_dir', '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_e0'+str(sys.argv[1]),
                            """Directory where to write event logs.""")
 tf.app.flags.DEFINE_string('eval_data', 'test',
                            """Either 'test' or 'train_eval'.""")
