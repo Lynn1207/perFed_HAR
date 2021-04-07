@@ -156,7 +156,7 @@ def inference(signals):
                                                 shape=[ 32, 3, 2, 64],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
-                                                wd=0.008)
+                                                wd=0.009)
            biases = _variable_on_cpu('biases1', [64], tf.constant_initializer(0.0))#!!!
            conv = tf.nn.conv2d(signals, kernel, [1,12,3,1], padding='VALID', data_format='NHWC')
            pre_activation = tf.nn.bias_add(conv, biases)
@@ -172,7 +172,7 @@ def inference(signals):
                                                 shape=[ 3, 1, 64, 32],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
-                                                wd=0.008)
+                                                wd=0.009)
            biases = _variable_on_cpu('biases2', [32], tf.constant_initializer(0.0))#!!!
            conv = tf.nn.conv2d(pool1, kernel, [1,1,1,1], padding='VALID', data_format='NHWC')
            pre_activation = tf.nn.bias_add(conv, biases)
@@ -191,7 +191,7 @@ def inference(signals):
     with tf.variable_scope('local2') as scope:
         # Move everything into depth so we can perform a single matrix multiply.
         weights = _variable_with_weight_decay('weights3', shape=[dim, 1024],
-                                              stddev=0.04, wd=0.008)
+                                              stddev=0.04, wd=0.009)
         biases = _variable_on_cpu('biases3', [1024], tf.constant_initializer(0.10))
         
         local2 = tf.nn.relu(tf.matmul(reshape, weights) + biases, name=scope.name)
@@ -201,7 +201,7 @@ def inference(signals):
     with tf.variable_scope('local3') as scope:
         # Move everything into depth so we can perform a single matrix multiply.
         weights = _variable_with_weight_decay('weights4', shape=[1024, 512],
-                                              stddev=0.04, wd=0.008)#0.004,index)
+                                              stddev=0.04, wd=0.009)#0.004,index)
         biases = _variable_on_cpu('biases4', [512], tf.constant_initializer(0.00))
         
         local3 = tf.nn.relu(tf.matmul(local2, weights) + biases, name=scope.name)
@@ -209,7 +209,7 @@ def inference(signals):
         _activation_summary(local3)
 
     with tf.variable_scope('local4') as scope:
-        weights = _variable_with_weight_decay('weights5', shape=[512, 30], stddev=0.04, wd=0.008)
+        weights = _variable_with_weight_decay('weights5', shape=[512, 30], stddev=0.04, wd=0.009)
         biases = _variable_on_cpu('biases5', [30], tf.constant_initializer(0.00))
             
         local4 = tf.nn.relu(tf.matmul(local3, weights) + biases, name=scope.name)
@@ -217,7 +217,7 @@ def inference(signals):
         _activation_summary(local4)
 
     with tf.variable_scope('softmax_linear') as scope:
-          weights = _variable_with_weight_decay('weights6', [30, NUM_CLASSES],stddev=0.04, wd=0.008)
+          weights = _variable_with_weight_decay('weights6', [30, NUM_CLASSES],stddev=0.04, wd=0.009)
           biases = _variable_on_cpu('biases6', [NUM_CLASSES],tf.constant_initializer(0.0))
           softmax_linear = tf.nn.softmax(tf.matmul(local4, weights)+biases,name=scope.name)
           _activation_summary(softmax_linear)
