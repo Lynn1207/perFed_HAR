@@ -178,11 +178,11 @@ def inference(signals):
            pre_activation = tf.nn.bias_add(conv, biases)
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv2)
-           #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape())
+           print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape())
     pool2 = tf.nn.max_pool2d(conv2, ksize=[1,6,6, 1], strides=[1,4,4,1],padding='SAME',name='pool2')
-    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
+    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
     reshape = tf.keras.layers.Flatten()(pool2)
-    #print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()) 
+    print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()) 
     reshape = tf.cast(reshape, tf.float64)
     """32x3x3x32: 32x288"""
     
