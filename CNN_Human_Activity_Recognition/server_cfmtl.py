@@ -155,12 +155,10 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         print("wait W timeout...")
                         
                     
-                    if user_id[0]==1 :
+                    if user_id[0]==1 or user_id[0]==3:
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1))#, W_avg2_1,W_avg3_2,W_avg4_2, W_avg5_2, W_avg6_2))
-                    elif user_id[0]==3 :
-                        W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_1))
                     else: 
-                        W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_2))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_2))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
                                              
                 
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
