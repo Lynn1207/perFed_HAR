@@ -28,9 +28,9 @@ import tensorflow.compat.v1 as tf
 
 # Process sensing data "image" of this size, 128*6.
 # each chanel like acc_x is 128 length which is sata collected for 2.56s. 
-axis_num=40
-SIGNAL_SIZE = 40
-channels = 1 #acc and gyro
+axis_num=3
+SIGNAL_SIZE = 128
+channels = 2 #acc and gyro
 batch_per_user_train=7
 batch_per_user_test=2
 # Global constants describing the cnnHAR data set.
@@ -51,18 +51,18 @@ def read_cnnHAR(filename_queue):
   result.key, value = reader.read(filename_queue)
   
   # Convert from a string to a vector of uint8 that is record_bytes long.
-  record_defaults = [[1.0] for col in range(SIGNAL_SIZE*axis_num*channels+1)]# +2 as the col0: subject_id, col1: label
+  record_defaults = [[1.0] for col in range(SIGNAL_SIZE*axis_num*channels+2)]# +2 as the col0: subject_id, col1: label
   
   record_bytes = tf.decode_csv(value, record_defaults = record_defaults)
   # The first bytes represent the label, which we convert from uint8->int32.
   result.signal = tf.cast(
-      tf.strided_slice(record_bytes, [1], [SIGNAL_SIZE*axis_num*channels+1])/255.0, tf.float32)
+      tf.strided_slice(record_bytes, [2], [SIGNAL_SIZE*axis_num*channels+2]), tf.float32)
   #print('!!!!!!!!!!!!!!!!!!! result.signals', result.signal.get_shape())
   result.signal = tf.reshape(result.signal, [channels,axis_num, SIGNAL_SIZE])
   #print('!!!!!!!!!!!!!!!!!!! result.signals', result.signal.get_shape())
   # labels-1 cause the logits is defaulted to start with 0~NUM_CLASS-1
   result.label = tf.cast(
-      tf.strided_slice(record_bytes, [0], [1])-1, tf.float32)
+      tf.strided_slice(record_bytes, [1], [2])-1, tf.float32)
   #print('!!!!!!!!!!!!!!!!!!! result.label before reshape', result.label)
   result.label = tf.reshape(result.label, [1, 1])
     
