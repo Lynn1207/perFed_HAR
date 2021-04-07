@@ -207,7 +207,7 @@ def train():
           step+=1
           
         outer_i += 1
-        '''
+        
         #get the weights and send to server
         w_flat = np.array([])
         #depends on how many layer wanna upload to server to share with other users
@@ -229,7 +229,7 @@ def train():
             #print("W_avg:", W_general[0:3])
             #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
         #print("Length of updated paras: %d \n"% len(updated_paras_v))
-        '''
+        
   
         
         
