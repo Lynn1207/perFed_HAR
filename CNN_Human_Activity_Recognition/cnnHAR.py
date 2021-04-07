@@ -16,7 +16,7 @@ import numpy as np
 import cnnHAR_input
 
 #2 baselines, our method: fedper
-method="local" #"local", "FedPer"
+method="FedPerl1" #"local", "FedPer"
 cur_l=1
 num_paras= 1664#l1: 1664; l2: 18528; l3: 248928, l4: 773728; l5: 789118; l6: 213797
 
