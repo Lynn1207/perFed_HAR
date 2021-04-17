@@ -111,7 +111,8 @@ def eval_once(is_loc, saver,summary_writer,labels,loss,logits,summary_op):
             simpleness.append(1)
           else:
             simpleness.append(0)
-          print('!!!!!!!!!!!!!!P(sample): ', predictions[i][int(samplelabels[i][0][0])] )
+          if predictions[i][int(samplelabels[i][0][0])<0.1:
+            print('!!!!!!!!!!!!!!P(sample): ', predictions[i][int(samplelabels[i][0][0])] )
           n_l+=-math.log(predictions[i][int(samplelabels[i][0][0])])
       
       if is_loc:
