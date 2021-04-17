@@ -182,12 +182,12 @@ def inference(signals):
     pool2 = tf.nn.max_pool2d(conv2, ksize=[1,4,1, 1], strides=[1,2,1,1],padding='VALID',name='pool2')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
     reshape = tf.keras.layers.Flatten()(pool2)
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1]) 
+    
     reshape = tf.cast(reshape, tf.float64)
     """32x3x3x32: 32x288"""
-    
+    print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1])
     dim = reshape.get_shape()[1]
-     
+    print("dim", dim) 
     with tf.variable_scope('local2') as scope:
         # Move everything into depth so we can perform a single matrix multiply.
         weights = _variable_with_weight_decay('weights3', shape=[dim, 1024],
