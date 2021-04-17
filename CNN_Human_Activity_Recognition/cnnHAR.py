@@ -161,7 +161,7 @@ def inference(signals):
            conv = tf.nn.conv2d(signals, kernel, [1,4,3,1], padding='VALID', data_format='NHWC')
            pre_activation = tf.nn.bias_add(conv, biases)
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
-           _activation_summary(conv1)
+           #_activation_summary(conv1)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
     pool1 = tf.nn.max_pool2d(conv1, ksize=[1,1,1,1], strides=[1,1,1,1],padding='VALID',name='pool1')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
@@ -177,7 +177,7 @@ def inference(signals):
            conv = tf.nn.conv2d(pool1, kernel, [1,2,1,1], padding='VALID', data_format='NHWC')
            pre_activation = tf.nn.bias_add(conv, biases)
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
-           _activation_summary(conv2)
+           #_activation_summary(conv2)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape()) (8*3*32)
     pool2 = tf.nn.max_pool2d(conv2, ksize=[1,4,1, 1], strides=[1,2,1,1],padding='VALID',name='pool2')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
@@ -195,7 +195,7 @@ def inference(signals):
         
         local2 = tf.nn.relu(tf.matmul(reshape, weights) + biases, name=scope.name)
         #print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
-        _activation_summary(local2)
+        #_activation_summary(local2)
 
     with tf.variable_scope('local3') as scope:
         # Move everything into depth so we can perform a single matrix multiply.
@@ -205,7 +205,7 @@ def inference(signals):
         
         local3 = tf.nn.relu(tf.matmul(local2, weights) + biases, name=scope.name)
         #print ('!!!!!!!!!!!!!!!Shape of local3 :', local3.get_shape())
-        _activation_summary(local3)
+        #_activation_summary(local3)
     '''
     with tf.variable_scope('local4') as scope:
         weights = _variable_with_weight_decay('weights5', shape=[512, 128], stddev=0.04, wd=0.009)
@@ -216,10 +216,10 @@ def inference(signals):
         _activation_summary(local4)
     '''
     with tf.variable_scope('softmax_linear') as scope:
-          weights = _variable_with_weight_decay('weights6', [512, NUM_CLASSES],stddev=0.04, wd=0.009)
-          biases = _variable_on_cpu('biases6', [NUM_CLASSES],tf.constant_initializer(0.0))
+          weights = _variable_with_weight_decay('weights5', [512, NUM_CLASSES],stddev=0.04, wd=0.009)
+          biases = _variable_on_cpu('biases5', [NUM_CLASSES],tf.constant_initializer(0.0))
           softmax_linear = tf.nn.softmax(tf.matmul(local3, weights)+biases,name=scope.name)
-          _activation_summary(softmax_linear)
+          #_activation_summary(softmax_linear)
           #print ('!!!!!!!!!!!!!!!Shape of softmax_linear :', softmax_linear.get_shape())
     
     return softmax_linear
@@ -257,7 +257,7 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
                                 decay_steps,#10000,
                                 LEARNING_RATE_DECAY_FACTOR,
                                 staircase=True)
- tf.summary.scalar('learning_rate', lr)
+ #tf.summary.scalar('learning_rate', lr)
 
  ###### Record the parameters
  '''
@@ -280,7 +280,7 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
 # Apply gradients.
  apply_gradient_op = opt.apply_gradients(grads, global_step=global_step)
 
-
+'''
 # Add histograms for trainable variables.
  for var in tf.trainable_variables():
   tf.summary.histogram(var.op.name, var)
@@ -289,7 +289,7 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
  for grad, var in grads:
   if grad is not None:
     tf.summary.histogram(var.op.name + '/gradients', grad)
-
+'''
 # Track the moving averages of all trainable variables.
  variable_averages = tf.train.ExponentialMovingAverage(
     MOVING_AVERAGE_DECAY, global_step)
