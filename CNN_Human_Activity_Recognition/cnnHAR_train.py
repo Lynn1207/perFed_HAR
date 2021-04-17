@@ -103,6 +103,7 @@ def train():
     W_avg = tf.compat.v1.placeholder(tf.float64, shape=(cnnHAR.num_paras,))
     updated_paras=cnnHAR.reset_var(W_avg)
     
+    '''
     # prepare the communication module
     server_addr = "localhost"
     server_port = 9999
@@ -112,7 +113,7 @@ def train():
     comm.send2server('hello',-1)
     #print("Send Hello")
     comm.recvfserver()
-    
+    '''
     
     class _LoggerHook(tf.train.SessionRunHook):
       """Logs loss and runtime."""
