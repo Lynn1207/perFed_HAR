@@ -105,7 +105,6 @@ def eval_once(is_loc, saver,summary_writer,labels,loss,logits,summary_op):
         step += 1
         #print(str(sys.argv[1])+'~~~~Local test:%d'%(step))
         samplelabels,predictions,precision=sess.run([labels,logits,loss])
-        
         for i in range(0, batch_size):
           if int(samplelabels[i][0][0])==np.argmax(predictions[i]):
             n_acc+=1.0
@@ -145,7 +144,7 @@ def evaluate(is_loc):
     # Get images and labels for CIFAR-10.
     
     signals, labels = cnnHAR.inputs(eval_data=is_loc)
-    
+    print('~~~~shape of label:', labels.get_shape())
     # Build a Graph that computes the logits predictions from the
 
     logits=cnnHAR.inference(signals)
