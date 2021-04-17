@@ -162,9 +162,9 @@ def inference(signals):
            pre_activation = tf.nn.bias_add(conv, biases)
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            _activation_summary(conv1)
-           print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
+           #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
     pool1 = tf.nn.max_pool2d(conv1, ksize=[1,1,1,1], strides=[1,1,1,1],padding='VALID',name='pool1')
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """18x3x64"""
    
     with tf.variable_scope('conv2') as scope:
@@ -180,7 +180,7 @@ def inference(signals):
            _activation_summary(conv2)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape()) (8*3*32)
     pool2 = tf.nn.max_pool2d(conv2, ksize=[1,4,1, 1], strides=[1,2,1,1],padding='VALID',name='pool2')
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
     reshape = tf.keras.layers.Flatten()(pool2)
     print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1]) 
     reshape = tf.cast(reshape, tf.float64)
