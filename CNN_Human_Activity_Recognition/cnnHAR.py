@@ -150,7 +150,7 @@ def _add_loss_summaries(total_loss):
   return loss_averages_op
   
 def inference(signals):
-    print('<<<<<<<<<<<<<<<<<<<<Shape of singals :',signals.get_shape())
+    #print('<<<<<<<<<<<<<<<<<<<<Shape of singals :',signals.get_shape())
     with tf.variable_scope('conv1') as scope:
            kernel = _variable_with_weight_decay('weights1',
                                                 shape=[32, 3, 1, 64],
@@ -185,9 +185,8 @@ def inference(signals):
     
     reshape = tf.cast(reshape, tf.float64)
     """32x3x3x32: 32x288"""
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1])
-    dim = reshape.get_shape()[1]
-    print("dim", dim) 
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1])
+    dim = reshape.get_shape()[1] 
     with tf.variable_scope('local2') as scope:
         # Move everything into depth so we can perform a single matrix multiply.
         weights = _variable_with_weight_decay('weights3', shape=[dim, 1024],
@@ -195,7 +194,7 @@ def inference(signals):
         biases = _variable_on_cpu('biases3', [1024], tf.constant_initializer(0.10))
         
         local2 = tf.nn.relu(tf.matmul(reshape, weights) + biases, name=scope.name)
-        print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
+        #print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
         _activation_summary(local2)
 
     with tf.variable_scope('local3') as scope:
