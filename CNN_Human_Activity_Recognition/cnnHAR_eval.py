@@ -144,7 +144,7 @@ def evaluate(is_loc):
     # Get images and labels for CIFAR-10.
     
     signals, labels = cnnHAR.inputs(eval_data=is_loc)
-    print('~~~~shape of label:', labels.get_shape())
+    #print('~~~~shape of label:', labels.get_shape())
     # Build a Graph that computes the logits predictions from the
 
     logits=cnnHAR.inference(signals)
