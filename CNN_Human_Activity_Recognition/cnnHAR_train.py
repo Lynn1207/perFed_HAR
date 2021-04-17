@@ -55,7 +55,7 @@ train_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check
 
 
 
-max_steps = 200 #400 epoch
+max_steps = 100 #400 epoch
 
 log_device_placement = False
 
@@ -178,7 +178,7 @@ def train():
         return tf.train.SessionRunArgs(paras)  # Asks for signals.
 
       def after_run(self, run_context, run_values):
-        if self._step==0 or (self._step+1)%(max_steps/4)==0:
+        if self._step==0 or (self._step+1)%(max_steps/2)==0:
           #print(self._step)
           paras_v=run_values.results
           cnnHAR_eval.main(True)
