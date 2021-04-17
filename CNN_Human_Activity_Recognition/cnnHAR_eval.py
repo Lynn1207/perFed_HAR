@@ -112,8 +112,10 @@ def eval_once(is_loc, saver,summary_writer,labels,loss,logits,summary_op):
           else:
             simpleness.append(0)
           if predictions[i][int(samplelabels[i][0][0])]<0.1:
-            print('!!!!!!!!!!!!!!P(sample): ', predictions[i][int(samplelabels[i][0][0])] )
-          n_l+=-math.log(predictions[i][int(samplelabels[i][0][0])])
+            #print('!!!!!!!!!!!!!!P(sample): ', predictions[i][int(samplelabels[i][0][0])] )
+            n_l+=7.0
+          else:
+            n_l+=-math.log(predictions[i][int(samplelabels[i][0][0])])
       
       if is_loc:
         f = open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_test_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
