@@ -280,16 +280,6 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
 # Apply gradients.
  apply_gradient_op = opt.apply_gradients(grads, global_step=global_step)
 
-'''
-# Add histograms for trainable variables.
- for var in tf.trainable_variables():
-  tf.summary.histogram(var.op.name, var)
-
-# Add histograms for gradients.
- for grad, var in grads:
-  if grad is not None:
-    tf.summary.histogram(var.op.name + '/gradients', grad)
-'''
 # Track the moving averages of all trainable variables.
  variable_averages = tf.train.ExponentialMovingAverage(
     MOVING_AVERAGE_DECAY, global_step)
