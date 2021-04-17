@@ -385,7 +385,7 @@ def reset_var(W_avg):
                 var=tf.assign(var,tf.reshape(W_avg[835168:837728],[512, 5]))
                 updated_paras.append(var)
               elif var.op.name=="local4/biases5":
-                var=tf.assign(var, W_avg[837728:837734])
+                var=tf.assign(var, W_avg[837728:837733])
                 updated_paras.append(var)
               
   
