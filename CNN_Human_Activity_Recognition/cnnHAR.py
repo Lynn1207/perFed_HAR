@@ -293,6 +293,8 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
   paras=[]
   for var in tf.trainable_variables():
     paras.append(var)
+    if str(sys.argv[1])=="1":
+      print("Before_merge:", var.op.name)
     
  return  variables_averages_op, paras
 
