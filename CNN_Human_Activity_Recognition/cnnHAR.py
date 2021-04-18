@@ -186,7 +186,7 @@ def inference(signals):
     
     reshape = tf.cast(reshape, tf.float64)
     """32x3x3x32: 32x288"""
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1])
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1])
     dim = reshape.get_shape()[1] 
     
     with tf.variable_scope('local2') as scope:
