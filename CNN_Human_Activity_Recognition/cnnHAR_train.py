@@ -220,6 +220,7 @@ def train():
           w_flat=np.concatenate((w_flat, temp), axis=0)
         #if str(sys.argv[1])=="1":
           #print("Before_merge:", w_flat[0:3])
+        print("after flatten%%%%%%%%%%%%", len(w_flat))
         comm.send2server(w_flat,0)
       
         #receive aggregated weights from server
