@@ -55,7 +55,7 @@ print(ans)
 print("Grouping results: ")
 i=0
 while i<len(ans):
-    print(len(ans), ans[i]) 
+    print(len(ans), i) 
     no_intersect=False
     while not no_intersect:
         no_intersect=True
