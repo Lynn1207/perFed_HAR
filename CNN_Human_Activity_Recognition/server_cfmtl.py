@@ -36,8 +36,8 @@ def server_update():
     
     global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg6_1, W_avg6_2, W_avg6_3
     # print(np.max(W))
-    #W_avg=np.mean(W, axis = 0)
-    
+    W_avg=np.mean(W, axis = 0)
+    '''
     W_avg1_1=(W[0][0:6208]+W[1][0:6208]+W[4][0:6208]+W[3][0:6208]+W[5][0:6208])/5.0
     W_avg1_2=W[2][0:6208]
     
@@ -55,7 +55,7 @@ def server_update():
     W_avg5_1=(W[0][199328:200293]+W[3][199328:200293]+W[4][199328:200293])/3.0
     W_avg5_2=(W[1][199328:200293]+W[5][199328:200293])/2.0
     W_avg5_3=W[2][199328:200293]
-    '''
+    
     W_avg1_1= W[0][0:12352]
     W_avg1_2= np.mean(W[1:6,0:12352], axis = 0)
    
@@ -173,7 +173,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     except Exception as e:
                         print("wait W timeout...")
                         
-                    
+                    '''
                     if user_id[0]==3 :
                         W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_2,W_avg4_3,W_avg5_3))
                     elif user_id[0]==2 or user_id[0]==6 :
@@ -181,7 +181,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     else: 
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_1,W_avg5_1))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
                     #print(out_i, user_id[0])
-                                      
+                    '''                
                 
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
                     W_avg_size = sys.getsizeof(W_avg_data)
