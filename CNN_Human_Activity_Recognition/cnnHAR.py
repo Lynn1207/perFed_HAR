@@ -195,7 +195,7 @@ def inference(signals):
                                               stddev=0.04, wd=0.009)
         biases = _variable_on_cpu('biases3', [384], tf.constant_initializer(0.10))
         
-        local2 = tf.layers.batch_normalization(tf.nn.relu(tf.matmul(reshape, weights) + biases, name=scope.name))
+        local2 = tf.nn.relu(tf.layers.batch_normalization(tf.matmul(reshape, weights) + biases, name=scope.name))
         #print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
         _activation_summary(local2)
 
@@ -205,7 +205,7 @@ def inference(signals):
                                               stddev=0.04, wd=0.009)#0.004,index)
         biases = _variable_on_cpu('biases4', [192], tf.constant_initializer(0.00))
         
-        local3 = tf.layers.batch_normalization(tf.nn.relu(tf.matmul(local2, weights) + biases, name=scope.name))
+        local3 = tf.nn.relu(tf.layers.batch_normalization(tf.matmul(local2, weights) + biases, name=scope.name))
         #print ('!!!!!!!!!!!!!!!Shape of local3 :', local3.get_shape())
         _activation_summary(local3)
     '''
@@ -220,7 +220,7 @@ def inference(signals):
     with tf.variable_scope('softmax_linear') as scope:
           weights = _variable_with_weight_decay('weights5', [192, NUM_CLASSES],stddev=0.04, wd=0.009)
           biases = _variable_on_cpu('biases5', [NUM_CLASSES],tf.constant_initializer(0.0))
-          softmax_linear = tf.layers.batch_normalization(tf.nn.softmax(tf.matmul(local3, weights)+biases,name=scope.name))
+          softmax_linear = tf.nn.softmax(tf.layers.batch_normalization(tf.matmul(local3, weights)+biases,name=scope.name))
           _activation_summary(softmax_linear)
           #print ('!!!!!!!!!!!!!!!Shape of softmax_linear :', softmax_linear.get_shape())
     
