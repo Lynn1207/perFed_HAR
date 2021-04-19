@@ -292,10 +292,10 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
   ###### Record the parameters
   paras=[]
   for var in tf.trainable_variables():
-    if var.op.name.find('batch_normalization') != -1:
+    if var.op.name.find('batch_normalization') == -1:
       paras.append(var)
     #if str(sys.argv[1])=="1":
-      print("Before_merge:", var.op.name)
+      #print("Before_merge:", var.op.name)
     
  return  variables_averages_op, paras
 
