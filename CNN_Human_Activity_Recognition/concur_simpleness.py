@@ -66,7 +66,8 @@ while i<len(ans):
                 del ans[j]
             else:
                 j+=1
-    print(len(ans), ans[i]) 
     i+=1
+    print("%d:"%i, ans[i-1]) 
+    
 
            
