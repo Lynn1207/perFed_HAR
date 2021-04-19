@@ -50,7 +50,7 @@ for i in range(12):
         if concur_m[i][j]==1:
             cur.add(j)
     ans.append(cur)
-
+print(ans)
 for i in range(len(ans)):
     no_intersect=False
     while not no_intersect:
