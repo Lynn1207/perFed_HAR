@@ -16,9 +16,9 @@ import numpy as np
 import cnnHAR_input
 
 #2 baselines, our method: fedper
-method="FedPerl1" #"local", "FedPer"
-cur_l=1
-num_paras= 6208#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5: 213797
+method="FedPerl2" #"local", "FedPer"
+cur_l=2
+num_paras= 14432#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5: 213797
 
 # Basic model parameters.
 batch_size = 32
