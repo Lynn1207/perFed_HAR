@@ -51,6 +51,8 @@ for i in range(12):
             cur.add(j+1)
     ans.append(cur)
 print(ans)
+
+print("Grouping results: ")
 for i in range(len(ans)):
     no_intersect=False
     while not no_intersect:
@@ -63,5 +65,7 @@ for i in range(len(ans)):
                 del ans[j]
             else:
                 j+=1
-print(ans)
+    print(ans[i])
+
+
            
