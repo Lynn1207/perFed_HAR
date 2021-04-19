@@ -8,7 +8,7 @@ def concur_simp(acc1, acc2):
     return count/float(len(acc1))
 
 accs=[]
-meth="local"
+meth="FedPerl1"
 for i in range(1,13):
     f=open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_com_"+meth+str(i)+".txt")
     for line in f:
@@ -40,5 +40,26 @@ for i in range(12):
             concur_m[i][j]=1
         else:
             concur_m[i][j]=0
-
 print(concur_m)
+
+
+ans=[]
+for i in range(12):
+    cur={i+1}
+    for j in range(i+1, 12):
+        if concur_m[i][j]==1:
+            cur.add(j)
+    ans.append(cur)
+
+for i in range(len(ans)):
+    no_intersect=False
+    while not no_intersect:
+        no_intersect=True
+        for j in range(i+1, len(ans)):
+            if len(ans[i].intersection(ans[j]))>0:
+                no_intersect=False
+                ans[i].update(ans[j])
+                del ans[j]
+                j-=1
+print(ans)
+           
