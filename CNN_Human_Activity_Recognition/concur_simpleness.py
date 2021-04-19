@@ -34,6 +34,7 @@ print(concur_m)
 #grouping using concur_simp
 avg_consim=sum_matr/count
 print("\n Avarage concurrent_simpleness: %.3f. \n"%avg_consim)
+avg_consim=0.7
 for i in range(12):
     for j in range(i+1, 12):
         if concur_m[i][j]>avg_consim:
