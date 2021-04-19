@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 6
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =199328#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
+W_DIM =200293#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
 T_thresh = 10
 
@@ -50,6 +50,11 @@ def server_update():
     W_avg4_1=(W[0][125408:199328]+W[3][125408:199328]+W[4][125408:199328])/3.0
     W_avg4_2=(W[1][125408:199328]+W[5][125408:199328])/2.0
     W_avg4_3=W[2][125408:199328]
+    
+    
+    W_avg5_1=(W[0][199328:200293]+W[3][199328:200293]+W[4][199328:200293])/3.0
+    W_avg5_2=(W[1][199328:200293]+W[5][199328:200293])/2.0
+    W_avg5_3=W[2][199328:200293]
     '''
     W_avg1_1= W[0][0:12352]
     W_avg1_2= np.mean(W[1:6,0:12352], axis = 0)
@@ -170,11 +175,11 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         
                     
                     if user_id[0]==3 :
-                        W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_2,W_avg4_3))
+                        W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_2,W_avg4_3,W_avg5_3))
                     elif user_id[0]==2 or user_id[0]==6 :
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_2))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_2,W_avg5_2))
                     else: 
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_1))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1,W_avg4_1,W_avg5_1))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
                     #print(out_i, user_id[0])
                                       
                 
