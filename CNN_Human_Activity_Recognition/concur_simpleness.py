@@ -48,18 +48,20 @@ for i in range(12):
     cur={i+1}
     for j in range(i+1, 12):
         if concur_m[i][j]==1:
-            cur.add(j)
+            cur.add(j+1)
     ans.append(cur)
 print(ans)
 for i in range(len(ans)):
     no_intersect=False
     while not no_intersect:
         no_intersect=True
-        for j in range(i+1, len(ans)):
+        j=i+1
+        while j<len(ans):
             if len(ans[i].intersection(ans[j]))>0:
                 no_intersect=False
                 ans[i].update(ans[j])
                 del ans[j]
-                j-=1
+            else:
+                j+=1
 print(ans)
            
