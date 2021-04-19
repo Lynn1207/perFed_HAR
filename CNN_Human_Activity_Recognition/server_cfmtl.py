@@ -12,7 +12,7 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 # np.set_printoptions(threshold=np.inf)
 
-NUM_OF_TOTAL_USERS = 6
+NUM_OF_TOTAL_USERS = 12
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
 W_DIM =200293#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
