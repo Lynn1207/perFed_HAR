@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 6
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =125408#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
+W_DIM =200293#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
 T_thresh = 10
 
@@ -36,8 +36,8 @@ def server_update():
     
     global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg6_1, W_avg6_2, W_avg6_3
     # print(np.max(W))
-    
-    
+    W_avg=np.mean(W, axis = 0)
+    '''
     W_avg1_1=(W[0][0:6208]+W[1][0:6208]+W[2][0:6208]+W[3][0:6208]+W[5][0:6208])/5.0
     W_avg1_2=W[4][0:6208]
     
@@ -46,7 +46,10 @@ def server_update():
     
     W_avg3_1=(W[0][14432:125408]+W[1][14432:125408]+W[2][14432:125408]+W[3][14432:125408]+W[5][14432:125408])/5.0
     W_avg3_2=W[4][14432:125408]
-    '''
+    
+    W_avg4_1=(W[0][125408:199328]+W[1][125408:199328]+W[2][125408:199328]+W[3][125408:199328]+W[5][125408:199328])/5.0
+    W_avg4_2=W[4][125408:199328]
+    
     W_avg1_1= W[0][0:12352]
     W_avg1_2= np.mean(W[1:6,0:12352], axis = 0)
    
@@ -164,13 +167,13 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     except Exception as e:
                         print("wait W timeout...")
                         
-                    
+                    '''
                     if user_id[0]==5 :
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1,W_avg3_1))
+                        W_avg=np.concatenate((W_avg1_2, W_avg2_1,W_avg3_1,W_avg4_1))
                     else: 
-                        W_avg=np.concatenate((W_avg1_2, W_avg2_2,W_avg3_2))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_2,W_avg3_2,W_avg4_2))#, W_avg2_1,W_avg3_1,W_avg4_1, W_avg5_3, W_avg6_3))
                     #print(out_i, user_id[0])
-                                         
+                    '''                    
                 
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
                     W_avg_size = sys.getsizeof(W_avg_data)
