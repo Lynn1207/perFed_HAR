@@ -54,6 +54,7 @@ print(ans)
 
 print("Grouping results: ")
 for i in range(len(ans)):
+    print(i, ans[i]) 
     no_intersect=False
     while not no_intersect:
         no_intersect=True
@@ -65,7 +66,7 @@ for i in range(len(ans)):
                 del ans[j]
             else:
                 j+=1
-    print(ans[i])
+    print(i, ans[i]) 
 
 
            
