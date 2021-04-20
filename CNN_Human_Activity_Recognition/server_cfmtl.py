@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 12
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =14432#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
+W_DIM =125408#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
 T_thresh = 10
 
@@ -34,7 +34,7 @@ update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
 def server_update():
     
-    global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg6_1, W_avg6_2, W_avg6_3
+    global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg6_1, W_avg6_2, W_avg6_3
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
     W_avg1_2=np.mean(np.concatenate((W[1:5,0:6208], W[6:12,0:6208])), axis = 0)
@@ -45,6 +45,13 @@ def server_update():
     W_avg2_2=(W[1,6208:14432]+W[9,6208:14432])/2.0
     W_avg2_3=np.mean(np.concatenate((W[2:9,6208:14432], W[10:12,6208:14432])), axis = 0)
     W_avg2_4=W[5,6208:14432]
+    
+    W_avg3_1=W[0, 14432:125408]
+    W_avg3_2=W[1, 14432:125408]
+    W_avg3_3=W[2, 14432:125408]
+    W_avg3_4=np.mean(np.concatenate((W[3:5,14432:125408], W[6:9,14432:125408],W[10:12,14432:125408])), axis = 0)
+    W_avg3_5=W[5, 14432:125408]
+    W_avg3_6=W[9, 14432:125408]
     '''
     W_avg3_1=(W[0][14432:125408]+W[1][14432:125408]+W[4][14432:125408]+W[3][14432:125408]+W[5][14432:125408])/5.0
     W_avg3_2=W[2][14432:125408]
@@ -177,13 +184,17 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         
                     
                     if user_id[0]==1:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1))
-                    elif user_id[0]==2 or user_id[0]==10:
-                        W_avg=np.concatenate((W_avg1_2, W_avg2_2))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1))
+                    elif user_id[0]==2: 
+                        W_avg=np.concatenate((W_avg1_2, W_avg2_2, W_avg3_2))
+                    elif user_id[0]==3:
+                        W_avg=np.concatenate((W_avg1_2, W_avg2_3, W_avg3_3))
                     elif user_id[0]==6:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_4))
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_4, W_avg3_5))
+                    elif user_id[0]==10: 
+                        W_avg=np.concatenate((W_avg1_2, W_avg2_2, W_avg3_6))
                     else:
-                        W_avg=np.concatenate((W_avg1_2, W_avg2_3))
+                        W_avg=np.concatenate((W_avg1_2, W_avg2_3, W_avg3_4))
                     
                                    
                 
