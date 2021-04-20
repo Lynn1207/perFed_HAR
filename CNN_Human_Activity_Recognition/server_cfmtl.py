@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 8
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =200293#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
+W_DIM =175138#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
 T_thresh = 10
 
@@ -36,6 +36,8 @@ def server_update():
     
     global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
     # print(np.max(W))
+    W_avg=np.mean(W, axis = 0)
+    '''
     W_avg1_1=np.mean(W[0:24, 0:6208], axis = 0)
     
     W_avg2_1=np.mean(W[0:24, 6208:14432], axis = 0)
@@ -49,39 +51,7 @@ def server_update():
     W_avg5_1=np.mean(np.concatenate((W[0:5,199328:200293], W[6:24,199328:200293])), axis = 0)
     W_avg5_2=W[5, 199328:200293]
     '''
-    W_avg1_2=np.mean(np.concatenate((W[1:5,0:6208], W[6:12,0:6208])), axis = 0)
-    W_avg1_1=(W[0,0:6208]+W[5,0:6208])/2.0
     
-    
-    W_avg2_1=W[0, 6208:14432]
-    W_avg2_2=(W[1,6208:14432]+W[9,6208:14432])/2.0
-    W_avg2_3=np.mean(np.concatenate((W[2:9,6208:14432], W[10:12,6208:14432])), axis = 0)
-    W_avg2_4=W[5,6208:14432]
-    
-    W_avg3_1=W[0, 14432:125408]
-    W_avg3_2=W[1, 14432:125408]
-    W_avg3_3=W[2, 14432:125408]
-    W_avg3_4=np.mean(np.concatenate((W[3:5,14432:125408], W[6:9,14432:125408],W[10:12,14432:125408])), axis = 0)
-    W_avg3_5=W[5, 14432:125408]
-    W_avg3_6=W[9, 14432:125408]
-    
-    W_avg4_1=W[0, 125408:199328]
-    W_avg4_2=W[1, 125408:199328]
-    W_avg4_3=W[2, 125408:199328]
-    W_avg4_4=np.mean(np.concatenate((W[3:5,125408:199328], W[6:9,125408:199328],W[10:12,125408:199328])), axis = 0)
-    W_avg4_5=W[5, 125408:199328]
-    W_avg4_6=W[9, 125408:199328]
-    
-    W_avg5_1=W[0, 199328:200293]
-    W_avg5_2=W[1, 199328:200293]
-    W_avg5_3=W[2, 199328:200293]
-    W_avg5_4=np.mean(np.concatenate((W[3:5,199328:200293], W[6:9,199328:200293],W[10:12,199328:200293])), axis = 0)
-    W_avg5_5=W[5, 199328:200293]
-    W_avg5_6=W[9, 199328:200293]
-    '''
-   
-   
-   
     # print(np.max(W_avg))
     
 def reinitialize():
@@ -174,12 +144,12 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     except Exception as e:
                         print("wait W timeout...")
                         
-                    
+                    '''
                     if user_id[0]==6:
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_2, W_avg4_2, W_avg5_2))
                     else:
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_1, W_avg5_1))
-                    
+                    '''
                                    
                 
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
