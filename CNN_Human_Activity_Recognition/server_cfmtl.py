@@ -38,13 +38,14 @@ def server_update():
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
     W_avg1_2=np.mean(np.concatenate((W[1:5,0:6208], W[6:12,0:6208])), axis = 0)
-    print(W_avg1_2.shape)
-    W_avg1_1=(W[0][0:6208]+W[5][0:6208])/2.0
+    W_avg1_1=(W[0:1,0:6208]+W[5:6,0:6208])/2.0
+    print(W_avg1_2.shape, W_avg1_1.shape)
     
-    W_avg2_1=W[0][6208:14432]
-    W_avg2_2=(W[1][6208:14432]+W[9][6208:14432])/2.0
-    W_avg2_3=np.mean(np.concatenate((W[2:9][6208:14432], W[10:12][6208:14432])), axis = 0)
-    W_avg2_4=W[5][6208:14432]
+    W_avg2_1=W[0, 6208:14432]
+    W_avg2_2=(W[1,6208:14432]+W[9,6208:14432])/2.0
+    W_avg2_3=np.mean(np.concatenate((W[2:9,6208:14432], W[10:12,6208:14432])), axis = 0)
+    W_avg2_4=W[5,6208:14432]
+    print(W_avg2_1.shape, W_avg2_2.shape, W_avg2_3.shape, W_avg2_4.shape)
     '''
     W_avg3_1=(W[0][14432:125408]+W[1][14432:125408]+W[4][14432:125408]+W[3][14432:125408]+W[5][14432:125408])/5.0
     W_avg3_2=W[2][14432:125408]
