@@ -150,7 +150,7 @@ def _add_loss_summaries(total_loss):
   return loss_averages_op
   
 def inference(signals):
-    print('<<<<<<<<<<<<<<<<<<<<Shape of singals :',signals.get_shape())
+    #print('<<<<<<<<<<<<<<<<<<<<Shape of singals :',signals.get_shape())
     with tf.variable_scope('conv1') as scope:
            kernel = _variable_with_weight_decay('weights1',
                                                 shape=[32,1, 64],
@@ -163,9 +163,9 @@ def inference(signals):
            #pre_activation= tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            #_activation_summary(conv1)
-           print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
+           #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
     pool1 = tf.nn.max_pool1d(conv1, ksize=[1,1,1], strides=[1,1,1],padding='VALID',name='pool1')
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """18x3x64"""
    
     with tf.variable_scope('conv2') as scope:
@@ -179,14 +179,14 @@ def inference(signals):
            pre_activation=tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
            #_activation_summary(conv2)
-           print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape()) 
+           #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape()) 
     pool2 = tf.nn.max_pool1d(conv2, ksize=[1,1,1], strides=[1,1,1],padding='VALID',name='pool2')
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
     reshape = tf.keras.layers.Flatten()(pool2)
     
     reshape = tf.cast(reshape, tf.float64)
     """32x3x3x32: 32x288"""
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1])
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1])
     dim = reshape.get_shape()[1] 
     
     with tf.variable_scope('local2') as scope:
