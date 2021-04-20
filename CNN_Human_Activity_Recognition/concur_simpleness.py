@@ -8,7 +8,7 @@ def concur_simp(acc1, acc2):
     return count/float(len(acc1))
 
 accs=[]
-meth="FedPerl1"
+meth="FedPerl2"
 for i in range(1,8+1):
     f=open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_com_"+meth+str(i)+".txt")
     for line in f:
