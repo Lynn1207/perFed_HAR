@@ -38,7 +38,7 @@ def server_update():
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
     W_avg1_2=np.mean(np.concatenate((W[1:5,0:6208], W[6:12,0:6208])), axis = 0)
-    W_avg1_1=(W[0:1,0:6208]+W[5:6,0:6208])/2.0
+    W_avg1_1=(W[0,0:6208]+W[5,0:6208])/2.0
     print(W_avg1_2.shape, W_avg1_1.shape)
     
     W_avg2_1=W[0, 6208:14432]
