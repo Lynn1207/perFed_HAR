@@ -158,7 +158,7 @@ def inference(signals):
                                                 stddev=0.04,
                                                 wd=0.009)
            biases = _variable_on_cpu('biases1', [64], tf.constant_initializer(0.0))#!!!
-           conv = tf.nn.conv1d(signals, kernel, [1,1,1], padding='VALID', data_format='NHWC')
+           conv = tf.nn.conv1d(signals, kernel, [1,1,1], padding='VALID', data_format='NWC')
            pre_activation = tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
            #pre_activation= tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
@@ -175,7 +175,7 @@ def inference(signals):
                                                 stddev=0.04,
                                                 wd=0.009)
            biases = _variable_on_cpu('biases2', [32], tf.constant_initializer(0.0))#!!!
-           conv = tf.nn.conv1d(pool1, kernel, [1,3,1], padding='VALID', data_format='NHWC')
+           conv = tf.nn.conv1d(pool1, kernel, [1,3,1], padding='VALID', data_format='NWC')
            pre_activation=tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
            #_activation_summary(conv2)
