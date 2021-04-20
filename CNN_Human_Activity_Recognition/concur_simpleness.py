@@ -9,7 +9,7 @@ def concur_simp(acc1, acc2):
 
 accs=[]
 meth="FedPerl5"
-for i in range(1,25):
+for i in range(1,8+1):
     f=open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_com_"+meth+str(i)+".txt")
     for line in f:
         acc=[]
@@ -20,11 +20,11 @@ for i in range(1,25):
     
 
 #compute the concur_simpleness matrix
-concur_m=np.zeros((24,24))
+concur_m=np.zeros((8,8))
 sum_matr=0.0
 count=0
-for i in range(24):
-    for j in range(i+1, 24):
+for i in range(8):
+    for j in range(i+1, 8):
         concur_m[i][j]=concur_simp(accs[i], accs[j])
         count+=1
         sum_matr+=concur_m[i][j]
@@ -35,8 +35,8 @@ print(concur_m)
 avg_consim=sum_matr/count
 print("\n Avarage concurrent_simpleness: %.3f. \n"%avg_consim)
 avg_consim=0.7
-for i in range(24):
-    for j in range(i+1, 24):
+for i in range(8):
+    for j in range(i+1, 8):
         if concur_m[i][j]>avg_consim:
             concur_m[i][j]=1
         else:
@@ -45,9 +45,9 @@ print(concur_m)
 
 
 ans=[]
-for i in range(24):
+for i in range(8):
     cur={i+1}
-    for j in range(i+1, 24):
+    for j in range(i+1, 8):
         if concur_m[i][j]==1:
             cur.add(j+1)
     ans.append(cur)
