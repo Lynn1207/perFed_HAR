@@ -99,7 +99,7 @@ def train():
     [train_op,paras]= cnnHAR.train(loss, global_step)
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
-    
+    '''
     W_avg = tf.compat.v1.placeholder(tf.float64, shape=(cnnHAR.num_paras,))
     updated_paras=cnnHAR.reset_var(W_avg)
     
@@ -113,7 +113,7 @@ def train():
     comm.send2server('hello',-1)
     #print("Send Hello")
     comm.recvfserver()
-    
+    '''
     
     class _LoggerHook(tf.train.SessionRunHook):
       """Logs loss and runtime."""
@@ -209,7 +209,7 @@ def train():
           
         outer_i += 1
         
-        
+        '''
         #get the weights and send to server
         w_flat = np.array([])
         #depends on how many layer wanna upload to server to share with other users
@@ -233,7 +233,7 @@ def train():
             #print("W_avg:", W_general[0:3])
             #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
         #print("Length of updated paras: %d \n"% len(updated_paras_v))
-        
+        '''
         
         
 
