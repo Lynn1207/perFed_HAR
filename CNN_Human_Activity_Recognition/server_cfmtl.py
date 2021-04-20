@@ -37,8 +37,9 @@ def server_update():
     global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg6_1, W_avg6_2, W_avg6_3
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
-    
-    W_avg1_2=np.mean(np.concatenate((W[1:5], W[6:12]))[0:6208], axis = 0)
+    tmp=np.concatenate((W[1:5], W[6:12]))
+    print(tmp.shape)
+    W_avg1_2=np.mean(tmp[:][0:6208], axis = 0)
     print(len(W_avg1_2))
     W_avg1_1=(W[0][0:6208]+W[5][0:6208])/2.0
     
