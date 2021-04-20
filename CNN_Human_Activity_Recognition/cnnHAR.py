@@ -170,7 +170,7 @@ def inference(signals):
    
     with tf.variable_scope('conv2') as scope:
            kernel = _variable_with_weight_decay('weights2',
-                                                shape=[ 6, 1, 32],
+                                                shape=[ 6, 64, 32],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.009)
@@ -348,7 +348,7 @@ def reset_var(W_avg):
         updated_paras.append(var)
       if cur_l>1:
         if var.op.name=="conv2/weights2":
-          var=tf.assign(var,tf.reshape(W_avg[e:e+6*32],[6, 1, 32]))
+          var=tf.assign(var,tf.reshape(W_avg[e:e+6*32],[6, 64, 32]))
           updated_paras.append(var)
         elif var.op.name=="conv2/biases2":
           var=tf.assign(var, W_avg[e:e+32])
