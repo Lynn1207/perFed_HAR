@@ -149,7 +149,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     except Exception as e:
                         print("wait W timeout...")
                         
-                    
+                    '''
                     if user_id[0]==1:
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_1))
                     elif user_id[0]==2:
@@ -158,7 +158,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_3))
                     else:
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_4))
-                    
+                    '''
                                    
                 
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
