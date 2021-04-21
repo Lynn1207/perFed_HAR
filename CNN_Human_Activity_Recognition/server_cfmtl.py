@@ -36,16 +36,18 @@ def server_update():
     
     global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
     # print(np.max(W))
-    W_avg=np.mean(W, axis = 0)
+    #W_avg=np.mean(W, axis = 0)
     
-    '''
+    
     W_avg1_1=np.mean(W[:, 0:2112], axis = 0)
     
 
     W_avg2_1=np.mean(W[:, 2112:14432], axis = 0)
 
-    W_avg3_1=np.mean(W[:,14432:100832], axis = 0)
-    
+    W_avg3_1=np.mean(W[0:3,14432:100832], axis = 0)
+    W_avg3_2=np.mean(W[3:5,14432:100832], axis = 0)
+    W_avg3_3=np.mean(W[5:8,14432:100832], axis = 0)
+    '''
     W_avg4_1=W[0, 100832:174752]
     W_avg4_3=W[2, 100832:174752]
     W_avg4_2=np.mean(np.concatenate((W[1:2, 100832:174752],W[3:8,100832:174752])), axis = 0)
@@ -148,14 +150,14 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     except Exception as e:
                         print("wait W timeout...")
                         
-                    '''
-                    if user_id[0]==1:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_1))#, W_avg5_1))
-                    elif user_id[0]==3:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_3))#, W_avg5_3))
+                    
+                    if user_id[0]<=3:
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1))#, W_avg5_1))
+                    elif user_id[0]<=5:
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_2))#, W_avg5_3))
                     else:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_2))#, W_avg5_4))
-                    '''
+                        W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_3))#, W_avg5_4))
+                    
                                    
                 
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
