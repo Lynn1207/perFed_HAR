@@ -210,7 +210,7 @@ def train():
           
         outer_i += 1
         
-        '''
+        
         #get the weights and send to server
         w_flat = np.array([])
         #depends on how many layer wanna upload to server to share with other users
@@ -234,7 +234,7 @@ def train():
             #print("W_avg:", W_general[0:3])
             #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
         #print("Length of updated paras: %d \n"% len(updated_paras_v))
-        '''
+        
           
         
         
@@ -251,8 +251,8 @@ def train():
     #debug~~~~~~~~~~
     #print("******************",w_flat.shape)
     f = open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_paras"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
-    str1 = ''.join(("%0.3f"%e) for e in w_flat)
-    f.write(str1)
+    for i in w_flat:
+      f.write(i, ' ')
     f.close()
      
               
