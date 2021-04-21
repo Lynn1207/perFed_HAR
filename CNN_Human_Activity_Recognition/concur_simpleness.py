@@ -1,5 +1,11 @@
 import os
 import numpy as np
+import seaborn as sns
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
 
 def concur_simp(acc1, acc2):
     count=0.0
@@ -8,7 +14,7 @@ def concur_simp(acc1, acc2):
     return count/float(len(acc1))
 
 accs=[]
-meth="FedPerl5"
+meth="local"
 for i in range(1,8+1):
     f=open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_com_"+meth+str(i)+".txt")
     for line in f:
@@ -30,6 +36,8 @@ for i in range(8):
         sum_matr+=concur_m[i][j]
 
 print(concur_m)
+
+sns.heatmap(concur_m, annot = True)
 
 #grouping using concur_simp
 avg_consim=sum_matr/count
