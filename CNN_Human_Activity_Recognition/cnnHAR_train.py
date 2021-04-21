@@ -249,7 +249,7 @@ def train():
     f.close()
     
     #debug~~~~~~~~~~
-    print("******************",w_flat.shape)
+    #print("******************",w_flat.shape)
     f = open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_paras"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
     f.write(str(sys.argv[1])+", "+x+":\n")
     str1 = ''.join(("%0.3f"%e) for e in w_flat)
