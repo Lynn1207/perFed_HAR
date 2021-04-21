@@ -39,12 +39,12 @@ def server_update():
     W_avg=np.mean(W, axis = 0)
     
     
-    W_avg1_2=np.mean(W[:, 0:2112], axis = 0)
+    W_avg1_1=np.mean(W[:, 0:2112], axis = 0)
     
 
-    W_avg2_2=np.mean(W[:, 2112:14432], axis = 0)
+    W_avg2_1=np.mean(W[:, 2112:14432], axis = 0)
 
-    W_avg3_2=np.mean(W[:,14432:100832], axis = 0)
+    W_avg3_1=np.mean(W[:,14432:100832], axis = 0)
     
     W_avg4_1=W[0, 100832:174752]
     W_avg4_2=np.mean(W[1:8,100832:174752], axis = 0)
