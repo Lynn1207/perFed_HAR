@@ -72,6 +72,7 @@ outer_iter=8 #local 8
 
   
 def train():
+  w_flat = np.array([])
   logLoss=[]
   #loc_paras=[]
   #gen_paras=[]
@@ -234,6 +235,7 @@ def train():
             #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
         #print("Length of updated paras: %d \n"% len(updated_paras_v))
         
+          
         
         
 
@@ -245,19 +247,16 @@ def train():
       format_str = ("%d, %0.3f, %0.3f\n")
       f.write(format_str % ( logLoss[i][0], logLoss[i][1], logLoss[i][2]))
     f.close()
-    '''
+    
     #debug~~~~~~~~~~
-    f = open("log_paras"+str(sys.argv[1])+".txt", "a")
+    f = open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_paras"+str(sys.argv[1])+".txt", "a")
     f.write(str(sys.argv[1])+", "+x+":\n")
-    for i in range(len(gen_paras)):
-      str1 = ''.join(("%0.3f"%e) for e in loc_paras[i])
+    for i in range(len(w_flat)):
+      str1 = ''.join(("%0.3f"%e) for e in w_flat[i])
       f.write(str1)
       f.write("\n")
-      str2 = ''.join(("%0.3f"%e) for e in gen_paras[i])
-      f.write(str2)
-      f.write("\n\n")
     f.close()
-    '''  
+     
               
       
 
