@@ -49,6 +49,7 @@ def server_update():
     W_avg4_1=W[0, 100832:174752]
     W_avg4_3=W[2, 100832:174752]
     W_avg4_2=np.mean(np.concatenate((W[1:2, 100832:174752],W[3:8,100832:174752])), axis = 0)
+    print(W_avg4_2.shape)
     '''
     W_avg5_1=W[0, 174752:175138]
     W_avg5_2=W[1, 174752:175138]
