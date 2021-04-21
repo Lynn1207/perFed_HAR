@@ -47,9 +47,9 @@ def server_update():
     W_avg3_1=np.mean(W[:,14432:100832], axis = 0)
     
     W_avg4_1=W[0, 100832:174752]
-    W_avg4_1=W[1, 100832:174752]
+    W_avg4_2=W[1, 100832:174752]
     W_avg4_3=W[2, 100832:174752]
-    W_avg4_2=np.mean(W[3:8,100832:174752], axis = 0)
+    W_avg4_4=np.mean(W[3:8,100832:174752], axis = 0)
     '''
     W_avg5_1=W[0, 174752:175138]
     W_avg5_2=W[1, 174752:175138]
@@ -151,12 +151,16 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         
                     
                     if user_id[0]==1:
+                        print(user_id[0])
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_1))
                     elif user_id[0]==2:
+                        print(user_id[0])
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_2))
                     elif user_id[0]==3:
+                        print(user_id[0])
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_3))
                     else:
+                        print(user_id[0])
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1, W_avg4_4))
                     
                                    
