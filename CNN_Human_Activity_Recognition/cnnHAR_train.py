@@ -219,9 +219,9 @@ def train():
         for i in range(cur_layer*2):
           temp = all_paras[i].reshape(-1)
           w_flat=np.concatenate((w_flat, temp), axis=0)
-          if str(sys.argv[1])=="1":
-            print("Before_merge:", all_paras[i].shape)
-            print("after flatten%%%%%%%%%%%%", w_flat.shape)
+          #if str(sys.argv[1])=="1":
+            #print("Before_merge:", all_paras[i].shape)
+            #print("after flatten%%%%%%%%%%%%", w_flat.shape)
         '''
         comm.send2server(w_flat,0)
       
