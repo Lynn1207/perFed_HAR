@@ -33,8 +33,8 @@ SIGNAL_SIZE=40
 axis=40
 channels=1
 
-batch_per_user_train=2
-batch_per_user_test=1
+batch_per_user_train=7
+batch_per_user_test=2
 # Global constants describing the cnnHAR data set.
 NUM_CLASSES = 2
 NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = 32*batch_per_user_train
