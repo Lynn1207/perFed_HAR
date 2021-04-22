@@ -29,7 +29,8 @@ import tensorflow.compat.v1 as tf
 # Process sensing data "image" of this size, 128*6.
 # each chanel like acc_x is 128 length which is sata collected for 2.56s. 
 
-SIGNAL_SIZE=55
+SIGNAL_SIZE=40
+axis=40
 channels=1
 
 batch_per_user_train=2
@@ -52,18 +53,18 @@ def read_cnnHAR(filename_queue):
   result.key, value = reader.read(filename_queue)
   
   # Convert from a string to a vector of uint8 that is record_bytes long.
-  record_defaults = [[1.0] for col in range(SIGNAL_SIZE*channels+2)]# +2 as the col0: subject_id, col1: label
+  record_defaults = [[1.0] for col in range(SIGNAL_SIZE*axis*channels+1)]# +2 as the col0: subject_id, col1: label
   
   record_bytes = tf.decode_csv(value, record_defaults = record_defaults)
   # The first bytes represent the label, which we convert from uint8->int32.
   result.signal = tf.cast(
-      tf.strided_slice(record_bytes, [2], [SIGNAL_SIZE*channels+2]), tf.float32)
+      tf.strided_slice(record_bytes, [1], [SIGNAL_SIZE*axis*channels+1]), tf.float32)
   #print('!!!!!!!!!!!!!!!!!!! result.signals', result.signal.get_shape())
-  result.signal = tf.reshape(result.signal, [channels, SIGNAL_SIZE])
+  result.signal = tf.reshape(result.signal, [channels, axis, SIGNAL_SIZE])
   #print('!!!!!!!!!!!!!!!!!!! result.signals', result.signal.get_shape())
   # labels-1 cause the logits is defaulted to start with 0~NUM_CLASS-1
   result.label = tf.cast(
-      tf.strided_slice(record_bytes, [1], [2])-1, tf.float32)
+      tf.strided_slice(record_bytes, [0], [1])-1, tf.float32)
   #print('!!!!!!!!!!!!!!!!!!! result.label before reshape', result.label)
   result.label = tf.reshape(result.label, [1, 1])
     
@@ -112,7 +113,7 @@ def distorted_inputs(data_dir, batch_size):
   with tf.name_scope('data_augmentation'):
     # Read examples from files in the filename queue.
     read_input = read_cnnHAR(filename_queue)
-    signal = tf.transpose(read_input.signal, (1,0)) # Singals * numofAxis * channel
+    signal = tf.transpose(read_input.signal, (2,1,0)) # Singals * numofAxis * channel
     read_input.label.set_shape([1, 1])
     #print('?????????? shape of  the singals:', signal.get_shape())
     
@@ -145,7 +146,7 @@ def inputs(eval_data, data_dir, batch_size):
     filename_queue = tf.train.string_input_producer(filenames)
 
     read_input = read_cnnHAR(filename_queue)
-    signal = tf.transpose(read_input.signal, (1,0)) # Singals * numofAxis * channel
+    signal = tf.transpose(read_input.signal, (2,1,0)) # Singals * numofAxis * channel
     read_input.label.set_shape([1, 1])
     
     # Ensure that the random shuffling has good mixing properties.
