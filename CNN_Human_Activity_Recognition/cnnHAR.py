@@ -163,9 +163,9 @@ def inference(signals):
            #pre_activation= tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            #_activation_summary(conv1)
-           print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
+           #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
     pool1 = tf.nn.max_pool2d(conv1, ksize=[1,2,2,1], strides=[1,2,2,1],padding='VALID',name='pool1')
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """18x18x64"""
    
     with tf.variable_scope('conv2') as scope:
@@ -179,14 +179,14 @@ def inference(signals):
            pre_activation=tf.nn.bias_add(conv, biases)#tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
            #_activation_summary(conv2)
-           print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape()) 
+           #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape()) 
     pool2 = tf.nn.max_pool2d(conv2, ksize=[1,3,3,1], strides=[1,2,2,1],padding='VALID',name='pool2')
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
     reshape = tf.keras.layers.Flatten()(pool2)
     
     reshape = tf.cast(reshape, tf.float64)
     """32x3x3x32: 32x288"""
-    print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1])
+    #print ('<<<<<<<<<<<<<<<<<<<<Shape of reshape :',reshape.get_shape()[0], reshape.get_shape()[1])
     dim = reshape.get_shape()[1] 
     
     with tf.variable_scope('local2') as scope:
@@ -354,24 +354,24 @@ def reset_var(W_avg):
           updated_paras.append(var)
         if cur_l>2:
           if var.op.name=="local2/weights3":
-            var=tf.assign(var,tf.reshape(W_avg[75424:100448],[224, 384]))
+            var=tf.assign(var,tf.reshape(W_avg[75424:186016],[288, 384]))
             updated_paras.append(var)
           elif var.op.name=="local2/biases3":
-            var=tf.assign(var, W_avg[100448:100832])
+            var=tf.assign(var, W_avg[186016:186400])
             updated_paras.append(var)
           if cur_l>3:
             if var.op.name=="local3/weights4":
-              var=tf.assign(var,tf.reshape(W_avg[100832:174560],[384, 192]))
+              var=tf.assign(var,tf.reshape(W_avg[186400:260128],[384, 192]))
               updated_paras.append(var)
             elif var.op.name=="local3/biases4":
-              var=tf.assign(var, W_avg[174560:174752])
+              var=tf.assign(var, W_avg[260128:260320])
               updated_paras.append(var)
             if cur_l>4:
               if var.op.name=="softmax_linear/weights5":
-                var=tf.assign(var,tf.reshape(W_avg[174752:175136],[192, 2]))
+                var=tf.assign(var,tf.reshape(W_avg[260320:261280],[192, 5]))
                 updated_paras.append(var)
               elif var.op.name=="softmax_linear/biases5":
-                var=tf.assign(var, W_avg[175136:175138])
+                var=tf.assign(var, W_avg[261280:261285])
                 updated_paras.append(var)
               
   
