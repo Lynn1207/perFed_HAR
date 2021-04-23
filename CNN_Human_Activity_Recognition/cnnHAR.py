@@ -159,8 +159,8 @@ def inference(signals):
                                                 wd=0.009)
            biases = _variable_on_cpu('biases1', [64], tf.constant_initializer(0.0))#!!!
            conv = tf.nn.conv2d(signals, kernel, [1,1,1,1], padding='VALID', data_format='NHWC')
-           #pre_activation = tf.nn.bias_add(conv, biases)#tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
-           pre_activation= tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
+           pre_activation = tf.nn.bias_add(conv, biases)#tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
+           #pre_activation= tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            #_activation_summary(conv1)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
@@ -176,7 +176,7 @@ def inference(signals):
                                                 wd=0.009)
            biases = _variable_on_cpu('biases2', [32], tf.constant_initializer(0.0))#!!!
            conv = tf.nn.conv2d(pool1, kernel, [1,2,2,1], padding='VALID', data_format='NHWC')
-           pre_activation=tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
+           pre_activation=tf.nn.bias_add(conv, biases)
            conv2 = tf.nn.relu(pre_activation, name=scope.name)
            #_activation_summary(conv2)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape()) 
@@ -195,7 +195,7 @@ def inference(signals):
                                               stddev=0.04, wd=0.009)
         biases = _variable_on_cpu('biases3', [384], tf.constant_initializer(0.10))
         
-        local2 = tf.nn.relu(tf.layers.batch_normalization(tf.matmul(reshape, weights) + biases, name=scope.name))
+        local2 = tf.nn.relu(tf.matmul(reshape, weights) + biases, name=scope.name)
         #print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
         #_activation_summary(local2)
 
@@ -205,14 +205,14 @@ def inference(signals):
                                               stddev=0.04, wd=0.009)#0.004,index)
         biases = _variable_on_cpu('biases4', [192], tf.constant_initializer(0.00))
         
-        local3 = tf.nn.relu(tf.layers.batch_normalization(tf.matmul(local2, weights) + biases, name=scope.name))
+        local3 = tf.nn.relu(tf.matmul(local2, weights) + biases, name=scope.name)
         #print ('!!!!!!!!!!!!!!!Shape of local3 :', local3.get_shape())
         #_activation_summary(local3)
    
     with tf.variable_scope('softmax_linear') as scope:
           weights = _variable_with_weight_decay('weights5', [192, NUM_CLASSES],stddev=0.04, wd=0.009)
           biases = _variable_on_cpu('biases5', [NUM_CLASSES],tf.constant_initializer(0.0))
-          softmax_linear = tf.nn.softmax(tf.layers.batch_normalization(tf.matmul(local3, weights)+biases,name=scope.name))
+          softmax_linear = tf.nn.softmax(tf.matmul(local3, weights)+biases,name=scope.name)
           #_activation_summary(softmax_linear)
           #print ('!!!!!!!!!!!!!!!Shape of softmax_linear :', softmax_linear.get_shape())
     
@@ -284,8 +284,8 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
   ###### Record the parameters
   paras=[]
   for var in tf.trainable_variables():
-    if var.op.name.find('batch_normalization') == -1 and var.op.name.find('gamma') == -1 and var.op.name.find('beta') == -1:
-      paras.append(var)
+    #if var.op.name.find('batch_normalization') == -1 and var.op.name.find('gamma') == -1 and var.op.name.find('beta') == -1:
+    paras.append(var)
       #if str(sys.argv[1])=="1":
         #print("Before_merge:", var.op.name)
     
