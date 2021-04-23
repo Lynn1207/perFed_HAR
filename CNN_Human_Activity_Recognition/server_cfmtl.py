@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 8
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =186400#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
+W_DIM =261285#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
 T_thresh = 10
 
@@ -36,9 +36,9 @@ def server_update():
     
     global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
     # print(np.max(W))
-    #W_avg=np.mean(W, axis = 0)
+    W_avg=W#np.mean(W, axis = 0)
     
-    
+    '''
     W_avg1_1=np.mean(W[:, 0:1664], axis = 0)
     
 
@@ -48,7 +48,7 @@ def server_update():
     W_avg3_1=np.mean(np.concatenate((W[0:5, 75424:186400],W[6:8,75424:186400])), axis = 0)
     W_avg3_2=W[5, 75424:186400]
     
-    '''
+    
     W_avg4_1=W[0, 100832:174752]
     W_avg4_3=W[2, 100832:174752]
     W_avg4_2=np.mean(np.concatenate((W[1:1, 100832:174752],W[3:8,100832:174752])), axis = 0)
