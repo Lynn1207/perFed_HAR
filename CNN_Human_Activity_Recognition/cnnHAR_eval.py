@@ -109,9 +109,9 @@ def eval_once(is_loc, saver,summary_writer,labels,pre_soft, logits,loss,summary_
           if int(samplelabels[i][0][0])==np.argmax(predictions[i]):
             #print(samplelabels[i][0][0], predictions[i], np.argmax(predictions[i]))
             n_acc+=1.0
-            simpleness.append(predictions[i][int(samplelabels[i][0][0])])
+            simpleness.append(kl_vec[i])
           else:
-            simpleness.append(predictions[i][int(samplelabels[i][0][0])])
+            simpleness.append(kl_vec[i])
           '''
           if predictions[i][int(samplelabels[i][0][0])]<0.1:
             #print('!!!!!!!!!!!!!!P(sample): ', predictions[i][int(samplelabels[i][0][0])] )
@@ -129,8 +129,8 @@ def eval_once(is_loc, saver,summary_writer,labels,pre_soft, logits,loss,summary_
       else:
         f = open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_com_"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
         for i in range(len(simpleness)):
-          #for j in range(NUM_CLASSES):
-          f.write("%0.3f "%simpleness[i])
+          for j in range(NUM_CLASSES):
+            f.write("%0.3f "%simpleness[i])
           f.write("\n")
         f.close()
       #print(str(sys.argv[1])+'(locally test)!!!!!!!!!!!!!!!!!!!! average_test loss = %.3f, average_accuracy=%.3f' % (n_l/64,n_acc/64))
