@@ -210,7 +210,7 @@ def inference(signals):
         #_activation_summary(local3)
     '''
     with tf.variable_scope('softmax_linear') as scope:
-          weights = _variable_with_weight_decay('weights5', [384, NUM_CLASSES],stddev=0.04, wd=0.009)
+          weights = _variable_with_weight_decay('weights5', [192, NUM_CLASSES],stddev=0.04, wd=0.009)
           biases = _variable_on_cpu('biases5', [NUM_CLASSES],tf.constant_initializer(0.0))
           pre_softmax=tf.matmul(local2, weights)+biases
           softmax_linear = tf.nn.softmax(pre_softmax,name=scope.name)
