@@ -64,7 +64,7 @@ tf.app.flags.DEFINE_boolean('run_once', True,
 batch_size = 32
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-def eval_once(is_loc, saver,summary_writer,labels,loss,logits,summary_op):
+def eval_once(is_loc, saver,summary_writer,labels,pre_soft, logits,loss,summary_op):
   
   """Run Eval once.
 
@@ -104,14 +104,14 @@ def eval_once(is_loc, saver,summary_writer,labels,loss,logits,summary_op):
       while step < num_iter and not coord.should_stop():
         step += 1
         #print(str(sys.argv[1])+'~~~~Local test:%d'%(step))
-        samplelabels,predictions,precision=sess.run([labels,logits,loss])
+        samplelabels,kl_vec, predictions,precision=sess.run([labels,pre_soft, logits,loss])
         for i in range(0, batch_size):
           if int(samplelabels[i][0][0])==np.argmax(predictions[i]):
             #print(samplelabels[i][0][0], predictions[i], np.argmax(predictions[i]))
             n_acc+=1.0
-            simpleness.append(predictions[i])
+            simpleness.append(kl_vec[i])
           else:
-            simpleness.append(predictions[i])
+            simpleness.append(kl_vec[i])
           '''
           if predictions[i][int(samplelabels[i][0][0])]<0.1:
             #print('!!!!!!!!!!!!!!P(sample): ', predictions[i][int(samplelabels[i][0][0])] )
@@ -155,7 +155,7 @@ def evaluate(is_loc):
     #print('~~~~shape of label:', labels.get_shape())
     # Build a Graph that computes the logits predictions from the
 
-    logits=cnnHAR.inference(signals)
+    [pre_soft, logits]=cnnHAR.inference(signals)
 
     loss=cnnHAR.loss(logits, labels)
   
@@ -174,7 +174,7 @@ def evaluate(is_loc):
     summary_writer = tf.summary.FileWriter(FLAGS.eval_dir, g)
 
     while True:
-      eval_once(is_loc, saver,summary_writer,labels,loss,logits,summary_op)
+      eval_once(is_loc, saver,summary_writer,labels,pre_soft, logits,loss,summary_op)
       #loss7,logits7,loss8,logits8,loss9,logits9,loss10,logits10,loss11,logits11,loss12,logits12
       if FLAGS.run_once:
         break
