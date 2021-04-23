@@ -1,1 +1,1 @@
-taskset --cpu-list 0 python ./cnnHAR_train.py 4
+taskset --cpu-list 0 python ./cnnHAR_train.py 5
