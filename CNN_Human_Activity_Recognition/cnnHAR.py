@@ -167,7 +167,7 @@ def inference(signals):
     pool1 = tf.nn.max_pool2d(conv1, ksize=[1,2,2,1], strides=[1,2,2,1],padding='VALID',name='pool1')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """18x18x64"""
-   
+    '''
     with tf.variable_scope('conv2') as scope:
            kernel = _variable_with_weight_decay('weights2',
                                                 shape=[6,6, 64, 32],
@@ -182,7 +182,8 @@ def inference(signals):
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape()) 
     pool2 = tf.nn.max_pool2d(conv2, ksize=[1,3,3,1], strides=[1,2,2,1],padding='VALID',name='pool2')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
-    reshape = tf.keras.layers.Flatten()(pool2)
+    '''
+    reshape = tf.keras.layers.Flatten()(pool1)
     
     reshape = tf.cast(reshape, tf.float64)
     """32x3x3x32: 32x288"""
