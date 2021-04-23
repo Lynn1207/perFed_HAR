@@ -43,7 +43,7 @@ def server_update():
     
 
     W_avg2_1=np.mean(np.concatenate((W[0:5, 1664:75424],W[6:8,1664:75424])), axis = 0)
-    W_avg2_2=np.mean(W[5, 1664:75424], axis = 0)
+    W_avg2_2=W[5, 1664:75424]
     '''
     W_avg3_1=W[0, 14432:100832]
     W_avg3_2=np.mean(W[1:8,14432:100832], axis = 0)
