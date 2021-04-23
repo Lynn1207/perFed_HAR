@@ -100,10 +100,10 @@ def train():
     [train_op,paras]= cnnHAR.train(loss, global_step)
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
-    '''
+    
     W_avg = tf.compat.v1.placeholder(tf.float64, shape=(cnnHAR.num_paras,))
     updated_paras=cnnHAR.reset_var(W_avg)
-    '''
+    
     
     # prepare the communication module
     server_addr = "localhost"
@@ -222,7 +222,7 @@ def train():
           #if str(sys.argv[1])=="1":
             #print("Before_merge:", all_paras[i].shape)
             #print("after flatten%%%%%%%%%%%%", w_flat.shape)
-        '''
+        
         comm.send2server(w_flat,0)
       
         #receive aggregated weights from server
@@ -235,7 +235,7 @@ def train():
             #print("W_avg:", W_general[0:3])
             #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
         #print("Length of updated paras: %d \n"% len(updated_paras_v))
-        '''
+        
           
         
         
