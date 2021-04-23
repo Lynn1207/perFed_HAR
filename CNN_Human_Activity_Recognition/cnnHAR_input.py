@@ -22,6 +22,7 @@ from __future__ import print_function
 
 import os
 import sys
+import numpy as np
 
 from six.moves import xrange  # pylint: disable=redefined-builtin
 import tensorflow.compat.v1 as tf
