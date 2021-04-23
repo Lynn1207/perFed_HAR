@@ -109,9 +109,9 @@ def eval_once(is_loc, saver,summary_writer,labels,pre_soft, logits,loss,summary_
           if int(samplelabels[i][0][0])==np.argmax(predictions[i]):
             #print(samplelabels[i][0][0], predictions[i], np.argmax(predictions[i]))
             n_acc+=1.0
-            simpleness.append(predictions[i][samplelabels[i][0][0]])
+            simpleness.append(predictions[i][int(samplelabels[i][0][0])])
           else:
-            simpleness.append(predictions[i][samplelabels[i][0][0]])
+            simpleness.append(predictions[i][int(samplelabels[i][0][0])])
           '''
           if predictions[i][int(samplelabels[i][0][0])]<0.1:
             #print('!!!!!!!!!!!!!!P(sample): ', predictions[i][int(samplelabels[i][0][0])] )
