@@ -212,11 +212,12 @@ def inference(signals):
     with tf.variable_scope('softmax_linear') as scope:
           weights = _variable_with_weight_decay('weights5', [192, NUM_CLASSES],stddev=0.04, wd=0.009)
           biases = _variable_on_cpu('biases5', [NUM_CLASSES],tf.constant_initializer(0.0))
-          softmax_linear = tf.nn.softmax(tf.matmul(local3, weights)+biases,name=scope.name)
+          pre_softmax=tf.matmul(local3, weights)+biases
+          softmax_linear = tf.nn.softmax(pre_softmax,name=scope.name)
           #_activation_summary(softmax_linear)
           #print ('!!!!!!!!!!!!!!!Shape of softmax_linear :', softmax_linear.get_shape())
     
-    return softmax_linear
+    return pre_softmax, softmax_linear
     
 
 def loss(logits, labels):
