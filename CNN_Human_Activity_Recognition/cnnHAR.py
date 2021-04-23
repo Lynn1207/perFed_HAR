@@ -167,7 +167,7 @@ def inference(signals):
     pool1 = tf.nn.max_pool2d(conv1, ksize=[1,2,2,1], strides=[1,2,2,1],padding='VALID',name='pool1')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """18x18x64"""
-    '''
+    
     with tf.variable_scope('conv2') as scope:
            kernel = _variable_with_weight_decay('weights2',
                                                 shape=[6,6, 64, 32],
@@ -182,7 +182,7 @@ def inference(signals):
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape()) 
     pool2 = tf.nn.max_pool2d(conv2, ksize=[1,3,3,1], strides=[1,2,2,1],padding='VALID',name='pool2')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
-    '''
+    
     reshape = tf.keras.layers.Flatten()(pool1)
     
     reshape = tf.cast(reshape, tf.float64)
@@ -199,20 +199,10 @@ def inference(signals):
         local2 = tf.nn.relu(tf.matmul(reshape, weights) + biases, name=scope.name)
         #print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
         #_activation_summary(local2)
-    '''
-    with tf.variable_scope('local3') as scope:
-        # Move everything into depth so we can perform a single matrix multiply.
-        weights = _variable_with_weight_decay('weights4', shape=[384, 192],
-                                              stddev=0.04, wd=0.009)#0.004,index)
-        biases = _variable_on_cpu('biases4', [192], tf.constant_initializer(0.00))
         
-        local3 = tf.nn.relu(tf.matmul(local2, weights) + biases, name=scope.name)
-        #print ('!!!!!!!!!!!!!!!Shape of local3 :', local3.get_shape())
-        #_activation_summary(local3)
-    '''
     with tf.variable_scope('softmax_linear') as scope:
-          weights = _variable_with_weight_decay('weights5', [192, NUM_CLASSES],stddev=0.04, wd=0.009)
-          biases = _variable_on_cpu('biases5', [NUM_CLASSES],tf.constant_initializer(0.0))
+          weights = _variable_with_weight_decay('weights4', [192, NUM_CLASSES],stddev=0.04, wd=0.009)
+          biases = _variable_on_cpu('biases4', [NUM_CLASSES],tf.constant_initializer(0.0))
           pre_softmax=tf.matmul(local2, weights)+biases
           softmax_linear = tf.nn.softmax(pre_softmax,name=scope.name)
           #_activation_summary(softmax_linear)
@@ -356,25 +346,18 @@ def reset_var(W_avg):
           updated_paras.append(var)
         if cur_l>2:
           if var.op.name=="local2/weights3":
-            var=tf.assign(var,tf.reshape(W_avg[75424:186016],[288, 384]))
+            var=tf.assign(var,tf.reshape(W_avg[75424:186016],[288, 192]))
             updated_paras.append(var)
           elif var.op.name=="local2/biases3":
             var=tf.assign(var, W_avg[186016:186400])
             updated_paras.append(var)
           if cur_l>3:
-            if var.op.name=="local3/weights4":
-              var=tf.assign(var,tf.reshape(W_avg[186400:260128],[384, 192]))
+            if var.op.name=="softmax_linear/weights4":
+              var=tf.assign(var,tf.reshape(W_avg[260320:261280],[192, 5]))
               updated_paras.append(var)
-            elif var.op.name=="local3/biases4":
-              var=tf.assign(var, W_avg[260128:260320])
+            elif var.op.name=="softmax_linear/biases4":
+              var=tf.assign(var, W_avg[261280:261285])
               updated_paras.append(var)
-            if cur_l>4:
-              if var.op.name=="softmax_linear/weights5":
-                var=tf.assign(var,tf.reshape(W_avg[260320:261280],[192, 5]))
-                updated_paras.append(var)
-              elif var.op.name=="softmax_linear/biases5":
-                var=tf.assign(var, W_avg[261280:261285])
-                updated_paras.append(var)
               
   
   '''                
