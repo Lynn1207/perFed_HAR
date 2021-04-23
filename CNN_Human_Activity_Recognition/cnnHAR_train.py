@@ -93,7 +93,7 @@ def train():
     #training = tf.placeholder(tf.bool)
     signals, labels = cnnHAR.distorted_inputs()
     
-    logits=cnnHAR.inference(signals)
+    [pre_soft, logits]=cnnHAR.inference(signals)
 
     loss=cnnHAR.loss(logits, labels)
                                      
