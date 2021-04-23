@@ -210,7 +210,7 @@ def train():
           
         outer_i += 1
         
-        
+        '''
         #get the weights and send to server
         w_flat = np.array([])
         #depends on how many layer wanna upload to server to share with other users
@@ -222,7 +222,7 @@ def train():
           #if str(sys.argv[1])=="1":
             #print("Before_merge:", all_paras[i].shape)
             #print("after flatten%%%%%%%%%%%%", w_flat.shape)
-        '''
+        
         comm.send2server(w_flat,0)
       
         #receive aggregated weights from server
