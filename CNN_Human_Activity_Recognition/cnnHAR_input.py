@@ -116,7 +116,7 @@ def distorted_inputs(data_dir, batch_size):
   with tf.name_scope('data_augmentation'):
     # Read examples from files in the filename queue.
     read_input = read_cnnHAR(filename_queue)
-    signal = tf.transpose(read_input.signal, (2,1,0)) # Singals * numofAxis * channel
+    signal = tf.transpose(read_input.signal, (1,2,0)) # Singals * numofAxis * channel
     read_input.label.set_shape([1, 1])
     #print('?????????? shape of  the singals:', signal.get_shape())
     
@@ -149,7 +149,7 @@ def inputs(eval_data, data_dir, batch_size):
     filename_queue = tf.train.string_input_producer(filenames)
 
     read_input = read_cnnHAR(filename_queue)
-    signal = tf.transpose(read_input.signal, (2,1,0)) # Singals * numofAxis * channel
+    signal = tf.transpose(read_input.signal, (1,2,0)) # Singals * numofAxis * channel
     read_input.label.set_shape([1, 1])
     
     # Ensure that the random shuffling has good mixing properties.
