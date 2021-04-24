@@ -16,9 +16,9 @@ import numpy as np
 import cnnHAR_input
 
 #2 baselines, our method: fedper
-method="local" #"local", "FedPer"
+method="FedAvg" #"local", "FedPer"
 cur_l=4
-num_paras=1664#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5: 213797
+num_paras=131877#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5: 213797
 
 # Basic model parameters.
 batch_size = 32
@@ -167,7 +167,7 @@ def inference(signals):
     pool1 = tf.nn.max_pool2d(conv1, ksize=[1,2,2,1], strides=[1,2,2,1],padding='VALID',name='pool1')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """18x18x64"""
-    '''
+    
     with tf.variable_scope('conv2') as scope:
            kernel = _variable_with_weight_decay('weights2',
                                                 shape=[6,6, 64, 32],
@@ -182,8 +182,8 @@ def inference(signals):
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv2:',conv2.get_shape()) 
     pool2 = tf.nn.max_pool2d(conv2, ksize=[1,3,3,1], strides=[1,2,2,1],padding='VALID',name='pool2')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool2 :',pool2.get_shape()) 
-    '''
-    reshape = tf.keras.layers.Flatten()(pool1)
+    
+    reshape = tf.keras.layers.Flatten()(pool2)
     
     reshape = tf.cast(reshape, tf.float64)
     """32x3x3x32: 32x288"""
