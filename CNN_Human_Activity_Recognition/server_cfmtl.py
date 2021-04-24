@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 8
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =3984133#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
+W_DIM =1664#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
 T_thresh = 10
 
@@ -24,6 +24,7 @@ alpha = 1*(1e-3)
 
 W = np.zeros((NUM_OF_TOTAL_USERS,W_DIM))
 #W_avg = np.zeros(W_DIM)
+W_update=np.zeros((NUM_OF_TOTAL_USERS,W_DIM))
 Loss = np.zeros(NUM_OF_TOTAL_USERS)
 Loss[Loss<np.inf] = 1e5
 Loss_cache = np.zeros(NUM_OF_TOTAL_USERS)
@@ -32,12 +33,18 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
+closer_nodes={0: [0, 6, 3], 1: [1, 5, 7, 4], 2: [2], 3: [3, 6, 0], 4: [4, 7, 5, 1], 5: [5, 7, 4, 1], 6: [6, 0, 3], 7: [7, 4, 5, 1]}
+
 def server_update():
     
-    global W_avg, W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
+    global W_avg, W_update#W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
     # print(np.max(W))
-    W_avg=np.mean(W, axis = 0)
+    #W_avg=np.mean(W, axis = 0)
     
+    for i in range(NUM_OF_TOTAL_USERS):
+        for neighbour in closer_nodes[i]:
+            W_update[i]+=W[neighbour, :]
+        W_update[i]/=float(len(closer_nodes[i]))
     '''
     W_avg1_1=np.mean(W[:, 0:1664], axis = 0)
     
@@ -157,7 +164,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     else:
                         W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1))
                     '''
-                    #W_avg=W[user_id[0]-1]               
+                    W_avg=W_update[user_id[0]-1]    
+                    print(user_id[0], W_avg.shape)
                     
                     W_avg_data = pickle.dumps(W_avg, protocol = 0)
                     W_avg_size = sys.getsizeof(W_avg_data)
