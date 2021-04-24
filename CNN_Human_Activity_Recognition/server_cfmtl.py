@@ -14,7 +14,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 8
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =75424#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
+W_DIM =130912#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
 T_thresh = 10
 
@@ -35,6 +35,7 @@ update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
 closer_nodes_l1={0: [0, 7, 2, 4, 5, 6], 1: [1, 6], 2: [2, 5, 4, 7, 0], 3: [3], 4: [4, 5, 2, 7, 0], 5: [5, 4, 2, 7, 0], 6: [6, 1, 7, 0], 7: [7, 0, 2, 4, 5, 6]}
 closer_nodes_l2={0: [0], 1: [1, 7, 2, 5, 4], 2: [2, 5, 4, 7, 1], 3: [3, 6], 4: [4, 5, 2, 7, 1], 5: [5, 4, 2, 7, 1], 6: [6, 3], 7: [7, 1, 2, 4, 5]}
+closer_nodes_l3={0: [0], 1: [1, 4, 5, 7, 2, 6], 2: [2, 7, 5, 4, 1, 6], 3: [3], 4: [4, 1, 5, 7, 2, 6], 5: [5, 4, 7, 1, 2, 6], 6: [6, 2, 7, 5, 4, 1], 7: [7, 5, 4, 1, 2, 6]}
 
 def server_update():
     
@@ -44,9 +45,9 @@ def server_update():
     #W_update=W
     
     for i in range(NUM_OF_TOTAL_USERS):
-        print(" %d l1 neighbours:"%i)
+        #print(" %d l1 neighbours:"%i)
         for neighbour in closer_nodes_l1[i]:
-            print(neighbour)
+            #print(neighbour)
             W_update[i, 0:1664]+=W[neighbour, 0:1664]
         W_update[i, 0:1664]/=float(len(closer_nodes_l1[i]))
         tmp=set(closer_nodes_l1[i])&set(closer_nodes_l2[i])
@@ -55,6 +56,12 @@ def server_update():
             print(neighbour)
             W_update[i, 1664:75424]+=W[neighbour, 1664:75424]
         W_update[i,1664:75424]/=float(len(tmp))
+        tmp=tmp&set(closer_nodes_l3[i])
+        print(" %d l3 neighbours:"%i)
+        for neighbour in tmp:
+            print(neighbour)
+            W_update[i, 75424:130912]+=W[neighbour, 75424:130912]
+        W_update[i,75424:130912]/=float(len(tmp))
     
     '''
     W_avg1_1=np.mean(W[:, 0:1664], axis = 0)
