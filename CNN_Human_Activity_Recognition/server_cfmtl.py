@@ -47,7 +47,7 @@ def server_update():
         for neighbour in closer_nodes_l1[i]:
             print(" %d l1 neighbours:"%i,neighbour)
             W_update[i, 0:1664]+=W[neighbour, 0:1664]
-        W_update[i, 0:1664]/=float(len(closer_nodes[i]))
+        W_update[i, 0:1664]/=float(len(closer_nodes_l1[i]))
         tmp=set(closer_nodes_l1[i])&set(closer_nodes_l2[i])
         for neighbour in tmp:
             print(" %d l2 neighbours:"%i,neighbour)
