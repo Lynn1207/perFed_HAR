@@ -219,7 +219,7 @@ def loss(logits, labels):
     loss=0.0
     
     while i<batch_size:
-        loss+=-tf.math.log(tf.math.maximum(float64(0.001), logits[i,0,labels[i,0]]))
+        loss+=-tf.math.log(tf.math.maximum(0.001,  tf.cast(logits[i,0,labels[i,0]], tf.float32)))
         i+=1
     loss=loss/32.0
     
