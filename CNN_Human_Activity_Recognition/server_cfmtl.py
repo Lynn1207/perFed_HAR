@@ -44,13 +44,15 @@ def server_update():
     #W_update=W
     
     for i in range(NUM_OF_TOTAL_USERS):
+        print(" %d l1 neighbours:"%i)
         for neighbour in closer_nodes_l1[i]:
-            print(" %d l1 neighbours:"%i,neighbour)
+            print(neighbour)
             W_update[i, 0:1664]+=W[neighbour, 0:1664]
         W_update[i, 0:1664]/=float(len(closer_nodes_l1[i]))
         tmp=set(closer_nodes_l1[i])&set(closer_nodes_l2[i])
+        print(" %d l2 neighbours:"%i)
         for neighbour in tmp:
-            print(" %d l2 neighbours:"%i,neighbour)
+            print(neighbour)
             W_update[i, 1664:75424]+=W[neighbour, 1664:75424]
         W_update[i,1664:75424]/=float(len(tmp))
     
