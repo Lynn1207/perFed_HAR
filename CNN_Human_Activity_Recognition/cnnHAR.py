@@ -158,13 +158,13 @@ def inference(signals):
                                                 stddev=0.04,
                                                 wd=0.009)
            biases = _variable_on_cpu('biases1', [64], tf.constant_initializer(0.0))#!!!
-           conv = tf.nn.conv2d(signals, kernel, [1,5,5,1], padding='VALID', data_format='NHWC')
+           conv = tf.nn.conv2d(signals, kernel, [1,1,1,1], padding='VALID', data_format='NHWC')
            pre_activation = tf.nn.bias_add(conv, biases)#tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
            #pre_activation= tf.layers.batch_normalization(tf.nn.bias_add(conv, biases))
            conv1 = tf.nn.relu(pre_activation, name=scope.name)
            #_activation_summary(conv1)
            #print ('<<<<<<<<<<<<<<<<<<<<Shape of conv1 :',conv1.get_shape())
-    pool1 = tf.nn.max_pool2d(conv1, ksize=[1,2,2,1], strides=[1,3,3,1],padding='VALID',name='pool1')
+    pool1 = tf.nn.max_pool2d(conv1, ksize=[1,2,2,1], strides=[1,2,2,1],padding='VALID',name='pool1')
     #print ('<<<<<<<<<<<<<<<<<<<<Shape of pool1 :',pool1.get_shape())
     """18x18x64"""
     '''
