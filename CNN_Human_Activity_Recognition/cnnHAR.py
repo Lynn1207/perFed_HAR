@@ -192,17 +192,17 @@ def inference(signals):
     
     with tf.variable_scope('local2') as scope:
         # Move everything into depth so we can perform a single matrix multiply.
-        weights = _variable_with_weight_decay('weights3', shape=[dim, 192],
+        weights = _variable_with_weight_decay('weights2', shape=[dim, 192],
                                               stddev=0.04, wd=0.009)
-        biases = _variable_on_cpu('biases3', [192], tf.constant_initializer(0.10))
+        biases = _variable_on_cpu('biases2', [192], tf.constant_initializer(0.10))
         
         local2 = tf.nn.relu(tf.matmul(reshape, weights) + biases, name=scope.name)
         #print ('!!!!!!!!!!!!!!!Shape of local2 :', local2.get_shape())
         #_activation_summary(local2)
         
     with tf.variable_scope('softmax_linear') as scope:
-          weights = _variable_with_weight_decay('weights4', [192, NUM_CLASSES],stddev=0.04, wd=0.009)
-          biases = _variable_on_cpu('biases4', [NUM_CLASSES],tf.constant_initializer(0.0))
+          weights = _variable_with_weight_decay('weights3', [192, NUM_CLASSES],stddev=0.04, wd=0.009)
+          biases = _variable_on_cpu('biases3', [NUM_CLASSES],tf.constant_initializer(0.0))
           pre_softmax=tf.matmul(local2, weights)+biases
           softmax_linear = tf.nn.softmax(pre_softmax,name=scope.name)
           #_activation_summary(softmax_linear)
