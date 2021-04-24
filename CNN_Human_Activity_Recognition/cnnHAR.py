@@ -37,7 +37,7 @@ NUM_EXAMPLES_PER_EPOCH_FOR_EVAL = cnnHAR_input.NUM_EXAMPLES_PER_EPOCH_FOR_EVAL
 MOVING_AVERAGE_DECAY = 0.9999     # The decay to use for the moving average.
 NUM_EPOCHS_PER_DECAY =100.0     # Epochs after which learning rate decays.
 LEARNING_RATE_DECAY_FACTOR = 0.96  # Learning rate decay factor.
-INITIAL_LEARNING_RATE = 0.01  # Initial learning rate.
+INITIAL_LEARNING_RATE = 0.005  # Initial learning rate.
 
 # If a model is trained with multiple GPUs, prefix all Op names with tower_name
 # to differentiate the operations. Note that this prefix is removed from the
@@ -202,7 +202,7 @@ def inference(signals):
         
     with tf.variable_scope('softmax_linear') as scope:
           weights = _variable_with_weight_decay('weights4', [192, NUM_CLASSES],stddev=0.04, wd=0.009)
-          biases = _variable_on_cpu('biases4', [NUM_CLASSES],tf.constant_initializer(0.0))
+          biases = _variable_on_cpu('biases4', [NUM_CLASSES],tf.constant_initializer(0.10))
           pre_softmax=tf.matmul(local2, weights)+biases
           softmax_linear = tf.nn.softmax(pre_softmax,name=scope.name)
           #_activation_summary(softmax_linear)
@@ -219,7 +219,7 @@ def loss(logits, labels):
     loss=0.0
     
     while i<batch_size:
-        loss+=-tf.math.log(max(0.001, logits[i,0,labels[i,0]]))
+        loss+=-tf.math.log(tf.math.maximum(0.001, logits[i,0,labels[i,0]]))
         i+=1
     loss=loss/32.0
     
