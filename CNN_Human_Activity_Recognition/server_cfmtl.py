@@ -43,8 +43,10 @@ def server_update():
     #W_avg=np.mean(W, axis = 0)
     #W_update=W
     print(len(W_l1))
-    '''
+    
     for group in closer_nodes_l1:
+        print(group)
+    '''
         tmp_w=np.zeros(1,1664)
         for key in group:
             print(W[key-1, 0:3])
