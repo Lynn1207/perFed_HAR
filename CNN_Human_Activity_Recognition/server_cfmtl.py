@@ -160,7 +160,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     W[user_id[0]-1] = weights
 
                     try:
-                        barrier_W.wait(4800)
+                        barrier_W.wait(48000)
                     except Exception as e:
                         print("wait W timeout...")
                     
