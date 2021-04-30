@@ -45,7 +45,7 @@ def server_update():
     #W_update=W
     for group in closer_nodes_l1:
         print(group, sum(group.values()))
-        tmp_w=np.zeros((1,1664))
+        tmp_w=np.zeros(1664)
         for key in group:
             tmp_w+=group[key]*W[key-1, 0:1664]
         W_l1.append(tmp_w)
@@ -167,9 +167,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     g_i=0
                     for group in closer_nodes_l1:
                         if user_id[0] in group:
-                            print(user_id[0],g_i, len(W_l1))
-                            W_gen=W_l1[g_i].transpose()
-                            print( W_l1[g_i].shape, W_gen.shape)
+                            print(user_id[0],g_i, len(W_l1),W_l1[g_i].shape)
+                            W_gen=W_l1[g_i]
                             break
                         g_i+=1
                     
