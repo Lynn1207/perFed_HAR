@@ -33,7 +33,7 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
-closer_nodes_l1=[{1: 0.166, 2: 0.166, 3: 0.166, 5: 0.166, 6: 0.166, 8: 0.166}, {4: 0.5, 7: 0.5}] #groups
+closer_nodes_l1=[{1: 0.333, 4: 0.333, 7: 0.333}, {2: 0.2, 3: 0.2, 5: 0.2, 6: 0.2, 8: 0.2}] #groups
 W_l1=[]
 
 def server_update():
@@ -41,14 +41,14 @@ def server_update():
     global W, W_update,W_l1#W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
-    W_update=W
-    '''
+    #W_update=W
+    
     for group in closer_nodes_l1:
         tmp_w=np.zeros(1,1664)
         for key in group:
             tmp_w+=group[key]*W[key-1, 0:1664]
         W_l1.append(tmp_w)
-    '''
+    
     '''
     W_avg1_1=np.mean(W[:, 0:1664], axis = 0)
     
@@ -161,15 +161,15 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         barrier_W.wait(2400)
                     except Exception as e:
                         print("wait W timeout...")
-                    '''
+                    
                     g_i=0
                     for group in closer_nodes_l1:
                         if user_id[0] in group:
-                            W
+                            W_gen=W_l1[g_i]
                             break
                         g_i+=1
-                    '''
-                    W_gen=W_update[user_id[0]-1]    
+                    
+                    #W_gen=W_update[user_id[0]-1]    
                     #print(user_id[0], W_avg.shape)
                     
                     W_avg_data = pickle.dumps(W_gen, protocol = 0)
