@@ -15,7 +15,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 8
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =75424#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
+W_DIM =130912#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
 T_thresh = 10
 
@@ -38,7 +38,7 @@ groups_l1=[{1: 0.333, 4: 0.333, 7: 0.333}, {2: 0.2, 3: 0.2, 5: 0.2, 6: 0.2, 8: 0
 W_l1=np.zeros((2,1664))
 
 groups_l2=[{1:1.0}, {2: 0.2, 3: 0.2, 5: 0.2, 6: 0.2, 8: 0.2}, {4: 0.5, 7: 0.5}]
-W_l2=np.zeros((3,75424-1664))
+W_l2=np.zeros((3,130912-1664))
 
 def server_update():
     
@@ -53,9 +53,9 @@ def server_update():
         W_l1[i]=tmp_w
     
     for i in range(len(groups_l2)):
-        tmp_w=np.zeros(75424-1664)
+        tmp_w=np.zeros(130912-1664)
         for key in groups_l2[i]:
-            tmp_w+=groups_l2[i][key]*W[key-1, 1664:75424]
+            tmp_w+=groups_l2[i][key]*W[key-1, 1664:130912]
         W_l2[i]=tmp_w
     
     '''
