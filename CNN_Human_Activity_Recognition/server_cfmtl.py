@@ -47,7 +47,7 @@ def server_update():
         print(group, sum(group.values()))
         tmp_w=np.zeros(1,1664)
         for key in group:
-            tmp_w=group[key]*W[key-1, 0:1664]
+            #tmp_w=group[key]*W[key-1, 0:1664]
             print(tmp_w[0:3])
         W_l1.append(tmp_w)
     '''
