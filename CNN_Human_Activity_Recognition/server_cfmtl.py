@@ -43,7 +43,7 @@ def server_update():
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
     #W_update=W
-    
+    '''
     for i in range(NUM_OF_TOTAL_USERS):
         #print(" %d l1 neighbours:"%i)
         for neighbour in closer_nodes_l1[i]:
@@ -62,7 +62,7 @@ def server_update():
             print(neighbour)
             W_update[i, 75424:130912]+=W[neighbour, 75424:130912]
         W_update[i,75424:130912]/=float(len(tmp))
-    
+    '''
     '''
     W_avg1_1=np.mean(W[:, 0:1664], axis = 0)
     
