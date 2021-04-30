@@ -157,7 +157,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     #print(len(weights))
                     #print(out_i, user_id[0])
                     W[user_id[0]-1] = weights
-                    print(user_id[0])
 
                     try:
                         barrier_W.wait(2400)
@@ -167,7 +166,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     g_i=0
                     for group in closer_nodes_l1:
                         if user_id[0] in group:
-                            print(g_i)
+                            print(user_id[0],g_i)
                             W_gen=W_l1[g_i]
                             break
                         g_i+=1
