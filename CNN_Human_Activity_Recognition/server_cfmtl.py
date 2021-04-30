@@ -48,6 +48,7 @@ def server_update():
         for key in group:
             tmp_w+=group[key]*W[key-1, 0:1664]
         W_l1.append(tmp_w)
+        print(len(W_l1))
     
     '''
     W_avg1_1=np.mean(W[:, 0:1664], axis = 0)
