@@ -51,6 +51,8 @@ def server_update():
         i=0
         for key in group:
             i+=1
+            if i>3:
+                break
         print(i)
         W_l1.append(tmp_w)
     '''
