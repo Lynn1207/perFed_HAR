@@ -15,7 +15,7 @@ tf.disable_v2_behavior()
 
 NUM_OF_TOTAL_USERS = 8
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
-W_DIM =131877#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
+W_DIM =75424#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
 T_thresh = 10
 
@@ -37,11 +37,11 @@ update_flag = np.ones(NUM_OF_TOTAL_USERS)
 groups_l1=[{1: 0.333, 2: 0.333, 3: 0.333}, {4: 0.333, 5: 0.333, 6: 0.333},{7: 0.5, 8: 0.5}] #groups
 W_l1=np.zeros((3,1664))
 
-groups_l2=[{1: 0.333, 2: 0.333, 3: 0.333}, {4: 0.333, 5: 0.333, 6: 0.333},{7: 0.5, 8: 0.5}]
-W_l2=np.zeros((3,130912-1664))
+groups_l2=[{1: 1.0}, {2: 1.0}, {3: 0.25, 5: 0.25, 6: 0.25, 8: 0.25}, {4: 1.0}, {7: 1.0}]
+W_l2=np.zeros((5,75424-1664))
 
-groups_l3=[{1: 0.333, 2: 0.333, 3: 0.333}, {4: 0.333, 5: 0.333, 6: 0.333},{7: 0.5, 8: 0.5}]
-W_l3=np.zeros((3,131877-130912))
+#groups_l3=[{1: 0.333, 2: 0.333, 3: 0.333}, {4: 0.333, 5: 0.333, 6: 0.333},{7: 0.5, 8: 0.5}]
+#W_l3=np.zeros((3,131877-130912))
 
 def server_update():
     
@@ -56,16 +56,17 @@ def server_update():
         W_l1[i]=tmp_w
     
     for i in range(len(groups_l2)):
-        tmp_w=np.zeros(130912-1664)
+        tmp_w=np.zeros(75424-1664)
         for key in groups_l2[i]:
-            tmp_w+=groups_l2[i][key]*W[key-1, 1664:130912]
+            tmp_w+=groups_l2[i][key]*W[key-1, 1664:75424]
         W_l2[i]=tmp_w
-    
+    '''
     for i in range(len(groups_l3)):
         tmp_w=np.zeros(131877-130912)
         for key in groups_l3[i]:
             tmp_w+=groups_l3[i][key]*W[key-1, 130912:131877]
         W_l3[i]=tmp_w
+    '''
     
     '''
     W_avg1_1=np.mean(W[:, 0:1664], axis = 0)
@@ -195,7 +196,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             #print(user_id[0],"Layer_2: ", g_i,W_gen[0:2], W_gen[1664:1664+2])
                             break
                         g_i+=1
-                    
+                    '''
                     g_i=0
                     for group in groups_l3:
                         if user_id[0] in group: 
@@ -203,7 +204,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             #print(user_id[0],"Layer_2: ", g_i,W_gen[0:2], W_gen[1664:1664+2])
                             break
                         g_i+=1
-                    
+                    '''
                     #W_gen=W_update[user_id[0]-1]    
                     #print(user_id[0], W_avg.shape)
                     
