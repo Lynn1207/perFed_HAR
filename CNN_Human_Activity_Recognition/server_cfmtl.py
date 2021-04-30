@@ -44,7 +44,6 @@ def server_update():
     #W_avg=np.mean(W, axis = 0)
     #W_update=W
     print(W_l1.shape)
-    
     for group in closer_nodes_l1:
         print(group, sum(group.values()))
         #tmp_w=np.zeros(1,1664)
@@ -112,7 +111,7 @@ def reinitialize():
         #print(loss_record[i])
 
 barrier_start = threading.Barrier(NUM_OF_WAIT,action = None, timeout = None)
-barrier_W = threading.Barrier(NUM_OF_WAIT,action = server_update, timeout = None)
+barrier_W = threading.Barrier(NUM_OF_WAIT,action = server_update, timeout = 48000)
 barrier_end = threading.Barrier(NUM_OF_WAIT, action = reinitialize, timeout = None)
 
 def barrier_update():
@@ -175,7 +174,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     try:
                         barrier_W.wait(48000)
                     except Exception as e:
-                        print("wait W timeout...")
+                        print("wait barrier W timeout...", str(barrier_W.n_waiting))
                     
                     g_i=0
                     for group in closer_nodes_l1:
