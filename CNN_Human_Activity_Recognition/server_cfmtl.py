@@ -167,8 +167,9 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     g_i=0
                     for group in closer_nodes_l1:
                         if user_id[0] in group:
-                            print(user_id[0],g_i, len(W_l1), W_l1[g_i].shape)
-                            W_gen=W_l1[g_i]
+                            print(user_id[0],g_i, len(W_l1))
+                            W_gen=W_l1[g_i].transpose()
+                            print( W_l1[g_i].shape, W_gen.shape)
                             break
                         g_i+=1
                     
