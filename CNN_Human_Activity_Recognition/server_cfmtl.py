@@ -35,7 +35,7 @@ normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
 closer_nodes_l1=[{1: 0.333, 4: 0.333, 7: 0.333}, {2: 0.2, 3: 0.2, 5: 0.2, 6: 0.2, 8: 0.2}] #groups
-W_l1=[]
+W_l1=np.zeros((NUM_OF_TOTAL_USERS,1664))
 
 def server_update():
     
@@ -43,7 +43,7 @@ def server_update():
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
     #W_update=W
-    print(len(W_l1))
+    print(W_l1.shape)
     
     for group in closer_nodes_l1:
         print(group, sum(group.values()))
@@ -51,9 +51,7 @@ def server_update():
         i=0
         
         for key in group:
-            i+=1
-            if i>3:
-                break
+            W_l1[key]=W[key]
         
         print(i)
         #W_l1.append(tmp_w)
