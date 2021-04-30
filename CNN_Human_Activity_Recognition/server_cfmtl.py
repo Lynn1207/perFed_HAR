@@ -47,14 +47,14 @@ def server_update():
     
     for group in closer_nodes_l1:
         print(group, sum(group.values()))
-        tmp_w=np.zeros(1,1664)
+        #tmp_w=np.zeros(1,1664)
         i=0
-        '''
+        
         for key in group:
             i+=1
             if i>3:
                 break
-        '''
+        
         print(i)
         #W_l1.append(tmp_w)
     '''
