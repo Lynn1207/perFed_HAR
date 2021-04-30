@@ -49,7 +49,7 @@ def server_update():
         #tmp_w=np.zeros(1,1664)
         
         for key in group:
-            print(W_l1[key].shape, W[key].shape)
+            W_l1[key-1]=W[key-1]
         
         #W_l1.append(tmp_w)
     '''
