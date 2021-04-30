@@ -44,12 +44,10 @@ def server_update():
     #W_avg=np.mean(W, axis = 0)
     #W_update=W
     for i in range(len(groups)):
-        print(groups[i], sum(groups[i].values()))
         tmp_w=np.zeros(1664)
         for key in groups[i]:
             tmp_w+=groups[i][key]*W[key-1, 0:1664]
         W_l1[i]=tmp_w
-    print(len(W_l1), W_l1[0].shape)
     
     '''
     W_avg1_1=np.mean(W[:, 0:1664], axis = 0)
@@ -167,7 +165,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     g_i=0
                     for group in groups:
                         if user_id[0] in group:
-                            print(user_id[0],g_i, len(W_l1),W_l1[g_i].shape)
+                            print(user_id[0],g_i,W_l1[g_i, 0:3])
                             W_gen=W_l1[g_i]
                             break
                         g_i+=1
