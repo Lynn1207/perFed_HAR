@@ -165,7 +165,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     g_i=0
                     for group in groups:
                         if user_id[0] in group:
-                            print(user_id[0],g_i,W_l1[g_i, 0:3])
+                            #print(user_id[0],g_i,W_l1[g_i, 0:3])
                             W_gen=W_l1[g_i]
                             break
                         g_i+=1
