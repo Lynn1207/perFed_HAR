@@ -51,7 +51,7 @@ def server_update():
         i=0
         for key in group:
             i+=1
-            print(i)
+        print(i)
         W_l1.append(tmp_w)
     '''
         tmp_w=np.zeros(1,1664)
