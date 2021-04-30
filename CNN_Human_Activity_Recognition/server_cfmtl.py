@@ -34,8 +34,8 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
-closer_nodes_l1=[{1: 0.333, 4: 0.333, 7: 0.333}, {2: 0.2, 3: 0.2, 5: 0.2, 6: 0.2, 8: 0.2}] #groups
-W_l1=[]
+groups=[{1: 0.333, 4: 0.333, 7: 0.333}, {2: 0.2, 3: 0.2, 5: 0.2, 6: 0.2, 8: 0.2}] #groups
+W_l1=np.zeros((2,1664))
 
 def server_update():
     
@@ -43,12 +43,12 @@ def server_update():
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
     #W_update=W
-    for group in closer_nodes_l1:
-        print(group, sum(group.values()))
+    for i in range(len(groups)):
+        print(groups[i], sum(groups[i].values()))
         tmp_w=np.zeros(1664)
-        for key in group:
-            tmp_w+=group[key]*W[key-1, 0:1664]
-        W_l1.append(tmp_w)
+        for key in groups[i]:
+            tmp_w+=groups[i][key]*W[key-1, 0:1664]
+        W_l1[i]=tmp_w
     print(len(W_l1), W_l1[0].shape)
     
     '''
@@ -165,7 +165,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
                     
                     g_i=0
-                    for group in closer_nodes_l1:
+                    for group in groups:
                         if user_id[0] in group:
                             print(user_id[0],g_i, len(W_l1),W_l1[g_i].shape)
                             W_gen=W_l1[g_i]
