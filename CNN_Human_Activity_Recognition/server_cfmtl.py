@@ -111,7 +111,7 @@ def reinitialize():
         #print(loss_record[i])
 
 barrier_start = threading.Barrier(NUM_OF_WAIT,action = None, timeout = None)
-barrier_W = threading.Barrier(NUM_OF_WAIT,action = server_update, timeout = 48000)
+barrier_W = threading.Barrier(NUM_OF_WAIT,action = server_update, timeout = None)
 barrier_end = threading.Barrier(NUM_OF_WAIT, action = reinitialize, timeout = None)
 
 def barrier_update():
@@ -172,9 +172,9 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     W[user_id[0]-1] = weights
 
                     try:
-                        barrier_W.wait(48000)
+                        barrier_W.wait(4800)
                     except Exception as e:
-                        print("wait barrier W timeout...", str(barrier_W.n_waiting))
+                        print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
                     
                     g_i=0
                     for group in closer_nodes_l1:
