@@ -7,6 +7,7 @@ import numpy as np
 from sklearn.decomposition import PCA
 from keras.utils import to_categorical
 import tensorflow.compat.v1 as tf
+import math
 
 
 tf.disable_v2_behavior()
@@ -45,7 +46,8 @@ def server_update():
     print(len(W_l1))
     
     for group in closer_nodes_l1:
-        print(group)
+        print(group, sum(group.values()))
+        W_l1.append(sum(group.values()))
     '''
         tmp_w=np.zeros(1,1664)
         for key in group:
