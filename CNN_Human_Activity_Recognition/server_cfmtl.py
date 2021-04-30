@@ -47,7 +47,10 @@ def server_update():
     
     for group in closer_nodes_l1:
         print(group, sum(group.values()))
-        W_l1.append(sum(group.values()))
+        tmp=0.0
+        for key in group:
+            tmp+=group[key]
+        W_l1.append(tmp)
     '''
         tmp_w=np.zeros(1,1664)
         for key in group:
