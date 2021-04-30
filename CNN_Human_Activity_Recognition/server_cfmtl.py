@@ -48,8 +48,9 @@ def server_update():
         tmp_w=np.zeros((1,1664))
         for key in group:
             tmp_w=group[key]*W[key-1, 0:1664]
-            print(tmp_w[0:3])
+            print(W[key-1, 0:2], tmp_w[0:2])
         W_l1.append(tmp_w)
+        print(W_l1.shape)
     '''
         tmp_w=np.zeros(1,1664)
         for key in group:
