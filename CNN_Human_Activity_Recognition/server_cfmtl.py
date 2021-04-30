@@ -23,7 +23,7 @@ regular = 1e5
 alpha = 1*(1e-3)
 
 W = np.zeros((NUM_OF_TOTAL_USERS,W_DIM))
-#W_avg = np.zeros(W_DIM)
+W_avg = np.zeros(W_DIM)
 W_update=np.zeros((NUM_OF_TOTAL_USERS,W_DIM))
 Loss = np.zeros(NUM_OF_TOTAL_USERS)
 Loss[Loss<np.inf] = 1e5
@@ -33,35 +33,21 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
-closer_nodes_l1={0: [0, 7, 2, 4, 5, 6], 1: [1, 6], 2: [2, 5, 4, 7, 0], 3: [3], 4: [4, 5, 2, 7, 0], 5: [5, 4, 2, 7, 0], 6: [6, 1, 7, 0], 7: [7, 0, 2, 4, 5, 6]}
-closer_nodes_l2={0: [0], 1: [1, 7, 2, 5, 4], 2: [2, 5, 4, 7, 1], 3: [3, 6], 4: [4, 5, 2, 7, 1], 5: [5, 4, 2, 7, 1], 6: [6, 3], 7: [7, 1, 2, 4, 5]}
-closer_nodes_l3={0: [0], 1: [1, 4, 5, 7, 2, 6], 2: [2, 7, 5, 4, 1, 6], 3: [3], 4: [4, 1, 5, 7, 2, 6], 5: [5, 4, 7, 1, 2, 6], 6: [6, 2, 7, 5, 4, 1], 7: [7, 5, 4, 1, 2, 6]}
+closer_nodes_l1=[{1: 0.166, 2: 0.166, 3: 0.166, 5: 0.166, 6: 0.166, 8: 0.166}, {4: 0.5, 7: 0.5}] #groups
+W_l1=[]
 
 def server_update():
     
-    global W_avg, W_update#W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
+    global W, W_update,W_l1#W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
-    #W_update=W
+    W_update=W
     '''
-    for i in range(NUM_OF_TOTAL_USERS):
-        #print(" %d l1 neighbours:"%i)
-        for neighbour in closer_nodes_l1[i]:
-            #print(neighbour)
-            W_update[i, 0:1664]+=W[neighbour, 0:1664]
-        W_update[i, 0:1664]/=float(len(closer_nodes_l1[i]))
-        tmp=set(closer_nodes_l1[i])&set(closer_nodes_l2[i])
-        print(" %d l2 neighbours:"%i)
-        for neighbour in tmp:
-            print(neighbour)
-            W_update[i, 1664:75424]+=W[neighbour, 1664:75424]
-        W_update[i,1664:75424]/=float(len(tmp))
-        tmp=tmp&set(closer_nodes_l3[i])
-        print(" %d l3 neighbours:"%i)
-        for neighbour in tmp:
-            print(neighbour)
-            W_update[i, 75424:130912]+=W[neighbour, 75424:130912]
-        W_update[i,75424:130912]/=float(len(tmp))
+    for group in closer_nodes_l1:
+        tmp_w=np.zeros(1,1664)
+        for key in group:
+            tmp_w+=group[key]*W[key-1, 0:1664]
+        W_l1.append(tmp_w)
     '''
     '''
     W_avg1_1=np.mean(W[:, 0:1664], axis = 0)
@@ -175,17 +161,18 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         barrier_W.wait(2400)
                     except Exception as e:
                         print("wait W timeout...")
-                        
                     '''
-                    if user_id[0]==6:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_2, W_avg3_2))
-                    else:
-                        W_avg=np.concatenate((W_avg1_1, W_avg2_1, W_avg3_1))
+                    g_i=0
+                    for group in closer_nodes_l1:
+                        if user_id[0] in group:
+                            W
+                            break
+                        g_i+=1
                     '''
-                    W_avg=W_update[user_id[0]-1]    
+                    W_gen=W_update[user_id[0]-1]    
                     #print(user_id[0], W_avg.shape)
                     
-                    W_avg_data = pickle.dumps(W_avg, protocol = 0)
+                    W_avg_data = pickle.dumps(W_gen, protocol = 0)
                     W_avg_size = sys.getsizeof(W_avg_data)
                     W_avg_header = struct.pack("i",W_avg_size)
                     
