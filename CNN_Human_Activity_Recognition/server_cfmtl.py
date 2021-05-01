@@ -34,8 +34,8 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
-groups_l1=[{1: 0.333, 2: 0.333, 3: 0.333}, {4: 0.333, 5: 0.333, 6: 0.333},{7: 0.5, 8: 0.5}] #groups
-W_l1=np.zeros((3,1664))
+groups_l1=[{1: 0.333, 4: 0.333, 7: 0.333}, {2: 0.2, 3: 0.2, 5: 0.2, 6: 0.2, 8:0.2 }] #groups
+W_l1=np.zeros((2,1664))
 
 groups_l2=[{1: 1.0}, {2: 1.0}, {3: 0.25, 5: 0.25, 6: 0.25, 8: 0.25}, {4: 1.0}, {7: 1.0}]
 W_l2=np.zeros((5,75424-1664))
