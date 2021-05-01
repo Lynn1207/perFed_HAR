@@ -41,7 +41,7 @@ groups_l2=[{1: 1.0}, {2: 1.0}, {3: 0.25, 5: 0.25, 6: 0.25, 8: 0.25}, {4: 0.5, 7:
 W_l2=np.zeros((4,75424-1664))
 
 groups_l3=[{1: 1.0}, {2: 1.0}, {3: 1.0}, {4: 0.5, 7: 0.5}, {5: 0.333, 6: 0.333, 8: 0.333}]
-W_l3=np.zeros((5,130912-75424))
+W_l3=np.zeros((5,131877-75424))
 '''
 groups_l4=[{1: 1.0}, {2: 1.0}, {3: 1.0}, {4: 1.0}, {5: 0.5, 8: 0.5}, {6: 1.0}, {7: 1.0}]
 W_l4=np.zeros((7,131877-130912))
@@ -65,9 +65,9 @@ def server_update():
         W_l2[i]=tmp_w
     
     for i in range(len(groups_l3)):
-        tmp_w=np.zeros(130912-75424)
+        tmp_w=np.zeros(131877-75424)
         for key in groups_l3[i]:
-            tmp_w+=groups_l3[i][key]*W[key-1, 75424:130912]
+            tmp_w+=groups_l3[i][key]*W[key-1, 75424:131877]
         W_l3[i]=tmp_w
     '''    
     for i in range(len(groups_l4)):
