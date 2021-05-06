@@ -1,36 +1,3 @@
-# Copyright 2015 The TensorFlow Authors. All Rights Reserved.
-# Linlin
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-
-"""Evaluation for CIFAR-10.
-
-Accuracy:
-cifar10_train.py achieves 83.0% accuracy after 100K steps (256 epochs
-of data) as judged by cifar10_eval.py.
-
-Speed:
-On a single Tesla K40, cifar10_train.py processes a single batch of 128 images
-in 0.25-0.35 sec (i.e. 350 - 600 images /sec). The model reaches ~86%
-accuracy after 100K steps in 8 hours of training time.
-
-Usage:
-Please see the tutorial and website for how to download the CIFAR-10
-data set, compile the program and train the model.
-
-http://tensorflow.org/tutorials/deep_cnn/ 
-llt
-"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -80,8 +47,7 @@ def eval_once(is_loc, saver,summary_writer,labels,pre_soft, logits,loss,summary_
       # Restores from checkpoint
       saver.restore(sess, ckpt.model_checkpoint_path)
       # Assuming model_checkpoint_path looks something like:
-      #   /my-favorite-path/cifar10_train/model.ckpt-0,
-      # extract global_step from it.
+      #   /my-favorite-path/cnnHAR_train/model.ckpt-0,
       global_step = ckpt.model_checkpoint_path.split('/')[-1].split('-')[-1]
       #print('~~~~~~~~~~~checkpoint file found at step %s'% global_step)
     else:
@@ -149,7 +115,7 @@ def eval_once(is_loc, saver,summary_writer,labels,pre_soft, logits,loss,summary_
 def evaluate(is_loc):
   """Eval for a number of steps."""
   with tf.Graph().as_default() as g:
-    # Get images and labels for CIFAR-10.
+    # Get images and labels for CNNHAR
     
     signals, labels = cnnHAR.inputs(eval_data=is_loc)
     #print('~~~~shape of label:', labels.get_shape())
@@ -175,7 +141,6 @@ def evaluate(is_loc):
 
     while True:
       eval_once(is_loc, saver,summary_writer,labels,pre_soft, logits,loss,summary_op)
-      #loss7,logits7,loss8,logits8,loss9,logits9,loss10,logits10,loss11,logits11,loss12,logits12
       if FLAGS.run_once:
         break
       #time.sleep(FLAGS.eval_interval_secs)
