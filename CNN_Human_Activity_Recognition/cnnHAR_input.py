@@ -1,21 +1,3 @@
-# -*- coding: utf-8 -*-
-# Copyright 2015 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-
-"""Routine for decoding the CIFAR-10 binary file format."""
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -48,7 +30,7 @@ def read_cnnHAR(filename_queue):
   result = CNNHARRecord()
   
   # Read a record, getting filenames from the filename_queue.  No
-  # header or footer in the CIFAR-10 format, so we leave header_bytes
+  # header or footer in the CNNHAR format, so we leave header_bytes
   # and footer_bytes at their default of 0.
   reader = tf.TextLineReader()
   result.key, value = reader.read(filename_queue)
@@ -96,14 +78,14 @@ def _generate_image_and_label_batch(signal, label, min_queue_examples,
   return signals, label_batch #tf.reshape(label_batch, [batch_size, SIGNAL_SIZE, 1])
 
 def distorted_inputs(data_dir, batch_size):
-  """Construct distorted input for CIFAR training using the Reader ops.
+  """Construct distorted input for CNNHAR training using the Reader ops.
 
   Args:
-    data_dir: Path to the CIFAR-10 data directory.
+    data_dir: Path to the CNNHAR data directory.
     batch_size: Number of images per batch.
 
   Returns:
-    images: Images. 4D tensor of [batch_size, IMAGE_SIZE, IMAGE_SIZE, 3] size.
+    images: Images. 4D tensor of [batch_size, IMAGE_SIZE, IMAGE_SIZE, 1] size.
     labels: Labels. 1D tensor of [batch_size] size.
   """
   filename = [os.path.join(data_dir, str(sys.argv[1])+'_train.csv')]
