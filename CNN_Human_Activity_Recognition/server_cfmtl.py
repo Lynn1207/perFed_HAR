@@ -69,35 +69,6 @@ def server_update():
         for key in groups_l3[i]:
             tmp_w+=groups_l3[i][key]*W[key-1, 75424:131877]
         W_l3[i]=tmp_w
-    '''    
-    for i in range(len(groups_l4)):
-        tmp_w=np.zeros(131877-130912)
-        for key in groups_l4[i]:
-            tmp_w+=groups_l4[i][key]*W[key-1, 130912:131877]
-        W_l4[i]=tmp_w
-    '''
-   
-    
-    '''
-    W_avg1_1=np.mean(W[:, 0:1664], axis = 0)
-    
-
-    W_avg2_1=np.mean(np.concatenate((W[0:5, 1664:75424],W[6:8,1664:75424])), axis = 0)
-    W_avg2_2=W[5, 1664:75424]
-    
-    W_avg3_1=np.mean(np.concatenate((W[0:5, 75424:186400],W[6:8,75424:186400])), axis = 0)
-    W_avg3_2=W[5, 75424:186400]
-    
-    
-    W_avg4_1=W[0, 100832:174752]
-    W_avg4_3=W[2, 100832:174752]
-    W_avg4_2=np.mean(np.concatenate((W[1:1, 100832:174752],W[3:8,100832:174752])), axis = 0)
-    
-    W_avg5_1=W[0, 174752:175138]
-    W_avg5_2=W[1, 174752:175138]
-    W_avg5_3=W[2, 174752:175138]
-    W_avg5_4=np.mean(W[3:8,174752:175138], axis = 0)
-    '''
     
     # print(np.max(W_avg))
     
