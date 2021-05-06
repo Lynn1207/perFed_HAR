@@ -26,7 +26,7 @@ batch_size = 32
 data_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/images/'
                     
 
-# Global constants describing the CIFAR-10 data set.
+# Global constants describing the CNNHAR data set.
 SIGNAL_SIZE = cnnHAR_input.SIGNAL_SIZE
 NUM_CLASSES = cnnHAR_input.NUM_CLASSES
 NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = cnnHAR_input.NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN
@@ -45,7 +45,7 @@ INITIAL_LEARNING_RATE = 0.01  # Initial learning rate.
 TOWER_NAME = 'tower'
 
 def distorted_inputs():
-  """Construct distorted input for CIFAR training using the Reader ops.
+  """Construct distorted input for CNNHAR training using the Reader ops.
 
   Returns:
     images: Images. 4D tensor of [batch_size, IMAGE_SIZE, IMAGE_SIZE, 3] size.
@@ -131,7 +131,7 @@ def _activation_summary(x):
   tf.summary.scalar(tensor_name + '/sparsity', tf.nn.zero_fraction(x))
 
 def _add_loss_summaries(total_loss):
-  """Add summaries for losses in CIFAR-10 model.
+  """Add summaries for losses in CNNHAR model.
 
   Generates moving average for all losses and associated summaries for
   visualizing the performance of the network.
@@ -288,47 +288,7 @@ def train(total_loss, global_step):#index is a string e.g. '_1'
 def reset_var(W_avg):
 
   updated_paras=[]
-  '''
-  for var in tf.trainable_variables():
-    if cur_l>0:
-      if var.op.name=="conv1/weights1":
-        var=tf.assign(var, tf.reshape(W_avg[0:1600],[5, 5, 1, 64]))
-        updated_paras.append(var)
-      elif var.op.name=="conv1/biases1":
-        var=tf.assign(var, tf.reshape(W_avg[1600:1664],[64,]))
-        updated_paras.append(var)
-      if cur_l>1:
-        if var.op.name=="conv2/weights2":
-          var=tf.assign(var,tf.reshape(W_avg[1664:52864],[5, 5, 64, 32]))
-          updated_paras.append(var)
-        elif var.op.name=="conv2/biases2":
-          var=tf.assign(var, W_avg[52864:52896])
-          updated_paras.append(var)
-        if cur_l>2:
-          if var.op.name=="local2/weights3":
-            var=tf.assign(var,tf.reshape(W_avg[52896:163488],[288, 384]))
-            updated_paras.append(var)
-          elif var.op.name=="local2/biases3":
-            var=tf.assign(var, W_avg[163488:163872])
-            updated_paras.append(var)
-          if cur_l>3:
-            if var.op.name=="local3/weights4":
-              var=tf.assign(var,tf.reshape(W_avg[163872:213024],[384, 128]))
-              updated_paras.append(var)
-            elif var.op.name=="local3/biases4":
-              var=tf.assign(var, W_avg[213024:213152])
-              updated_paras.append(var)
-            if cur_l>4:
-              if var.op.name=="softmax_linear/weights6":
-                var=tf.assign(var,tf.reshape(W_avg[213152:213792],[128, 5]))
-                updated_paras.append(var)
-              elif var.op.name=="softmax_linear/biases6":
-                var=tf.assign(var, W_avg[213792:213797])
-                updated_paras.append(var)
-    
-    
-    #print(var)
-  '''
+  
   for var in tf.trainable_variables():
     if cur_l>0:
       if var.op.name=="conv1/weights1":
@@ -358,29 +318,6 @@ def reset_var(W_avg):
             elif var.op.name=="softmax_linear/biases4":
               var=tf.assign(var, W_avg[131872:131877])
               updated_paras.append(var)
-              
-  
-  '''                
-  with tf.variable_scope('conv1') as scope:
-    weights1=tf.get_variable('weights1')
-    weights1.assign(tf.reshape(W_avg[0:2048],[32, 1, 64]))
-    bias1=tf.assign(tf.get_variable('biases1'), W_avg[2048:2112])
-  with tf.variable_scope('conv2') as scope:
-    weights2=tf.assign(tf.get_default_graph().get_tensor_by_name('weights2'), tf.reshape(W_avg[2112:8256],[3, 64, 32]))
-    bias2=tf.assign(tf.get_default_graph().get_tensor_by_name('biases2'), W_avg[8256:8288])
-  with tf.variable_scope('local2') as scope:
-    weights3=tf.assign(tf.get_default_graph().get_tensor_by_name('weights3'), tf.reshape(W_avg[8288:73824],[64, 1024]))
-    bias3=tf.assign(tf.get_default_graph().get_tensor_by_name('biases3'), W_avg[73824:74848])
-  with tf.variable_scope('local3') as scope:
-    weights4=tf.assign(tf.get_default_graph().get_tensor_by_name('weights4'), tf.reshape(W_avg[74848:599136],[1024, 512]))
-    bias4=tf.assign(tf.get_default_graph().get_tensor_by_name('biases4'), W_avg[599136:599648])
-  with tf.variable_scope('local4') as scope:
-    weights5=tf.assign(tf.get_default_graph().get_tensor_by_name('weights5'), tf.reshape(W_avg[599648:615008],[512, 30]))
-    bias5=tf.assign(tf.get_default_graph().get_tensor_by_name('biases5'), W_avg[615008:615038])
-  with tf.variable_scope('softmax_linear') as scope:
-    weights6=tf.assign(tf.get_default_graph().get_tensor_by_name('weights6'), tf.reshape(W_avg[615038:615218],[30, 6]))
-    bias6=tf.assign(tf.get_default_graph().get_tensor_by_name('biases6'), W_avg[615218:615224])
-  '''
 
   return updated_paras
   
