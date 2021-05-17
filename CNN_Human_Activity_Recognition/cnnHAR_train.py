@@ -145,9 +145,9 @@ def train():
           #print(self._step)
           paras_v=run_values.results
           cnnHAR_eval.main(True)
-          if self._step+1==max_steps*outer_iter:
-            #print("commonset")
-            cnnHAR_eval.main(False)
+        if (self._step+1)%(max_steps)==0#self._step+1==max_steps*outer_iter:
+          #print("commonset")
+          cnnHAR_eval.main(False)
 
     outer_i = 0
     with tf.train.MonitoredTrainingSession(
@@ -163,16 +163,11 @@ def train():
         step=0
         while step<max_steps and not mon_sess.should_stop():
           _, all_paras,_=mon_sess.run([train_op,paras, extra_update_ops])
-          '''
-          if step<=3 and str(sys.argv[1])=="1":
-            print("Pre_train:", pre_all_paras[0].reshape(-1)[0:3])
-            print("Post_train:", all_paras[0].reshape(-1)[0:3])
-          '''
           step+=1
           
         outer_i += 1
         
-        
+        '''
         #get the weights and send to server
         w_flat = np.array([])
         #depends on how many layer wanna upload to server to share with other users
@@ -197,7 +192,7 @@ def train():
             #print("W_avg:", W_general[0:3])
             #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
         #print("Length of updated paras: %d \n"% len(updated_paras_v))
-        
+        '''
           
         
         
