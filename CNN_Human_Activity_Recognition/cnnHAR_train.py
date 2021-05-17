@@ -31,6 +31,7 @@ batch_size = cnnHAR.batch_size
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
 outer_iter=30 #local 8
+start_iter=8
 
 
 
@@ -167,31 +168,31 @@ def train():
           
         outer_i += 1
         
-        
-        #get the weights and send to server
-        w_flat = np.array([])
-        #depends on how many layer wanna upload to server to share with other users
-        #six layers: 2,4,6,8,10,11, or len(all_paras).
-        cur_layer=cnnHAR.cur_l
-        for i in range(cur_layer*2):
-          temp = all_paras[i].reshape(-1)
-          w_flat=np.concatenate((w_flat, temp), axis=0)
-          #if outer_i<2 and str(sys.argv[1])=="1":
-            #print("Before_merge:", all_paras[i].shape)
-            #print("after flatten%%%%%%%%%%%%", w_flat.shape)
-        
-        comm.send2server(w_flat,0)
-      
-        #receive aggregated weights from server
-        W_general = comm.recvOUF()
-        #w = tf.cast(W_general, tf.float64)
-        
-        if not mon_sess.should_stop():
-          updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
-          #if str(sys.argv[1])=="1":
-            #print("W_avg:", W_general[0:3])
-            #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
-        #print("Length of updated paras: %d \n"% len(updated_paras_v))
+        if outer_i%start_iter==0:
+          #get the weights and send to server
+          w_flat = np.array([])
+          #depends on how many layer wanna upload to server to share with other users
+          #six layers: 2,4,6,8,10,11, or len(all_paras).
+          cur_layer=cnnHAR.cur_l
+          for i in range(cur_layer*2):
+            temp = all_paras[i].reshape(-1)
+            w_flat=np.concatenate((w_flat, temp), axis=0)
+            #if outer_i<2 and str(sys.argv[1])=="1":
+              #print("Before_merge:", all_paras[i].shape)
+              #print("after flatten%%%%%%%%%%%%", w_flat.shape)
+
+          comm.send2server(w_flat,0)
+
+          #receive aggregated weights from server
+          W_general = comm.recvOUF()
+          #w = tf.cast(W_general, tf.float64)
+
+          if not mon_sess.should_stop():
+            updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
+            #if str(sys.argv[1])=="1":
+              #print("W_avg:", W_general[0:3])
+              #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
+          #print("Length of updated paras: %d \n"% len(updated_paras_v))
         
           
         
