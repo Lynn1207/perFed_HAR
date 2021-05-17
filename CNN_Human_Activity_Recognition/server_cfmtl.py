@@ -33,7 +33,7 @@ conver_indicator = 1e5
 loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
-
+'''
 groups_l1=[{1: 0.333, 4: 0.333, 7: 0.333}, {2: 0.2, 3: 0.2, 5: 0.2, 6: 0.2, 8:0.2 }] #groups
 W_l1=np.zeros((2,1664))
 
@@ -42,16 +42,17 @@ W_l2=np.zeros((4,75424-1664))
 
 groups_l3=[{1: 1.0}, {2: 1.0}, {3: 1.0}, {4: 0.5, 7: 0.5}, {5: 0.333, 6: 0.333, 8: 0.333}]
 W_l3=np.zeros((5,131877-75424))
-'''
+
 groups_l4=[{1: 1.0}, {2: 1.0}, {3: 1.0}, {4: 1.0}, {5: 0.5, 8: 0.5}, {6: 1.0}, {7: 1.0}]
 W_l4=np.zeros((7,131877-130912))
 '''
 def server_update():
     
-    global W, W_update,W_l1#W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
+    global W, W_avg,W_l1#W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
     # print(np.max(W))
-    #W_avg=np.mean(W, axis = 0)
+    W_avg=np.mean(W, axis = 0)
     #W_update=W
+    '''
     for i in range(len(groups_l1)):
         tmp_w=np.zeros(1664)
         for key in groups_l1[i]:
@@ -69,7 +70,7 @@ def server_update():
         for key in groups_l3[i]:
             tmp_w+=groups_l3[i][key]*W[key-1, 75424:131877]
         W_l3[i]=tmp_w
-    
+    '''
     # print(np.max(W_avg))
     
 def reinitialize():
@@ -161,7 +162,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         barrier_W.wait(4800)
                     except Exception as e:
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
-                    
+                    '''
                     g_i=0
                     for group in groups_l1:
                         if user_id[0] in group:
@@ -185,7 +186,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             #print(user_id[0],"Layer_2: ", g_i,W_gen[0:2], W_gen[1664:1664+2])
                             break
                         g_i+=1
-                    '''    
+                        
                     g_i=0
                     for group in groups_l4:
                         if user_id[0] in group: 
@@ -194,7 +195,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             break
                         g_i+=1
                     '''
-                    #W_gen=W_update[user_id[0]-1]    
+                    W_gen=W_avg 
                     #print(user_id[0], W_avg.shape)
                     
                     W_avg_data = pickle.dumps(W_gen, protocol = 0)
