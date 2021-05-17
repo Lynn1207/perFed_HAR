@@ -5,7 +5,7 @@ from threading import Lock, Thread
 import threading
 import numpy as np
 from sklearn.decomposition import PCA
-from keras.utils import to_categorical
+#from keras.utils import to_categorical
 import tensorflow.compat.v1 as tf
 import math
 
