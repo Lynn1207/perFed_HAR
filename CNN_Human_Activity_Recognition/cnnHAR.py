@@ -303,7 +303,13 @@ def reset_var_l2(W_avg):
   updated_paras=[]
   
   for var in tf.trainable_variables():
-    if var.op.name=="conv2/weights2":
+    if var.op.name=="conv1/weights1":
+      var=tf.assign(var, tf.reshape(W_avg[0:1600],[5,5,1, 64]))
+      updated_paras.append(var)
+    elif var.op.name=="conv1/biases1":
+      var=tf.assign(var, tf.reshape(W_avg[1600:1664],[64,]))
+      updated_paras.append(var)
+    elif var.op.name=="conv2/weights2":
       var=tf.assign(var,tf.reshape(W_avg[1664:75392],[6,6, 64, 32]))
       updated_paras.append(var)
     elif var.op.name=="conv2/biases2":
@@ -317,7 +323,19 @@ def reset_var_l3(W_avg):
   updated_paras=[]
   
   for var in tf.trainable_variables():
-    if var.op.name=="local2/weights3":
+    if var.op.name=="conv1/weights1":
+      var=tf.assign(var, tf.reshape(W_avg[0:1600],[5,5,1, 64]))
+      updated_paras.append(var)
+    elif var.op.name=="conv1/biases1":
+      var=tf.assign(var, tf.reshape(W_avg[1600:1664],[64,]))
+      updated_paras.append(var)
+    elif var.op.name=="conv2/weights2":
+      var=tf.assign(var,tf.reshape(W_avg[1664:75392],[6,6, 64, 32]))
+      updated_paras.append(var)
+    elif var.op.name=="conv2/biases2":
+      var=tf.assign(var, W_avg[75392:75424])
+      updated_paras.append(var)
+    elif var.op.name=="local2/weights3":
       var=tf.assign(var,tf.reshape(W_avg[75424:130720],[288, 192]))
       updated_paras.append(var)
     elif var.op.name=="local2/biases3":
