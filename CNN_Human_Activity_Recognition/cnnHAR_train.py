@@ -64,10 +64,12 @@ def train():
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     
-    W_avg = tf.compat.v1.placeholder(tf.float64, shape=(cnnHAR.num_paras,))
-    cur_l = tf.compat.v1.placeholder(tf.int8, shape=(1))
-    updated_paras=cnnHAR.reset_var(W_avg, cur_l)
-    
+    W_avg1 = tf.compat.v1.placeholder(tf.float64, shape=(1664,))
+    updated_paras1=cnnHAR.reset_var_l1(W_avg1)
+    W_avg2 = tf.compat.v1.placeholder(tf.float64, shape=(75424,))
+    updated_paras2=cnnHAR.reset_var_l2(W_avg2)
+    W_avg3 = tf.compat.v1.placeholder(tf.float64, shape=(130912,))
+    updated_paras3=cnnHAR.reset_var_l3(W_avg3)
     
     # prepare the communication module
     server_addr = "localhost"
@@ -189,7 +191,12 @@ def train():
           #w = tf.cast(W_general, tf.float64)
           print(W_general.shape)
           if not mon_sess.should_stop():
-            updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: np.resize(W_general.astype(np.float64),(1,cnnHAR.num_paras)), cur_l:cur_layer})
+            if cur_layer>=3:
+              updated_paras_v=mon_sess.run(updated_paras3, feed_dict={W_avg3: W_general[0:130912]})
+            elif cur_layer>=2:
+              updated_paras_v=mon_sess.run(updated_paras2, feed_dict={W_avg2: W_general[0:75424]})
+            elif cur_layer>=1:
+              updated_paras_v=mon_sess.run(updated_paras1, feed_dict={W_avg1: W_general[0:1664]})
             #if str(sys.argv[1])=="1":
               #print("W_avg:", W_general[0:3])
               #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
