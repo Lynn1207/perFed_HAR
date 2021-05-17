@@ -24,8 +24,8 @@ regular = 1e5
 alpha = 1*(1e-3)
 
 W = np.zeros((NUM_OF_TOTAL_USERS,W_DIM))
-W_avg = np.zeros(W_DIM)
-W_update=np.zeros((NUM_OF_TOTAL_USERS,W_DIM))
+#W_avg = np.zeros(W_DIM)
+#W_update=np.zeros((NUM_OF_TOTAL_USERS,W_DIM))
 Loss = np.zeros(NUM_OF_TOTAL_USERS)
 Loss[Loss<np.inf] = 1e5
 Loss_cache = np.zeros(NUM_OF_TOTAL_USERS)
@@ -46,9 +46,9 @@ W_l3=np.zeros((5,130912-75424))
 
 def server_update():
     
-    global W, W_avg,W_l1#W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
+    global W,W_l1,W_l2,W_l3#W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
     # print(np.max(W))
-    W_avg=np.mean(W, axis = 0)
+    #W_avg=np.mean(W, axis = 0)
     #W_update=W
     print(W.shape[1])
     if W.shape[1]>=1664:
