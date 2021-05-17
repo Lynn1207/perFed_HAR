@@ -98,6 +98,7 @@ def eval_once(is_loc, saver,summary_writer,labels,pre_soft, logits,loss,summary_
           for j in range(NUM_CLASSES):
             f.write("%0.3f "%simpleness[i][j])
           f.write("\n")
+        f.write("\n")
         f.close()
       #print(str(sys.argv[1])+'(locally test)!!!!!!!!!!!!!!!!!!!! average_test loss = %.3f, average_accuracy=%.3f' % (n_l/64,n_acc/64))
       
