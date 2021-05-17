@@ -20,7 +20,7 @@ train_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check
 
 
 
-max_steps = 70 #400 epoch
+max_steps = 20#400 epoch
 
 log_device_placement = False
 
