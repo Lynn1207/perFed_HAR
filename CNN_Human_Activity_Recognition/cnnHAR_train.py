@@ -65,7 +65,8 @@ def train():
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     
     W_avg = tf.compat.v1.placeholder(tf.float64, shape=(cnnHAR.num_paras,))
-    updated_paras=cnnHAR.reset_var(W_avg)
+    cur_l = tf.compat.v1.placeholder(tf.int8, shape=(1))
+    updated_paras=cnnHAR.reset_var(W_avg, cur_l)
     
     
     # prepare the communication module
@@ -173,7 +174,7 @@ def train():
           w_flat = np.array([])
           #depends on how many layer wanna upload to server to share with other users
           #six layers: 2,4,6,8,10,11, or len(all_paras).
-          cur_layer=cnnHAR.cur_l
+          cur_layer=int(outer_i/start_iter)#cnnHAR.cur_l
           for i in range(cur_layer*2):
             temp = all_paras[i].reshape(-1)
             w_flat=np.concatenate((w_flat, temp), axis=0)
@@ -186,9 +187,9 @@ def train():
           #receive aggregated weights from server
           W_general = comm.recvOUF()
           #w = tf.cast(W_general, tf.float64)
-
+          print(W_general.shape)
           if not mon_sess.should_stop():
-            updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: W_general.astype(np.float64)})
+            updated_paras_v=mon_sess.run(updated_paras, feed_dict={W_avg: np.resize(W_general.astype(np.float64),(1,cnnHAR.num_paras)), cur_l:cur_layer})
             #if str(sys.argv[1])=="1":
               #print("W_avg:", W_general[0:3])
               #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
