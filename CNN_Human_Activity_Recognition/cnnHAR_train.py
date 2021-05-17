@@ -145,7 +145,7 @@ def train():
           #print(self._step)
           paras_v=run_values.results
           cnnHAR_eval.main(True)
-        if (self._step+1)%(max_steps)==0#self._step+1==max_steps*outer_iter:
+        if (self._step+1)%(max_steps)==0:#self._step+1==max_steps*outer_iter:
           #print("commonset")
           cnnHAR_eval.main(False)
 
