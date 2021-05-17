@@ -156,6 +156,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     #print(len(weights))
                     #print(out_i, user_id[0])
                     W[user_id[0]-1] = weights
+                    print(W.shape)
 
                     try:
                         barrier_W.wait(4800)
