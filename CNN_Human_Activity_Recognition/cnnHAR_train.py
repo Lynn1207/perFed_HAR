@@ -31,7 +31,6 @@ batch_size = cnnHAR.batch_size
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
 outer_iter=30 #local 8
-start_iter=8
   
 def train():
   w_flat = np.array([])
@@ -150,7 +149,7 @@ def train():
           cnnHAR_eval.main(False)
 
     outer_i = 0
-    start_iter=8
+    start_iter=10
     cur_layer=0
     intvl=0
     with tf.train.MonitoredTrainingSession(
