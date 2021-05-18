@@ -190,13 +190,13 @@ def train():
             w_flat=np.concatenate((w_flat, temp), axis=0)
             #if outer_i<2 and str(sys.argv[1])=="1":
               #print("Before_merge:", all_paras[i].shape)
-              #print("after flatten%%%%%%%%%%%%", w_flat.shape)
+            print("after flatten%%%%%%%%%%%%", w_flat.shape)
           comm.send2server(w_flat,0)
 
           #receive aggregated weights from server
           W_general = comm.recvOUF()
           #w = tf.cast(W_general, tf.float64)
-          #print(W_general.shape)
+          print(W_general.shape)
           logcomm.append([outer_i, w_flat.shape[1], W_general.shape[1]])
           if not mon_sess.should_stop():
             if cur_layer>=4:
