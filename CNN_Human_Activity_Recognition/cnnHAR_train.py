@@ -20,7 +20,7 @@ train_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check
 
 
 
-max_steps = 20#400 epoch
+max_steps = 20
 
 log_device_placement = False
 
@@ -172,7 +172,7 @@ def train():
         outer_i += 1
         
         intvl+=1 
-        if outer_i>=start_iter:
+        if outer_i>=0:#start_iter:
           #get the weights and send to server
           w_flat = np.array([])
           #depends on how many layer wanna upload to server to share with other users
