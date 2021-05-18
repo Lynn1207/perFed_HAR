@@ -31,7 +31,7 @@ batch_size = cnnHAR.batch_size
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
 outer_iter=30 #local 8
-start_iter=8
+start_iter=10
 
 
 
@@ -177,6 +177,8 @@ def train():
           #depends on how many layer wanna upload to server to share with other users
           #six layers: 2,4,6,8,10,11, or len(all_paras).
           cur_layer=int(outer_i/start_iter)#cnnHAR.cur_l
+          if outer_i%start_iter==0:
+            start_iter=floor(start_iter*0.8)
           for i in range(cur_layer*2):
             temp = all_paras[i].reshape(-1)
             w_flat=np.concatenate((w_flat, temp), axis=0)
