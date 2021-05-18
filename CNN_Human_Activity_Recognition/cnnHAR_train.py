@@ -181,7 +181,7 @@ def train():
           #six layers: 2,4,6,8,10,11, or len(all_paras).
           
           if cur_layer<3 and start_iter==intvl:
-            if str(sys.argv[1])!=6 or cur_layer==0:
+            if str(sys.argv[1])!="6" or cur_layer==0:
               logcomm.append([outer_i, 131877,0])
             else:
               logcomm.append([outer_i, 0,0])
@@ -197,14 +197,14 @@ def train():
               #print("Before_merge:", all_paras[i].shape)
             #print("after flatten%%%%%%%%%%%%", w_flat.shape)
           comm.send2server(w_flat,0)
-          if str(sys.argv[1])!=6 and start_iter==intvl:
+          if str(sys.argv[1])!="6" and start_iter==intvl:
             logcomm[-1][2]=w_flat.shape[0]
 
           #receive aggregated weights from server
           W_general = comm.recvOUF()
           #w = tf.cast(W_general, tf.float64)
           #print(W_general.shape)
-          if str(sys.argv[1])!=6:
+          if str(sys.argv[1])!="6":
             logcomm.append([outer_i, w_flat.shape[0], W_general.shape[0]])
           if not mon_sess.should_stop():
             if cur_layer>=4:
