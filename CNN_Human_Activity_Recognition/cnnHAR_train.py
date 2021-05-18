@@ -179,7 +179,7 @@ def train():
           if start_iter==intvl:
             cur_layer=min(cur_layer+1,3)
             #print(cur_layer, start_iter)
-            start_iter=int(start_iter*0.85)
+            start_iter=int(start_iter*0.9)
             intvl=0
           
           for i in range(cur_layer*2):
