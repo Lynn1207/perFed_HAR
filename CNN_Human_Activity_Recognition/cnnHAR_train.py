@@ -170,7 +170,7 @@ def train():
           step+=1
           
         outer_i += 1
-        
+        '''
         if outer_i%start_iter==0:
           #get the weights and send to server
           w_flat = np.array([])
@@ -201,7 +201,7 @@ def train():
               #print("W_avg:", W_general[0:3])
               #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
           #print("Length of updated paras: %d \n"% len(updated_paras_v))
-        
+          '''
           
         
         
