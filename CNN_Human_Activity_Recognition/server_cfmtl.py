@@ -164,7 +164,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     except Exception as e:
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
                     
-                    if W[0][1663]!=0:: 
+                    if W[0][1663]!=0:
                         g_i=0
                         for group in groups_l1:
                             if user_id[0] in group:
