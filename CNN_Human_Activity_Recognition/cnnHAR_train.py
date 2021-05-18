@@ -187,7 +187,6 @@ def train():
               logcomm.append([outer_i, 0,0])
             cur_layer=min(cur_layer+1,3)
             #print(cur_layer, start_iter)
-            start_iter=int(start_iter*0.9)
             
           
           for i in range(cur_layer*2):
@@ -199,6 +198,7 @@ def train():
           comm.send2server(w_flat,0)
           if str(sys.argv[1])!="6" and start_iter==intvl:
             logcomm[-1][2]=w_flat.shape[0]
+            start_iter=int(start_iter*0.9)
             intvl=0
 
           #receive aggregated weights from server
