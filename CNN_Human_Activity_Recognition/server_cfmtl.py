@@ -34,13 +34,13 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
-groups_l1=[{1:0.125,2:0.125,3:0.125,4:0.125,5:0.125,6:0.125,7:0.125,8:0.125 }]#[{2: 0.184, 8: 0.184, 3: 0.131, 5: 0.131, 6: 0.131, 1: 0.105, 7: 0.078, 4: 0.052}] #[{1:1.0},{2:1.0},{3:1.0},{4:1.0},{5:1.0},{6:1.0},{7:1.0},{8:1.0}]#
+groups_l1=[{1: 0.166, 5: 0.166, 8: 0.166, 3: 0.119, 6: 0.119, 7: 0.119, 4: 0.095, 2: 0.047}]#[{2: 0.184, 8: 0.184, 3: 0.131, 5: 0.131, 6: 0.131, 1: 0.105, 7: 0.078, 4: 0.052}] #[{1:1.0},{2:1.0},{3:1.0},{4:1.0},{5:1.0},{6:1.0},{7:1.0},{8:1.0}]#
 W_l1=np.zeros((len(groups_l1),1664))
 
-groups_l2=[{1:0.125,2:0.125,3:0.125,4:0.125,5:0.125,6:0.125,7:0.125,8:0.125 }]
+groups_l2=[{1:1.0},{2:1.0},{3:1.0},{4:1.0},{5:1.0},{6:1.0},{7:1.0},{8:1.0}]
 W_l2=np.zeros((len(groups_l2),75424-1664))
 
-groups_l3=[{1:0.125,2:0.125,3:0.125,4:0.125,5:0.125,6:0.125,7:0.125,8:0.125 }]
+groups_l3=[{1:1.0},{2:1.0},{3:1.0},{4:1.0},{5:1.0},{6:1.0},{7:1.0},{8:1.0}]
 W_l3=np.zeros((len(groups_l3),130912-75424))
 
 
@@ -164,7 +164,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         barrier_W.wait(4800)
                     except Exception as e:
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
-                    '''
+                    
                     if W[0][1663]!=0:
                         g_i=0
                         for group in groups_l1:
@@ -194,8 +194,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 print(user_id[0],"Layer_2: ", g_i)
                                 break
                             g_i+=1
-                    '''
-                    W_gen=W_avg 
+                    
+                    #W_gen=W_avg 
                     #print(user_id[0], W_avg.shape)
                     
                     W_avg_data = pickle.dumps(W_gen, protocol = 0)
