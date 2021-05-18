@@ -170,7 +170,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         for group in groups_l1:
                             if user_id[0] in group:
                                 W_gen=W_l1[g_i]
-                                #print(user_id[0],"Layer_1: ", g_i,W_gen[0:2])
+                                print(user_id[0],"Layer_1: ", g_i)
                                 break
                             g_i+=1
                         
@@ -179,7 +179,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         for group in groups_l2:
                             if user_id[0] in group: 
                                 W_gen=np.concatenate((W_gen, W_l2[g_i]))
-                                #print(user_id[0],"Layer_2: ", g_i,W_gen[0:2], W_gen[1664:1664+2])
+                                print(user_id[0],"Layer_2: ", g_i)
                                 break
                             g_i+=1
                         
@@ -188,7 +188,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         for group in groups_l3:
                             if user_id[0] in group: 
                                 W_gen=np.concatenate((W_gen, W_l3[g_i]))
-                                #print(user_id[0],"Layer_2: ", g_i,W_gen[0:2], W_gen[1664:1664+2])
+                                print(user_id[0],"Layer_2: ", g_i)
                                 break
                             g_i+=1
                     '''
