@@ -35,6 +35,7 @@ outer_iter=30 #local 8
 def train():
   w_flat = np.array([])
   logLoss=[]
+  logcomm=[]
   #loc_paras=[]
   #gen_paras=[]
   os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
@@ -190,13 +191,13 @@ def train():
             #if outer_i<2 and str(sys.argv[1])=="1":
               #print("Before_merge:", all_paras[i].shape)
               #print("after flatten%%%%%%%%%%%%", w_flat.shape)
-
           comm.send2server(w_flat,0)
 
           #receive aggregated weights from server
           W_general = comm.recvOUF()
           #w = tf.cast(W_general, tf.float64)
           #print(W_general.shape)
+          logcomm.append([outer_i, w_flat.shape[1], W_general.shape[1]])
           if not mon_sess.should_stop():
             if cur_layer>=4:
               updated_paras_v=mon_sess.run(updated_paras4, feed_dict={W_avg4: W_general[0:131877]})
@@ -222,6 +223,14 @@ def train():
     for i in range(len(logLoss)):
       format_str = ("%d, %0.3f, %0.3f\n")
       f.write(format_str % ( logLoss[i][0], logLoss[i][1], logLoss[i][2]))
+    f.close()
+    #log the communication 
+    f = open("/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/results/log_comm"+cnnHAR.method+str(sys.argv[1])+".txt", "a")
+    x = time.strftime("%Y%m%d-%H%M%S")
+    f.write(str(sys.argv[1])+", "+x+":\n")
+    for i in range(len(logcomm)):
+      format_str = ("%d, %d, %d\n")
+      f.write(format_str % ( logcomm[i][0], logcomm[i][1], logcomm[i][2]))
     f.close()
     '''
     #debug~~~~~~~~~~
