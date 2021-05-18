@@ -31,11 +31,7 @@ batch_size = cnnHAR.batch_size
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
 outer_iter=30 #local 8
-start_iter=10
-
-
-
-
+start_iter=8
   
 def train():
   w_flat = np.array([])
@@ -154,6 +150,7 @@ def train():
           cnnHAR_eval.main(False)
 
     outer_i = 0
+    start_iter=8
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
           hooks=[tf.train.StopAtStepHook(last_step=max_steps*outer_iter+1),
@@ -170,7 +167,6 @@ def train():
           step+=1
           
         outer_i += 1
-        print(start_iter)
         if outer_i>=start_iter:
           #get the weights and send to server
           w_flat = np.array([])
@@ -178,6 +174,7 @@ def train():
           #six layers: 2,4,6,8,10,11, or len(all_paras).
           cur_layer=int(outer_i/start_iter)#cnnHAR.cur_l
           if outer_i%start_iter==0:
+            print(cur_layer, start_iter)
             start_iter=floor(start_iter*0.8)
           for i in range(cur_layer*2):
             temp = all_paras[i].reshape(-1)
@@ -191,7 +188,7 @@ def train():
           #receive aggregated weights from server
           W_general = comm.recvOUF()
           #w = tf.cast(W_general, tf.float64)
-          print(W_general.shape)
+          #print(W_general.shape)
           if not mon_sess.should_stop():
             if cur_layer>=3:
               updated_paras_v=mon_sess.run(updated_paras3, feed_dict={W_avg3: W_general[0:130912]})
