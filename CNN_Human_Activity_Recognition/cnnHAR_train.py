@@ -150,7 +150,7 @@ def train():
           cnnHAR_eval.main(False)
 
     outer_i = 0
-    start_iter=8
+    start_iter=10
     cur_layer=0
     intvl=0
     with tf.train.MonitoredTrainingSession(
@@ -177,7 +177,7 @@ def train():
           #six layers: 2,4,6,8,10,11, or len(all_paras).
           if start_iter==intvl:
             cur_layer=min(cur_layer+1,3)
-            print(cur_layer, start_iter)
+            #print(cur_layer, start_iter)
             start_iter=int(start_iter*0.8)
             intvl=0
           
