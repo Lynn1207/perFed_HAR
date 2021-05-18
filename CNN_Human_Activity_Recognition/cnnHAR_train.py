@@ -175,7 +175,7 @@ def train():
           cur_layer=int(outer_i/start_iter)#cnnHAR.cur_l
           if outer_i%start_iter==0:
             print(cur_layer, start_iter)
-            start_iter=floor(start_iter*0.8)
+            start_iter=int(start_iter*0.8)
           for i in range(cur_layer*2):
             temp = all_paras[i].reshape(-1)
             w_flat=np.concatenate((w_flat, temp), axis=0)
