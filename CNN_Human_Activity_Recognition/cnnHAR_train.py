@@ -169,7 +169,7 @@ def train():
           step+=1
           
         outer_i += 1
-        '''
+        
         intvl+=1 
         if outer_i>=start_iter:
           #get the weights and send to server
@@ -179,7 +179,7 @@ def train():
           if start_iter==intvl:
             cur_layer=min(cur_layer+1,3)
             #print(cur_layer, start_iter)
-            start_iter=int(start_iter*0.8)
+            start_iter=int(start_iter*0.85)
             intvl=0
           
           for i in range(cur_layer*2):
@@ -206,7 +206,7 @@ def train():
               #print("W_avg:", W_general[0:3])
               #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
           #print("Length of updated paras: %d \n"% len(updated_paras_v))
-        '''
+        
           
         
         
