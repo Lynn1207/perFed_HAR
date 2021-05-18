@@ -150,7 +150,7 @@ def train():
 
     outer_i = 0
     start_iter=10
-    cur_layer=0
+    cur_layer=3
     intvl=0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
@@ -170,17 +170,18 @@ def train():
         outer_i += 1
         
         intvl+=1 
-        if outer_i>=start_iter:
+        if outer_i>=0:#start_iter:
           #get the weights and send to server
           w_flat = np.array([])
           #depends on how many layer wanna upload to server to share with other users
           #six layers: 2,4,6,8,10,11, or len(all_paras).
+          '''
           if cur_layer<3 and start_iter==intvl:
             cur_layer=min(cur_layer+1,3)
             #print(cur_layer, start_iter)
             start_iter=int(start_iter*0.8)
             intvl=0
-          
+          '''
           for i in range(cur_layer*2):
             temp = all_paras[i].reshape(-1)
             w_flat=np.concatenate((w_flat, temp), axis=0)
