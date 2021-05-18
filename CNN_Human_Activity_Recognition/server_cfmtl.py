@@ -40,7 +40,7 @@ W_l1=np.zeros((len(groups_l1),1664))
 groups_l2=[{1: 0.333, 4: 0.333, 7: 0.333},{3: 0.238, 8: 0.238, 5: 0.19, 6: 0.19, 2: 0.142}]
 W_l2=np.zeros((len(groups_l2),75424-1664))
 
-groups_l3=[{1: 0.333, 4: 0.333, 7: 0.333},{3: 0.263, 5: 0.21, 6: 0.21, 8: 0.21, 2: 0.105}]
+groups_l3=[{1: 0.428, 4: 0.285, 7: 0.285},{2: 1.0},{3: 0.25, 5: 0.25, 6: 0.25, 8: 0.25}]
 W_l3=np.zeros((len(groups_l3),130912-75424))
 
 
@@ -48,7 +48,7 @@ def server_update():
     
     global W,W_l1,W_l2,W_l3, W_avg
     # print(np.max(W))
-    W_avg=np.mean(W, axis = 0)
+    #W_avg=np.mean(W, axis = 0)
     #W_update=W
     
     if W[0][1663]!=0:
@@ -198,7 +198,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 break
                             g_i+=1
                     
-                    #W_gen=W_avg 
+                    #W_gen=0.5*W_avg+0.5*W[user_id[0]-1]
                     #print(user_id[0], W_avg.shape)
                     
                     W_avg_data = pickle.dumps(W_gen, protocol = 0)
