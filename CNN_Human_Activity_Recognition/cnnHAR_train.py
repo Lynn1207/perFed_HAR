@@ -207,6 +207,8 @@ def train():
           #print(W_general.shape)
           if str(sys.argv[1])!="6":
             logcomm.append([outer_i, w_flat.shape[0], W_general.shape[0]])
+          else:
+            logcomm.append([outer_i, 0, 0])
           if not mon_sess.should_stop():
             if cur_layer>=4:
               updated_paras_v=mon_sess.run(updated_paras4, feed_dict={W_avg4: W_general[0:131877]})
