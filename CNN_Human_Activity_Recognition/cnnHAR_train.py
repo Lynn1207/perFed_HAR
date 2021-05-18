@@ -65,6 +65,8 @@ def train():
     updated_paras2=cnnHAR.reset_var_l2(W_avg2)
     W_avg3 = tf.compat.v1.placeholder(tf.float64, shape=(130912,))
     updated_paras3=cnnHAR.reset_var_l3(W_avg3)
+    W_avg4 = tf.compat.v1.placeholder(tf.float64, shape=(131877,))
+    updated_paras4=cnnHAR.reset_var_l4(W_avg4)
     
     # prepare the communication module
     server_addr = "localhost"
@@ -150,7 +152,7 @@ def train():
 
     outer_i = 0
     start_iter=10
-    cur_layer=3
+    cur_layer=4
     intvl=0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
@@ -196,7 +198,9 @@ def train():
           #w = tf.cast(W_general, tf.float64)
           #print(W_general.shape)
           if not mon_sess.should_stop():
-            if cur_layer>=3:
+            if cur_layer>=4:
+              updated_paras_v=mon_sess.run(updated_paras4, feed_dict={W_avg4: W_general[0:131877]})
+            elif cur_layer>=3:
               updated_paras_v=mon_sess.run(updated_paras3, feed_dict={W_avg3: W_general[0:130912]})
             elif cur_layer>=2:
               updated_paras_v=mon_sess.run(updated_paras2, feed_dict={W_avg2: W_general[0:75424]})
