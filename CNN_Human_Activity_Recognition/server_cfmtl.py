@@ -50,20 +50,22 @@ def server_update():
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
     #W_update=W
-    print(W.shape[1])
-    if W.shape[1]>=1664:
+    if W[0][1663]!=0:
+        print("Layer 1")
         for i in range(len(groups_l1)):
             tmp_w=np.zeros(1664)
             for key in groups_l1[i]:
                 tmp_w+=groups_l1[i][key]*W[key-1, 0:1664]
             W_l1[i]=tmp_w
-    if W.shape[1]>=75424:
+    if W[0][75423]!=0:
+        print("Layer 2")
         for i in range(len(groups_l2)):
             tmp_w=np.zeros(75424-1664)
             for key in groups_l2[i]:
                 tmp_w+=groups_l2[i][key]*W[key-1, 1664:75424]
             W_l2[i]=tmp_w
-    if W.shape[1]>=130912:
+    if W[0][130911]!=0:
+        print("Layer 3")
         for i in range(len(groups_l3)):
             tmp_w=np.zeros(130912-75424)
             for key in groups_l3[i]:
@@ -155,15 +157,14 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     weights = pickle.loads(recv_data)
                     #print(len(weights))
                     #print(out_i, user_id[0])
-                    W[user_id[0]-1] = weights
-                    print(W.shape)
+                    W[user_id[0]-1, 0:len(weights)] = weights
 
                     try:
                         barrier_W.wait(4800)
                     except Exception as e:
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
                     
-                    if W.shape[1]>=1664: 
+                    if W[0][1663]!=0:: 
                         g_i=0
                         for group in groups_l1:
                             if user_id[0] in group:
@@ -172,7 +173,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 break
                             g_i+=1
                         
-                    if W.shape[1]>=75424:    
+                    if W[0][75423]!=0:    
                         g_i=0
                         for group in groups_l2:
                             if user_id[0] in group: 
@@ -181,7 +182,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 break
                             g_i+=1
                         
-                    if W.shape[1]>=130912:
+                    if W[0][130911]!=0:
                         g_i=0
                         for group in groups_l3:
                             if user_id[0] in group: 
