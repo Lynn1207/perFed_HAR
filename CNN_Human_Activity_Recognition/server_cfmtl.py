@@ -24,7 +24,7 @@ regular = 1e5
 alpha = 1*(1e-3)
 
 W = np.zeros((NUM_OF_TOTAL_USERS,W_DIM))
-#W_avg = np.zeros(W_DIM)
+W_avg = np.zeros(W_DIM)
 #W_update=np.zeros((NUM_OF_TOTAL_USERS,W_DIM))
 Loss = np.zeros(NUM_OF_TOTAL_USERS)
 Loss[Loss<np.inf] = 1e5
@@ -46,10 +46,11 @@ W_l3=np.zeros((len(groups_l3),130912-75424))
 
 def server_update():
     
-    global W,W_l1,W_l2,W_l3#W_avg1_1,W_avg1_2, W_avg2_1,W_avg2_2,W_avg2_3,W_avg2_4,W_avg3_1, W_avg3_2, W_avg3_3,W_avg3_4,W_avg3_5,W_avg3_6, W_avg4_1, W_avg4_2,W_avg4_3, W_avg4_4,W_avg4_5, W_avg4_6,W_avg5_1, W_avg5_2, W_avg5_3, W_avg5_4,W_avg5_5, W_avg5_6
+    global W,W_l1,W_l2,W_l3, W_avg
     # print(np.max(W))
-    #W_avg=np.mean(W, axis = 0)
+    W_avg=np.mean(W, axis = 0)
     #W_update=W
+    '''
     if W[0][1663]!=0:
         print("Layer 1")
         for i in range(len(groups_l1)):
@@ -71,7 +72,7 @@ def server_update():
             for key in groups_l3[i]:
                 tmp_w+=groups_l3[i][key]*W[key-1, 75424:130912]
             W_l3[i]=tmp_w
-    
+    '''
     # print(np.max(W_avg))
     
 def reinitialize():
@@ -163,7 +164,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         barrier_W.wait(4800)
                     except Exception as e:
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
-                    
+                    '''
                     if W[0][1663]!=0:
                         g_i=0
                         for group in groups_l1:
@@ -190,8 +191,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 #print(user_id[0],"Layer_2: ", g_i,W_gen[0:2], W_gen[1664:1664+2])
                                 break
                             g_i+=1
-                    
-                    #W_gen=W_avg 
+                    '''
+                    W_gen=W_avg 
                     #print(user_id[0], W_avg.shape)
                     
                     W_avg_data = pickle.dumps(W_gen, protocol = 0)
