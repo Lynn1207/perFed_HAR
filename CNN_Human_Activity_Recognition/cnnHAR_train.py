@@ -199,6 +199,7 @@ def train():
           comm.send2server(w_flat,0)
           if str(sys.argv[1])!="6" and start_iter==intvl:
             logcomm[-1][2]=w_flat.shape[0]
+            intvl=0
 
           #receive aggregated weights from server
           W_general = comm.recvOUF()
