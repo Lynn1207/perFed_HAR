@@ -175,10 +175,10 @@ def train():
           w_flat = np.array([])
           #depends on how many layer wanna upload to server to share with other users
           #six layers: 2,4,6,8,10,11, or len(all_paras).
-          if start_iter==intvl:
+          if cur_layer<3 and start_iter==intvl:
             cur_layer=min(cur_layer+1,3)
             #print(cur_layer, start_iter)
-            start_iter=int(start_iter*1)
+            start_iter=int(start_iter*0.8)
             intvl=0
           
           for i in range(cur_layer*2):
