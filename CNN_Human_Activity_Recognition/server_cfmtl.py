@@ -50,7 +50,7 @@ def server_update():
     # print(np.max(W))
     W_avg=np.mean(W, axis = 0)
     #W_update=W
-    '''
+    
     if W[0][1663]!=0:
         print("Layer 1")
         for i in range(len(groups_l1)):
@@ -72,7 +72,7 @@ def server_update():
             for key in groups_l3[i]:
                 tmp_w+=groups_l3[i][key]*W[key-1, 75424:130912]
             W_l3[i]=tmp_w
-    '''
+    
     # print(np.max(W_avg))
     
 def reinitialize():
@@ -171,7 +171,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             if user_id[0] in group:
                                 mu=group[user_id[0]]*len(group)
                                 W_gen=W_l1[g_i]*mu+(1-mu)*W[user_id[0]-1, 0:1664]
-                                print(user_id[0],"Layer_1: ", g_i)
+                                #print(user_id[0],"Layer_1: ", g_i)
                                 break
                             g_i+=1
                         
@@ -181,7 +181,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             if user_id[0] in group: 
                                 mu=group[user_id[0]]*len(group)
                                 W_gen=np.concatenate((W_gen, W_l2[g_i]*mu+(1-mu)*W[user_id[0]-1, 1664:75424]))
-                                print(user_id[0],"Layer_2: ", g_i)
+                                #print(user_id[0],"Layer_2: ", g_i)
                                 break
                             g_i+=1
                         
@@ -191,7 +191,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             if user_id[0] in group: 
                                 mu=group[user_id[0]]*len(group)
                                 W_gen=np.concatenate((W_gen, W_l3[g_i]*mu+(1-mu)*W[user_id[0]-1, 75424:130912]))
-                                print(user_id[0],"Layer_3: ", g_i)
+                                #print(user_id[0],"Layer_3: ", g_i)
                                 break
                             g_i+=1
                     
