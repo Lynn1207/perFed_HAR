@@ -171,7 +171,7 @@ def train():
           
         outer_i += 1
         
-        if outer_i%start_iter==0:
+        if outer_i>=start_iter:
           #get the weights and send to server
           w_flat = np.array([])
           #depends on how many layer wanna upload to server to share with other users
