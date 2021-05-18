@@ -168,14 +168,13 @@ def train():
           _, all_paras,_=mon_sess.run([train_op,paras, extra_update_ops])
           step+=1
           
-           
+        intvl+=1  
         outer_i += 1
         if outer_i>=start_iter:
           #get the weights and send to server
           w_flat = np.array([])
           #depends on how many layer wanna upload to server to share with other users
           #six layers: 2,4,6,8,10,11, or len(all_paras).
-          intvl+=1
           if start_iter==intvl:
             cur_layer=min(cur_layer+1,3)
             print(cur_layer, start_iter)
