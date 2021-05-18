@@ -52,21 +52,21 @@ def server_update():
     #W_update=W
     
     if W[0][1663]!=0:
-        print("Layer 1")
+        #print("Layer 1")
         for i in range(len(groups_l1)):
             tmp_w=np.zeros(1664)
             for key in groups_l1[i]:
                 tmp_w+=groups_l1[i][key]*W[key-1, 0:1664]
             W_l1[i]=tmp_w
     if W[0][75423]!=0:
-        print("Layer 2")
+        #print("Layer 2")
         for i in range(len(groups_l2)):
             tmp_w=np.zeros(75424-1664)
             for key in groups_l2[i]:
                 tmp_w+=groups_l2[i][key]*W[key-1, 1664:75424]
             W_l2[i]=tmp_w
     if W[0][130911]!=0:
-        print("Layer 3")
+        #print("Layer 3")
         for i in range(len(groups_l3)):
             tmp_w=np.zeros(130912-75424)
             for key in groups_l3[i]:
