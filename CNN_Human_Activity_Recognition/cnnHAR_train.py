@@ -170,7 +170,7 @@ def train():
           step+=1
           
         outer_i += 1
-        
+        print(start_iter)
         if outer_i>=start_iter:
           #get the weights and send to server
           w_flat = np.array([])
