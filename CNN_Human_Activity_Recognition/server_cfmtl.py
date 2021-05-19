@@ -198,7 +198,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 break
                             g_i+=1
                     '''
-                    W_gen=W_avg#0.5*W_avg+0.5*W[user_id[0]-1]
+                    W_gen=0.5*W_avg+0.5*W[user_id[0]-1]
                     #print(user_id[0], W_avg.shape)
                     
                     W_avg_data = pickle.dumps(W_gen, protocol = 0)
