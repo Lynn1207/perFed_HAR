@@ -34,56 +34,56 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
-groups_l1=[{2: 0.166, 7: 0.166, 3: 0.142, 5: 0.142, 4: 0.119, 6: 0.095, 8: 0.095, 1: 0.071}]#[{7: 0.147, 4: 0.147, 1: 0.117, 3: 0.117, 5: 0.117, 2: 0.117, 6: 0.117, 8: 0.117}]#[{1:1.0},{2:1.0},{3:1.0},{4:1.0},{5:1.0},{6:1.0},{7:1.0},{8:1.0}]#
-W_l1=np.zeros((len(groups_l1),2112))
+groups_l1=[{8: 0.206, 1: 0.137, 2: 0.137, 3: 0.137, 4: 0.137, 5: 0.137, 6: 0.103},{7: 1.0}]#[{7: 0.147, 4: 0.147, 1: 0.117, 3: 0.117, 5: 0.117, 2: 0.117, 6: 0.117, 8: 0.117}]#[{1:1.0},{2:1.0},{3:1.0},{4:1.0},{5:1.0},{6:1.0},{7:1.0},{8:1.0}]#
+W_l1=np.zeros((len(groups_l1),6208))
 
-groups_l2=[{1: 0.25, 3: 0.25, 4: 0.25, 5: 0.25},{2: 0.25, 6: 0.25, 7: 0.25, 8: 0.25}]#[{1: 0.2, 3: 0.2, 4: 0.2, 5: 0.2, 7: 0.2},{2: 0.333, 6: 0.333, 8: 0.333}]
-W_l2=np.zeros((len(groups_l2),14432-2112))
+groups_l2=[{1: 0.333, 5: 0.333, 6: 0.333},{2: 0.25, 3: 0.25, 4: 0.25, 8: 0.25},{7: 1.0}]#[{1: 0.2, 3: 0.2, 4: 0.2, 5: 0.2, 7: 0.2},{2: 0.333, 6: 0.333, 8: 0.333}]
+W_l2=np.zeros((len(groups_l2),14432-6208))
 
-groups_l3=[{1: 0.333, 4: 0.333, 5: 0.333},{2: 0.333, 6: 0.333, 8: 0.333},{3: 1.0},{7: 1.0}]#[{1: 0.333, 3: 0.333, 5: 0.333},{2: 0.5, 8: 0.5},{4: 0.5, 7: 0.5},{6: 1.0}]
-W_l3=np.zeros((len(groups_l3),100832-14432))
+groups_l3=[{1: 1.0},{2: 0.3, 8: 0.3, 3: 0.2, 4: 0.2},{5: 0.5, 6: 0.5},{7: 1.0}]#[{1: 0.333, 3: 0.333, 5: 0.333},{2: 0.5, 8: 0.5},{4: 0.5, 7: 0.5},{6: 1.0}]
+W_l3=np.zeros((len(groups_l3),125408-14432))
 
-groups_l4=[{5: 0.428, 1: 0.285, 4: 0.285},{2: 1.0},{3: 1.0},{7: 1.0},{6: 0.5, 8: 0.5}]#[{5: 0.428, 1: 0.285, 3: 0.285},{2:1.0},{4:1.0},{6:1.0},{7:1.0},{8:1.0}]
-W_l4=np.zeros((len(groups_l4),174752-100832))
+groups_l4=[{2: 0.333, 3: 0.333, 8: 0.333}, {1:1.0},{4:1.0},{5:1.0},{6:1.0},{7:1.0}]#[{5: 0.428, 1: 0.285, 3: 0.285},{2:1.0},{4:1.0},{6:1.0},{7:1.0},{8:1.0}]
+W_l4=np.zeros((len(groups_l4),199328-125408))
 
 
 def server_update():
     
     global W,W_l1,W_l2,W_l3, W_l4, W_avg
     # print(np.max(W))
-    W_avg=np.mean(W, axis = 0)
+    #W_avg=np.mean(W, axis = 0)
     #W_update=W
-    '''
-    if W[0][2112-1]!=0:
+    
+    if W[0][6208-1]!=0:
         #print("Layer 1")
         for i in range(len(groups_l1)):
-            tmp_w=np.zeros(2112)
+            tmp_w=np.zeros(6208)
             for key in groups_l1[i]:
-                tmp_w+=groups_l1[i][key]*W[key-1, 0:2112]
+                tmp_w+=groups_l1[i][key]*W[key-1, 0:6208]
             W_l1[i]=tmp_w
     if W[0][14432-1]!=0:
         #print("Layer 2")
         for i in range(len(groups_l2)):
-            tmp_w=np.zeros(14432-2112)
+            tmp_w=np.zeros(14432-6208)
             for key in groups_l2[i]:
-                tmp_w+=groups_l2[i][key]*W[key-1, 2112:14432]
+                tmp_w+=groups_l2[i][key]*W[key-1, 6208:14432]
             W_l2[i]=tmp_w
-    if W[0][100832-1]!=0:
+    if W[0][125408-1]!=0:
         #print("Layer 3")
         for i in range(len(groups_l3)):
-            tmp_w=np.zeros(100832-14432)
+            tmp_w=np.zeros(125408-14432)
             for key in groups_l3[i]:
-                tmp_w+=groups_l3[i][key]*W[key-1, 14432:100832]
+                tmp_w+=groups_l3[i][key]*W[key-1, 14432:125408]
             W_l3[i]=tmp_w
             
-    if W[0][174752-1]!=0:
+    if W[0][199328-1]!=0:
         #print("Layer 3")
         for i in range(len(groups_l4)):
-            tmp_w=np.zeros(174752-100832)
+            tmp_w=np.zeros(199328-125408)
             for key in groups_l4[i]:
-                tmp_w+=groups_l4[i][key]*W[key-1, 100832:174752]
+                tmp_w+=groups_l4[i][key]*W[key-1, 125408:199328]
             W_l4[i]=tmp_w
-    '''
+    
     # print(np.max(W_avg))
     
 def reinitialize():
@@ -175,13 +175,13 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         barrier_W.wait(4800)
                     except Exception as e:
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
-                    '''
-                    if W[0][2112-1]!=0 or W[1][2112-1]!=0:
+                    
+                    if W[0][6208-1]!=0 or W[1][6208-1]!=0:
                         g_i=0
                         for group in groups_l1:
                             if user_id[0] in group:
                                 mu=min(group[user_id[0]]*len(group),1.0)
-                                W_gen=W_l1[g_i]*mu+(1-mu)*W[user_id[0]-1, 0:2112]
+                                W_gen=W_l1[g_i]*mu+(1-mu)*W[user_id[0]-1, 0:6208]
                                 if user_id[0]==1:
                                     print(user_id[0],"Layer_1: ", g_i, mu)
                                 break
@@ -192,35 +192,35 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         for group in groups_l2:
                             if user_id[0] in group: 
                                 mu=min(group[user_id[0]]*len(group),1.0)
-                                W_gen=np.concatenate((W_gen, W_l2[g_i]*mu+(1-mu)*W[user_id[0]-1, 2112:14432]))
+                                W_gen=np.concatenate((W_gen, W_l2[g_i]*mu+(1-mu)*W[user_id[0]-1, 6208:14432]))
                                 if user_id[0]==1:
                                     print(user_id[0],"Layer_2: ", g_i, mu)
                                 break
                             g_i+=1
                         
-                    if W[0][100832-1]!=0:
+                    if W[0][125408-1]!=0:
                         g_i=0
                         for group in groups_l3:
                             if user_id[0] in group: 
                                 mu=min(group[user_id[0]]*len(group),1.0)
-                                W_gen=np.concatenate((W_gen, W_l3[g_i]*mu+(1-mu)*W[user_id[0]-1, 14432:100832]))
+                                W_gen=np.concatenate((W_gen, W_l3[g_i]*mu+(1-mu)*W[user_id[0]-1, 14432:125408]))
                                 if user_id[0]==1:
                                     print(user_id[0],"Layer_3: ", g_i,mu)
                                 break
                             g_i+=1
                             
-                    if W[0][174752-1]!=0:
+                    if W[0][199328-1]!=0:
                         g_i=0
                         for group in groups_l4:
                             if user_id[0] in group: 
                                 mu=min(group[user_id[0]]*len(group),1.0)
-                                W_gen=np.concatenate((W_gen, W_l4[g_i]*mu+(1-mu)*W[user_id[0]-1, 100832:174752]))
+                                W_gen=np.concatenate((W_gen, W_l4[g_i]*mu+(1-mu)*W[user_id[0]-1, 125408:199328]))
                                 if user_id[0]==1:
                                     print(user_id[0],"Layer_4: ", g_i,mu)
                                 break
                             g_i+=1
-                    '''
-                    W_gen=0.5*W_avg+0.5*W[user_id[0]-1]
+                    
+                    #W_gen=0.5*W_avg+0.5*W[user_id[0]-1]
                     #print(user_id[0], W_avg.shape)
                     
                     W_avg_data = pickle.dumps(W_gen, protocol = 0)
