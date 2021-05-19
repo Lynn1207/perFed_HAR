@@ -30,7 +30,7 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=80#local 8
+outer_iter=30#local 8
   
 def train():
   w_flat = np.array([])
@@ -176,7 +176,7 @@ def train():
         
         intvl+=1 
         
-        if outer_i>=0:#start_iter:
+        if outer_i>=2:#start_iter:
           #get the weights and send to server
           w_flat = np.array([])
           #depends on how many layer wanna upload to server to share with other users
