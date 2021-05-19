@@ -49,7 +49,7 @@ W_l4=np.zeros((len(groups_l4),174752-100832))
 
 def server_update():
     
-    global W,W_l1,W_l2,W_l3, W_avg
+    global W,W_l1,W_l2,W_l3, W_l4, W_avg
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
     #W_update=W
