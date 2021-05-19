@@ -155,7 +155,7 @@ def train():
 
     outer_i = 0
     start_iter=6#6:20
-    cur_layer=5
+    cur_layer=3
     intvl=0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
