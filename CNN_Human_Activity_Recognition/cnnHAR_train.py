@@ -20,7 +20,7 @@ train_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check
 
 
 
-max_steps = 50
+max_steps = 40
 
 log_device_placement = False
 
@@ -154,7 +154,7 @@ def train():
           cnnHAR_eval.main(False)
 
     outer_i = 0
-    start_iter=6 #6:20
+    start_iter=4 #6:20
     cur_layer=0
     intvl=0
     with tf.train.MonitoredTrainingSession(
