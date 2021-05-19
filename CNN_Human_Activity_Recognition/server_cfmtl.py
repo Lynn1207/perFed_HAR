@@ -13,7 +13,7 @@ import math
 tf.disable_v2_behavior()
 # np.set_printoptions(threshold=np.inf)
 
-NUM_OF_TOTAL_USERS =16
+NUM_OF_TOTAL_USERS =24
 NUM_OF_WAIT = NUM_OF_TOTAL_USERS
 W_DIM =200293#l1: 1664; l2: 52896; l3: 163872, l4: 213152; l5:776806
 inner_iteration = 5
@@ -51,9 +51,9 @@ def server_update():
     
     global W,W_l1,W_l2,W_l3, W_l4, W_avg
     # print(np.max(W))
-    #W_avg=np.mean(W, axis = 0)
+    W_avg=np.mean(W, axis = 0)
     #W_update=W
-    
+    '''
     if not np.array_equal(W[0:NUM_OF_TOTAL_USERS, 6208-1], np.zeros((NUM_OF_TOTAL_USERS))):
         for i in range(len(groups_l1)):
             tmp_w=np.zeros(6208)
@@ -84,7 +84,7 @@ def server_update():
             for key in groups_l4[i]:
                 tmp_w+=groups_l4[i][key]*W[key-1, 125408:199328]
             W_l4[i]=tmp_w
-    
+    '''
     # print(np.max(W_avg))
     
 def reinitialize():
@@ -176,7 +176,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         barrier_W.wait(4800)
                     except Exception as e:
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
-                    
+                    '''
                     if not np.array_equal(W[0:NUM_OF_TOTAL_USERS, 6208-1],np.zeros((NUM_OF_TOTAL_USERS))):
                         g_i=0
                         for group in groups_l1:
@@ -220,8 +220,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                     print(user_id[0],"Layer_4: ", g_i,mu)
                                 break
                             g_i+=1
-                    
-                    #W_gen=0.5*W_avg+0.5*W[user_id[0]-1]
+                    '''
+                    W_gen=W_avg#0.5*W_avg+0.5*W[user_id[0]-1]
                     #print(user_id[0], W_avg.shape)
                     
                     W_avg_data = pickle.dumps(W_gen, protocol = 0)
