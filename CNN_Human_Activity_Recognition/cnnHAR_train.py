@@ -30,7 +30,7 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=20#local 8
+outer_iter=15#local 8
   
 def train():
   w_flat = np.array([])
@@ -155,7 +155,7 @@ def train():
 
     outer_i = 0
     start_iter=4#6:20
-    cur_layer=4
+    cur_layer=5
     intvl=0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
