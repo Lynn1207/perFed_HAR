@@ -1,10 +1,27 @@
+# -*- coding: utf-8 -*-
+# Copyright 2015 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==============================================================================
+
+"""Routine for decoding the CIFAR-10 binary file format."""
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
 import os
 import sys
-import numpy as np
 
 from six.moves import xrange  # pylint: disable=redefined-builtin
 import tensorflow.compat.v1 as tf
@@ -12,14 +29,13 @@ import tensorflow.compat.v1 as tf
 # Process sensing data "image" of this size, 128*6.
 # each chanel like acc_x is 128 length which is sata collected for 2.56s. 
 
-SIGNAL_SIZE=40
-axis=40
+SIGNAL_SIZE=55
 channels=1
 
-batch_per_user_train=4
-batch_per_user_test=2
+batch_per_user_train=2
+batch_per_user_test=1
 # Global constants describing the cnnHAR data set.
-NUM_CLASSES = 5
+NUM_CLASSES = 2
 NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = 32*batch_per_user_train
 NUM_EXAMPLES_PER_EPOCH_FOR_EVAL = 32*batch_per_user_test
 
@@ -30,23 +46,24 @@ def read_cnnHAR(filename_queue):
   result = CNNHARRecord()
   
   # Read a record, getting filenames from the filename_queue.  No
-  # header or footer in the CNNHAR format, so we leave header_bytes
+  # header or footer in the CIFAR-10 format, so we leave header_bytes
   # and footer_bytes at their default of 0.
   reader = tf.TextLineReader()
   result.key, value = reader.read(filename_queue)
   
   # Convert from a string to a vector of uint8 that is record_bytes long.
-  record_defaults = [[1.0] for col in range(SIGNAL_SIZE*axis*channels+1)]# +2 as the col0: subject_id, col1: label
+  record_defaults = [[1.0] for col in range(SIGNAL_SIZE*channels+2)]# +2 as the col0: subject_id, col1: label
   
   record_bytes = tf.decode_csv(value, record_defaults = record_defaults)
   # The first bytes represent the label, which we convert from uint8->int32.
-  result.signal = tf.cast(tf.strided_slice(record_bytes, [1], [SIGNAL_SIZE*axis*channels+1])/255, tf.float32)
+  result.signal = tf.cast(
+      tf.strided_slice(record_bytes, [2], [SIGNAL_SIZE*channels+2]), tf.float32)
   #print('!!!!!!!!!!!!!!!!!!! result.signals', result.signal.get_shape())
-  result.signal = tf.reshape(result.signal, [channels, axis, SIGNAL_SIZE])
+  result.signal = tf.reshape(result.signal, [channels, SIGNAL_SIZE])
   #print('!!!!!!!!!!!!!!!!!!! result.signals', result.signal.get_shape())
   # labels-1 cause the logits is defaulted to start with 0~NUM_CLASS-1
   result.label = tf.cast(
-      tf.strided_slice(record_bytes, [0], [1])-1, tf.float32)
+      tf.strided_slice(record_bytes, [1], [2])-1, tf.float32)
   #print('!!!!!!!!!!!!!!!!!!! result.label before reshape', result.label)
   result.label = tf.reshape(result.label, [1, 1])
     
@@ -75,14 +92,14 @@ def _generate_image_and_label_batch(signal, label, min_queue_examples,
   return signals, label_batch #tf.reshape(label_batch, [batch_size, SIGNAL_SIZE, 1])
 
 def distorted_inputs(data_dir, batch_size):
-  """Construct distorted input for CNNHAR training using the Reader ops.
+  """Construct distorted input for CIFAR training using the Reader ops.
 
   Args:
-    data_dir: Path to the CNNHAR data directory.
+    data_dir: Path to the CIFAR-10 data directory.
     batch_size: Number of images per batch.
 
   Returns:
-    images: Images. 4D tensor of [batch_size, IMAGE_SIZE, IMAGE_SIZE, 1] size.
+    images: Images. 4D tensor of [batch_size, IMAGE_SIZE, IMAGE_SIZE, 3] size.
     labels: Labels. 1D tensor of [batch_size] size.
   """
   filename = [os.path.join(data_dir, str(sys.argv[1])+'_train.csv')]
@@ -95,7 +112,7 @@ def distorted_inputs(data_dir, batch_size):
   with tf.name_scope('data_augmentation'):
     # Read examples from files in the filename queue.
     read_input = read_cnnHAR(filename_queue)
-    signal = tf.transpose(read_input.signal, (1,2,0)) # Singals * numofAxis * channel
+    signal = tf.transpose(read_input.signal, (1,0)) # Singals * numofAxis * channel
     read_input.label.set_shape([1, 1])
     #print('?????????? shape of  the singals:', signal.get_shape())
     
@@ -128,7 +145,7 @@ def inputs(eval_data, data_dir, batch_size):
     filename_queue = tf.train.string_input_producer(filenames)
 
     read_input = read_cnnHAR(filename_queue)
-    signal = tf.transpose(read_input.signal, (1,2,0)) # Singals * numofAxis * channel
+    signal = tf.transpose(read_input.signal, (1,0)) # Singals * numofAxis * channel
     read_input.label.set_shape([1, 1])
     
     # Ensure that the random shuffling has good mixing properties.
