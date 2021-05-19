@@ -20,7 +20,7 @@ train_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check
 
 
 
-max_steps = 60
+max_steps = 100
 
 log_device_placement = False
 
@@ -30,7 +30,7 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=50#local 8
+outer_iter=40#local 8
   
 def train():
   w_flat = np.array([])
