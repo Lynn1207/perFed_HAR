@@ -443,7 +443,7 @@ def reset_var_l4(W_avg):
       updated_paras.append(var)
   return updated_paras
   
-  def reset_var_l5(W_avg):
+def reset_var_l5(W_avg):
 
   updated_paras=[]
   
