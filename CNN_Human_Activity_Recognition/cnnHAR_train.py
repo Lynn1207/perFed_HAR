@@ -20,7 +20,7 @@ train_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check
 
 
 
-max_steps = 60
+max_steps = 20
 
 log_device_placement = False
 
@@ -30,7 +30,7 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=10 #local 8
+outer_iter=30 #local 8
   
 def train():
   w_flat = np.array([])
@@ -60,14 +60,16 @@ def train():
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     
-    W_avg1 = tf.compat.v1.placeholder(tf.float64, shape=(1664,))
+    W_avg1 = tf.compat.v1.placeholder(tf.float64, shape=(2112,))
     updated_paras1=cnnHAR.reset_var_l1(W_avg1)
-    W_avg2 = tf.compat.v1.placeholder(tf.float64, shape=(75424,))
+    W_avg2 = tf.compat.v1.placeholder(tf.float64, shape=(14432,))
     updated_paras2=cnnHAR.reset_var_l2(W_avg2)
-    W_avg3 = tf.compat.v1.placeholder(tf.float64, shape=(130912,))
+    W_avg3 = tf.compat.v1.placeholder(tf.float64, shape=(100832,))
     updated_paras3=cnnHAR.reset_var_l3(W_avg3)
-    W_avg4 = tf.compat.v1.placeholder(tf.float64, shape=(131877,))
+    W_avg4 = tf.compat.v1.placeholder(tf.float64, shape=(174752,))
     updated_paras4=cnnHAR.reset_var_l4(W_avg4)
+    W_avg5 = tf.compat.v1.placeholder(tf.float64, shape=(175138,))
+    updated_paras5=cnnHAR.reset_var_l5(W_avg5)
     
     # prepare the communication module
     server_addr = "localhost"
@@ -153,7 +155,7 @@ def train():
 
     outer_i = 0
     start_iter=4 #6:20
-    cur_layer=0
+    cur_layer=5
     intvl=0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
@@ -180,8 +182,8 @@ def train():
           #depends on how many layer wanna upload to server to share with other users
           #six layers: 2,4,6,8,10,11, or len(all_paras).
           
-          if cur_layer<3 and start_iter==intvl:
-            cur_layer=min(cur_layer+1,3)
+          if cur_layer<4 and start_iter==intvl:
+            cur_layer=min(cur_layer+1,4)
             #print(cur_layer, start_iter)
             start_iter=int(start_iter*0.5)
             intvl=0
@@ -201,14 +203,16 @@ def train():
           logcomm.append([outer_i, w_flat.shape[0], W_general.shape[0]])
             
           if not mon_sess.should_stop():
-            if cur_layer>=4:
+            if cur_layer>=5:
+              updated_paras_v=mon_sess.run(updated_paras5, feed_dict={W_avg5: W_general[0:175138]})
+            elif cur_layer>=4:
               updated_paras_v=mon_sess.run(updated_paras4, feed_dict={W_avg4: W_general[0:131877]})
             elif cur_layer>=3:
-              updated_paras_v=mon_sess.run(updated_paras3, feed_dict={W_avg3: W_general[0:130912]})
+              updated_paras_v=mon_sess.run(updated_paras3, feed_dict={W_avg3: W_general[0:174752]})
             elif cur_layer>=2:
-              updated_paras_v=mon_sess.run(updated_paras2, feed_dict={W_avg2: W_general[0:75424]})
+              updated_paras_v=mon_sess.run(updated_paras2, feed_dict={W_avg2: W_general[0:14432]})
             elif cur_layer>=1:
-              updated_paras_v=mon_sess.run(updated_paras1, feed_dict={W_avg1: W_general[0:1664]})
+              updated_paras_v=mon_sess.run(updated_paras1, feed_dict={W_avg1: W_general[0:2112]})
             #if str(sys.argv[1])=="1":
               #print("W_avg:", W_general[0:3])
               #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
