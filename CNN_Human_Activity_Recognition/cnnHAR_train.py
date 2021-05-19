@@ -155,7 +155,7 @@ def train():
 
     outer_i = 0
     start_iter=4#6:20
-    cur_layer=5
+    cur_layer=0
     intvl=0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
@@ -176,7 +176,7 @@ def train():
         
         intvl+=1 
         
-        if outer_i>=start_iter:
+        if outer_i>=0:#start_iter:
           #get the weights and send to server
           w_flat = np.array([])
           #depends on how many layer wanna upload to server to share with other users
