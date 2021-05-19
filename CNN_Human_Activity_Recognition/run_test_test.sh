@@ -13,4 +13,12 @@ taskset --cpu-list 11 python ./cnnHAR_train.py 12 &
 taskset --cpu-list 12 python ./cnnHAR_train.py 13 &
 taskset --cpu-list 13 python ./cnnHAR_train.py 14 &
 taskset --cpu-list 14 python ./cnnHAR_train.py 15 &
-taskset --cpu-list 15 python ./cnnHAR_train.py 16
+taskset --cpu-list 15 python ./cnnHAR_train.py 16 &
+taskset --cpu-list 16 python ./cnnHAR_train.py 17 &
+taskset --cpu-list 17 python ./cnnHAR_train.py 18 &
+taskset --cpu-list 18 python ./cnnHAR_train.py 19 &
+taskset --cpu-list 19 python ./cnnHAR_train.py 20 &
+taskset --cpu-list 20 python ./cnnHAR_train.py 21 &
+taskset --cpu-list 21 python ./cnnHAR_train.py 22 &
+taskset --cpu-list 22 python ./cnnHAR_train.py 23 &
+taskset --cpu-list 23 python ./cnnHAR_train.py 24
