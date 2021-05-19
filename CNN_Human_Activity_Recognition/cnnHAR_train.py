@@ -175,19 +175,19 @@ def train():
         outer_i += 1
         
         intvl+=1 
-        
-        if outer_i>=0:#start_iter:
+        '''
+        if outer_i>=start_iter:
           #get the weights and send to server
           w_flat = np.array([])
           #depends on how many layer wanna upload to server to share with other users
           #six layers: 2,4,6,8,10,11, or len(all_paras).
-          '''
+          
           if cur_layer<4 and start_iter==intvl:
             cur_layer=min(cur_layer+1,4)
             #print(cur_layer, start_iter)
             start_iter=int(start_iter*0.5)
             intvl=0
-          '''
+          
           for i in range(cur_layer*2):
             temp = all_paras[i].reshape(-1)
             w_flat=np.concatenate((w_flat, temp), axis=0)
@@ -217,7 +217,7 @@ def train():
               #print("W_avg:", W_general[0:3])
               #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
           #print("Length of updated paras: %d \n"% len(updated_paras_v))
-          
+          '''
           
         
         
