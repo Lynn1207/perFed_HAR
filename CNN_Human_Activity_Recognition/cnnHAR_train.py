@@ -206,7 +206,7 @@ def train():
             if cur_layer>=5:
               updated_paras_v=mon_sess.run(updated_paras5, feed_dict={W_avg5: W_general[0:175138]})
             elif cur_layer>=4:
-              updated_paras_v=mon_sess.run(updated_paras4, feed_dict={W_avg4: W_general[0:174752]]})
+              updated_paras_v=mon_sess.run(updated_paras4, feed_dict={W_avg4: W_general[0:174752]})
             elif cur_layer>=3:
               updated_paras_v=mon_sess.run(updated_paras3, feed_dict={W_avg3: W_general[0:100832]})
             elif cur_layer>=2:
