@@ -155,7 +155,7 @@ def train():
 
     outer_i = 0
     start_iter=4 #6:20
-    cur_layer=5
+    cur_layer=0
     intvl=0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
@@ -175,7 +175,7 @@ def train():
         outer_i += 1
         
         intvl+=1 
-        '''
+        
         if outer_i>=start_iter:
           #get the weights and send to server
           w_flat = np.array([])
@@ -185,7 +185,7 @@ def train():
           if cur_layer<4 and start_iter==intvl:
             cur_layer=min(cur_layer+1,4)
             #print(cur_layer, start_iter)
-            start_iter=int(start_iter*0.5)
+            start_iter=int(start_iter*0.9)
             intvl=0
           
           for i in range(cur_layer*2):
@@ -217,7 +217,7 @@ def train():
               #print("W_avg:", W_general[0:3])
               #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
           #print("Length of updated paras: %d \n"% len(updated_paras_v))
-          '''
+          
           
         
         
