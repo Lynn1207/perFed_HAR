@@ -60,15 +60,15 @@ def train():
   
     extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     
-    W_avg1 = tf.compat.v1.placeholder(tf.float64, shape=(2112,))
+    W_avg1 = tf.compat.v1.placeholder(tf.float64, shape=(6208,))
     updated_paras1=cnnHAR.reset_var_l1(W_avg1)
     W_avg2 = tf.compat.v1.placeholder(tf.float64, shape=(14432,))
     updated_paras2=cnnHAR.reset_var_l2(W_avg2)
-    W_avg3 = tf.compat.v1.placeholder(tf.float64, shape=(100832,))
+    W_avg3 = tf.compat.v1.placeholder(tf.float64, shape=(125408,))
     updated_paras3=cnnHAR.reset_var_l3(W_avg3)
-    W_avg4 = tf.compat.v1.placeholder(tf.float64, shape=(174752,))
+    W_avg4 = tf.compat.v1.placeholder(tf.float64, shape=(199328,))
     updated_paras4=cnnHAR.reset_var_l4(W_avg4)
-    W_avg5 = tf.compat.v1.placeholder(tf.float64, shape=(175138,))
+    W_avg5 = tf.compat.v1.placeholder(tf.float64, shape=(200293,))
     updated_paras5=cnnHAR.reset_var_l5(W_avg5)
     
     # prepare the communication module
@@ -155,7 +155,7 @@ def train():
 
     outer_i = 0
     start_iter=4#6:20
-    cur_layer=0
+    cur_layer=4
     intvl=0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
@@ -176,18 +176,18 @@ def train():
         
         intvl+=1 
         
-        if outer_i>=start_iter:
+        if outer_i>=0:#start_iter:
           #get the weights and send to server
           w_flat = np.array([])
           #depends on how many layer wanna upload to server to share with other users
           #six layers: 2,4,6,8,10,11, or len(all_paras).
-          
+          '''
           if cur_layer<4 and start_iter==intvl:
             cur_layer=min(cur_layer+1,4)
             #print(cur_layer, start_iter)
             start_iter=int(start_iter*0.9)
             intvl=0
-          
+          '''
           for i in range(cur_layer*2):
             temp = all_paras[i].reshape(-1)
             w_flat=np.concatenate((w_flat, temp), axis=0)
@@ -204,15 +204,15 @@ def train():
             
           if not mon_sess.should_stop():
             if cur_layer>=5:
-              updated_paras_v=mon_sess.run(updated_paras5, feed_dict={W_avg5: W_general[0:175138]})
+              updated_paras_v=mon_sess.run(updated_paras5, feed_dict={W_avg5: W_general[0:200293]})
             elif cur_layer>=4:
-              updated_paras_v=mon_sess.run(updated_paras4, feed_dict={W_avg4: W_general[0:174752]})
+              updated_paras_v=mon_sess.run(updated_paras4, feed_dict={W_avg4: W_general[0:199328]})
             elif cur_layer>=3:
-              updated_paras_v=mon_sess.run(updated_paras3, feed_dict={W_avg3: W_general[0:100832]})
+              updated_paras_v=mon_sess.run(updated_paras3, feed_dict={W_avg3: W_general[0:125408]})
             elif cur_layer>=2:
               updated_paras_v=mon_sess.run(updated_paras2, feed_dict={W_avg2: W_general[0:14432]})
             elif cur_layer>=1:
-              updated_paras_v=mon_sess.run(updated_paras1, feed_dict={W_avg1: W_general[0:2112]})
+              updated_paras_v=mon_sess.run(updated_paras1, feed_dict={W_avg1: W_general[0:6208]})
             #if str(sys.argv[1])=="1":
               #print("W_avg:", W_general[0:3])
               #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
