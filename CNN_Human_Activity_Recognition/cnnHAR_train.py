@@ -155,7 +155,7 @@ def train():
 
     outer_i = 0
     start_iter=4 #6:20
-    cur_layer=3
+    cur_layer=5
     intvl=0
     with tf.train.MonitoredTrainingSession(
           checkpoint_dir=train_dir,
@@ -206,9 +206,9 @@ def train():
             if cur_layer>=5:
               updated_paras_v=mon_sess.run(updated_paras5, feed_dict={W_avg5: W_general[0:175138]})
             elif cur_layer>=4:
-              updated_paras_v=mon_sess.run(updated_paras4, feed_dict={W_avg4: W_general[0:131877]})
+              updated_paras_v=mon_sess.run(updated_paras4, feed_dict={W_avg4: W_general[0:174752]]})
             elif cur_layer>=3:
-              updated_paras_v=mon_sess.run(updated_paras3, feed_dict={W_avg3: W_general[0:174752]})
+              updated_paras_v=mon_sess.run(updated_paras3, feed_dict={W_avg3: W_general[0:100832]})
             elif cur_layer>=2:
               updated_paras_v=mon_sess.run(updated_paras2, feed_dict={W_avg2: W_general[0:14432]})
             elif cur_layer>=1:
