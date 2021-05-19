@@ -154,7 +154,7 @@ def train():
           cnnHAR_eval.main(False)
 
     outer_i = 0
-    start_iter=4#6:20
+    start_iter=6#6:20
     cur_layer=0
     intvl=0
     with tf.train.MonitoredTrainingSession(
@@ -185,7 +185,7 @@ def train():
           if cur_layer<4 and start_iter==intvl:
             cur_layer=min(cur_layer+1,4)
             #print(cur_layer, start_iter)
-            start_iter=int(start_iter*0.9)
+            start_iter=max(int(start_iter*0.5),1)
             intvl=0
           
           for i in range(cur_layer*2):
