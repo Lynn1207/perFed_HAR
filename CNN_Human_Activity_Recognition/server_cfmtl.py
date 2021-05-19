@@ -34,13 +34,13 @@ loss_record = np.zeros(1100)
 normalized_dloss = np.zeros((NUM_OF_TOTAL_USERS,T_thresh))
 update_flag = np.ones(NUM_OF_TOTAL_USERS)
 
-groups_l1=[{5: 0.176, 3: 0.147, 8: 0.147, 7: 0.117, 2: 0.117, 6: 0.117, 1: 0.088, 4: 0.088}]#[{2: 0.184, 8: 0.184, 3: 0.131, 5: 0.131, 6: 0.131, 1: 0.105, 7: 0.078, 4: 0.052}] #[{1:1.0},{2:1.0},{3:1.0},{4:1.0},{5:1.0},{6:1.0},{7:1.0},{8:1.0}]#
+groups_l1=[{1: 0.5, 4: 0.5},{2: 0.2, 3: 0.2, 5: 0.166, 6: 0.166, 8: 0.166, 7: 0.1}]#[{1:1.0},{2:1.0},{3:1.0},{4:1.0},{5:1.0},{6:1.0},{7:1.0},{8:1.0}]#
 W_l1=np.zeros((len(groups_l1),1664))
 
-groups_l2=[{1: 0.333, 4: 0.333, 7: 0.333},{3: 0.263, 5: 0.21, 6: 0.21, 8: 0.21, 2: 0.105}]
+groups_l2=[{1:1.0},{2: 0.2, 3: 0.2, 5: 0.2, 6: 0.2, 8: 0.2},{7:1.0},{4:1.0}]
 W_l2=np.zeros((len(groups_l2),75424-1664))
 
-groups_l3=[{1: 0.428, 4: 0.285, 7: 0.285},{2: 1.0},{3: 0.25, 5: 0.25, 6: 0.25, 8: 0.25}]
+groups_l3=[{1:1.0},{2: 0.5, 3: 0.5}, {5: 0.333, 6: 0.333, 8: 0.333},{7:1.0},{4:1.0}]
 W_l3=np.zeros((len(groups_l3),130912-75424))
 
 
@@ -48,9 +48,9 @@ def server_update():
     
     global W,W_l1,W_l2,W_l3, W_avg
     # print(np.max(W))
-    W_avg=np.mean(W, axis = 0)
+    #W_avg=np.mean(W, axis = 0)
     #W_update=W
-    '''
+    
     if W[0][1663]!=0:
         #print("Layer 1")
         for i in range(len(groups_l1)):
@@ -72,7 +72,7 @@ def server_update():
             for key in groups_l3[i]:
                 tmp_w+=groups_l3[i][key]*W[key-1, 75424:130912]
             W_l3[i]=tmp_w
-    '''
+    
     # print(np.max(W_avg))
     
 def reinitialize():
@@ -164,7 +164,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         barrier_W.wait(4800)
                     except Exception as e:
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
-                    '''
+                    
                     if W[0][1663]!=0:
                         g_i=0
                         for group in groups_l1:
@@ -197,8 +197,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                     print(user_id[0],"Layer_3: ", g_i,mu)
                                 break
                             g_i+=1
-                    '''
-                    W_gen=0.5*W_avg+0.5*W[user_id[0]-1]
+                    
+                    #W_gen=0.5*W_avg+0.5*W[user_id[0]-1]
                     #print(user_id[0], W_avg.shape)
                     
                     W_avg_data = pickle.dumps(W_gen, protocol = 0)
