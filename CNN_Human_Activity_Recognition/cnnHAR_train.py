@@ -20,7 +20,7 @@ train_dir = '/home/ubuntu/perFed_HAR/CNN_Human_Activity_Recognition/cnnHAR_check
 
 
 
-max_steps = 50
+max_steps = 40
 
 log_device_placement = False
 
@@ -185,7 +185,7 @@ def train():
           if cur_layer<4 and start_iter==intvl:
             cur_layer=min(cur_layer+1,4)
             #print(cur_layer, start_iter)
-            start_iter=int(start_iter*1)
+            start_iter=int(start_iter*0.9)
             intvl=0
           
           for i in range(cur_layer*2):
