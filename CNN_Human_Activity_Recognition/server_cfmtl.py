@@ -54,7 +54,7 @@ def server_update():
     #W_avg=np.mean(W, axis = 0)
     #W_update=W
     
-    if not np.array_equal(W[0:NUM_OF_TOTAL_USERS, 6208-1], np.zeros((NUM_OF_TOTAL_USERS,1))):
+    if not np.array_equal(W[0:NUM_OF_TOTAL_USERS, 6208-1], np.zeros(NUM_OF_TOTAL_USERS,1)):
         for i in range(len(groups_l1)):
             tmp_w=np.zeros(6208)
             for key in groups_l1[i]:
