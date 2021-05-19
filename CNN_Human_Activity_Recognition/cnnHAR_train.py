@@ -30,7 +30,7 @@ batch_size = cnnHAR.batch_size
 
 NUM_CLASSES = cnnHAR.NUM_CLASSES
 
-outer_iter=20#local 8
+outer_iter=25#local 8
   
 def train():
   w_flat = np.array([])
