@@ -54,21 +54,21 @@ def server_update():
     #W_avg=np.mean(W, axis = 0)
     #W_update=W
     
-    if W[0][6208-1]!=0:
+    if W[0:NUM_OF_TOTAL_USERS, 6208-1]!=np.zeros((NUM_OF_TOTAL_USERS,1)):
         #print("Layer 1")
         for i in range(len(groups_l1)):
             tmp_w=np.zeros(6208)
             for key in groups_l1[i]:
                 tmp_w+=groups_l1[i][key]*W[key-1, 0:6208]
             W_l1[i]=tmp_w
-    if W[0][14432-1]!=0:
+    if W[0:NUM_OF_TOTAL_USERS, 14432-1]!=np.zeros((NUM_OF_TOTAL_USERS,1)):
         #print("Layer 2")
         for i in range(len(groups_l2)):
             tmp_w=np.zeros(14432-6208)
             for key in groups_l2[i]:
                 tmp_w+=groups_l2[i][key]*W[key-1, 6208:14432]
             W_l2[i]=tmp_w
-    if W[0][125408-1]!=0:
+    if W[0:NUM_OF_TOTAL_USERS, 125408-1]!=np.zeros((NUM_OF_TOTAL_USERS,1)):
         #print("Layer 3")
         for i in range(len(groups_l3)):
             tmp_w=np.zeros(125408-14432)
@@ -76,7 +76,7 @@ def server_update():
                 tmp_w+=groups_l3[i][key]*W[key-1, 14432:125408]
             W_l3[i]=tmp_w
             
-    if W[0][199328-1]!=0:
+    if W[0:NUM_OF_TOTAL_USERS, 199328-1]!=np.zeros((NUM_OF_TOTAL_USERS,1)):
         #print("Layer 3")
         for i in range(len(groups_l4)):
             tmp_w=np.zeros(199328-125408)
@@ -176,7 +176,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     except Exception as e:
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
                     
-                    if W[0][6208-1]!=0 or W[1][6208-1]!=0 or W[2][6208-1]!=0:
+                    if W[0:NUM_OF_TOTAL_USERS, 6208-1]!=np.zeros((NUM_OF_TOTAL_USERS,1)):
                         g_i=0
                         for group in groups_l1:
                             if user_id[0] in group:
@@ -187,7 +187,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 break
                             g_i+=1
                         
-                    if W[0][14432-1]!=0:    
+                    if W[0:NUM_OF_TOTAL_USERS, 14432-1]!=np.zeros((NUM_OF_TOTAL_USERS,1)):    
                         g_i=0
                         for group in groups_l2:
                             if user_id[0] in group: 
@@ -198,7 +198,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 break
                             g_i+=1
                         
-                    if W[0][125408-1]!=0:
+                    if W[0:NUM_OF_TOTAL_USERS, 125408-1]!=np.zeros((NUM_OF_TOTAL_USERS,1)):
                         g_i=0
                         for group in groups_l3:
                             if user_id[0] in group: 
@@ -209,7 +209,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 break
                             g_i+=1
                             
-                    if W[0][199328-1]!=0:
+                    if W[0:NUM_OF_TOTAL_USERS, 199328-1]!=np.zeros((NUM_OF_TOTAL_USERS,1)):
                         g_i=0
                         for group in groups_l4:
                             if user_id[0] in group: 
