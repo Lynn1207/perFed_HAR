@@ -152,7 +152,7 @@ def train():
           cnnHAR_eval.main(False)
 
     outer_i = 0
-    start_iter=6
+    start_iter=4 #6:20
     cur_layer=0
     intvl=0
     with tf.train.MonitoredTrainingSession(
@@ -173,7 +173,7 @@ def train():
         outer_i += 1
         
         intvl+=1 
-        '''
+        
         if outer_i>=start_iter:
           #get the weights and send to server
           w_flat = np.array([])
@@ -198,10 +198,7 @@ def train():
           W_general = comm.recvOUF()
           #w = tf.cast(W_general, tf.float64)
           #print(W_general.shape)
-          if str(sys.argv[1])!="6":
-            logcomm.append([outer_i, w_flat.shape[0], W_general.shape[0]])
-          else:
-            logcomm.append([outer_i, 0, 0])
+          logcomm.append([outer_i, w_flat.shape[0], W_general.shape[0]])
             
           if not mon_sess.should_stop():
             if cur_layer>=4:
@@ -216,7 +213,7 @@ def train():
               #print("W_avg:", W_general[0:3])
               #print("After_merge:", updated_paras_v[0].reshape(-1)[0:3])
           #print("Length of updated paras: %d \n"% len(updated_paras_v))
-          '''
+          
           
         
         
