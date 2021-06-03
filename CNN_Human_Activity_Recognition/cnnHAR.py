@@ -153,7 +153,7 @@ def inference(signals):
     #print('<<<<<<<<<<<<<<<<<<<<Shape of singals :',signals.get_shape())
     with tf.variable_scope('conv1') as scope:
            kernel = _variable_with_weight_decay('weights1',
-                                                shape=[5,5, 1, 64],
+                                                shape=[3,3, 1, 64],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.009)
