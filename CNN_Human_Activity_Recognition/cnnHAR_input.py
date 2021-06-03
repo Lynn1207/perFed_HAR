@@ -12,8 +12,8 @@ import tensorflow.compat.v1 as tf
 # Process sensing data "image" of this size, 128*6.
 # each chanel like acc_x is 128 length which is sata collected for 2.56s. 
 
-SIGNAL_SIZE=40
-axis=40
+SIGNAL_SIZE=60
+axis=15
 channels=1
 
 batch_per_user_train=4
