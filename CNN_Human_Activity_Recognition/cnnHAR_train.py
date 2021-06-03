@@ -152,7 +152,7 @@ def train():
           cnnHAR_eval.main(False)
 
     outer_i = 0
-    start_iter=4 #6:20
+    start_iter=8 #6:20
     cur_layer=4
     intvl=0
     with tf.train.MonitoredTrainingSession(
