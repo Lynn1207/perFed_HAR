@@ -367,10 +367,10 @@ def reset_var_l4(W_avg):
       var=tf.assign(var, W_avg[74400:74592])
       updated_paras.append(var)
     elif var.op.name=="softmax_linear/weights4":
-      var=tf.assign(var,tf.reshape(W_avg[74592:75552],[192, 5]))
+      var=tf.assign(var,tf.reshape(W_avg[74592:75744],[192, 6]))
       updated_paras.append(var)
     elif var.op.name=="softmax_linear/biases4":
-      var=tf.assign(var, W_avg[75552:75557])
+      var=tf.assign(var, W_avg[75744:75750])
       updated_paras.append(var)
   return updated_paras
   
