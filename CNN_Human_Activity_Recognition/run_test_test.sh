@@ -5,20 +5,4 @@ taskset --cpu-list 3 python ./cnnHAR_train.py 4 &
 taskset --cpu-list 4 python ./cnnHAR_train.py 5 &
 taskset --cpu-list 5 python ./cnnHAR_train.py 6 &
 taskset --cpu-list 6 python ./cnnHAR_train.py 7 &
-taskset --cpu-list 7 python ./cnnHAR_train.py 8 &
-taskset --cpu-list 8 python ./cnnHAR_train.py 9 &
-taskset --cpu-list 9 python ./cnnHAR_train.py 10 &
-taskset --cpu-list 10 python ./cnnHAR_train.py 11 &
-taskset --cpu-list 11 python ./cnnHAR_train.py 12 &
-taskset --cpu-list 12 python ./cnnHAR_train.py 13 &
-taskset --cpu-list 13 python ./cnnHAR_train.py 14 &
-taskset --cpu-list 14 python ./cnnHAR_train.py 15 &
-taskset --cpu-list 15 python ./cnnHAR_train.py 16 &
-taskset --cpu-list 16 python ./cnnHAR_train.py 17 &
-taskset --cpu-list 17 python ./cnnHAR_train.py 18 &
-taskset --cpu-list 18 python ./cnnHAR_train.py 19 &
-taskset --cpu-list 19 python ./cnnHAR_train.py 20 &
-taskset --cpu-list 20 python ./cnnHAR_train.py 21 &
-taskset --cpu-list 21 python ./cnnHAR_train.py 22 &
-taskset --cpu-list 22 python ./cnnHAR_train.py 23 &
-taskset --cpu-list 23 python ./cnnHAR_train.py 24
+taskset --cpu-list 7 python ./cnnHAR_train.py 8 
