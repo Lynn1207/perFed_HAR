@@ -170,7 +170,7 @@ def inference(signals):
     
     with tf.variable_scope('conv2') as scope:
            kernel = _variable_with_weight_decay('weights2',
-                                                shape=[6,6, 64, 32],
+                                                shape=[3,3, 64, 32],
                                                 #shape=[3, 1, 128],
                                                 stddev=0.04,
                                                 wd=0.009)
