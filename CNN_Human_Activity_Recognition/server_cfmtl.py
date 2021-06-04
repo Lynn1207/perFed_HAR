@@ -50,21 +50,21 @@ def server_update():
     # print(np.max(W))
     #W_avg=np.mean(W, axis = 0)
     
-    if W[0][640-1]!=0:
+    if not np.array_equal(W[0:NUM_OF_TOTAL_USERS, 640-1], np.zeros((NUM_OF_TOTAL_USERS))):
         #print("Layer 1")
         for i in range(len(groups_l1)):
             tmp_w=np.zeros(640)
             for key in groups_l1[i]:
                 tmp_w+=groups_l1[i][key]*W[key-1, 0:640]
             W_l1[i]=tmp_w
-    if W[0][19104-1]!=0:
+    if not np.array_equal(W[0:NUM_OF_TOTAL_USERS, 19104-1], np.zeros((NUM_OF_TOTAL_USERS))):
         #print("Layer 2")
         for i in range(len(groups_l2)):
             tmp_w=np.zeros(19104-640)
             for key in groups_l2[i]:
                 tmp_w+=groups_l2[i][key]*W[key-1, 640:19104]
             W_l2[i]=tmp_w
-    if W[0][74592-1]!=0:
+    if not np.array_equal(W[0:NUM_OF_TOTAL_USERS, 74592-1], np.zeros((NUM_OF_TOTAL_USERS))):
         #print("Layer 3")
         for i in range(len(groups_l3)):
             tmp_w=np.zeros(74592-19104)
@@ -164,7 +164,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     except Exception as e:
                         print("wait barrier W timeout...", str(barrier_W.n_waiting), e)
                     
-                    if W[0][640-1]!=0:
+                    if not np.array_equal(W[0:NUM_OF_TOTAL_USERS, 640-1], np.zeros((NUM_OF_TOTAL_USERS))):
                         g_i=0
                         for group in groups_l1:
                             if user_id[0] in group:
@@ -175,7 +175,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 break
                             g_i+=1
                         
-                    if W[0][19104-1]!=0:    
+                    if not np.array_equal(W[0:NUM_OF_TOTAL_USERS, 19104-1], np.zeros((NUM_OF_TOTAL_USERS))):    
                         g_i=0
                         for group in groups_l2:
                             if user_id[0] in group: 
@@ -186,7 +186,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                                 break
                             g_i+=1
                         
-                    if W[0][74592-1]!=0:
+                    if not np.array_equal(W[0:NUM_OF_TOTAL_USERS, 74592-1], np.zeros((NUM_OF_TOTAL_USERS))):
                         g_i=0
                         for group in groups_l3:
                             if user_id[0] in group: 
